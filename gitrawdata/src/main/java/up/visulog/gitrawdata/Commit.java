@@ -25,7 +25,7 @@ public class Commit {
         this.mergedFrom = mergedFrom;
     }
 
-    // TODO: factor this out (similar code will have to be used for all git commands)
+    // TODO#1: factor this out (similar code will have to be used for all git commands)
     public static List<Commit> parseLogFromCommand(Path gitPath) {
         ProcessBuilder builder =
                 new ProcessBuilder("git", "log").directory(gitPath.toFile());
@@ -78,7 +78,7 @@ public class Commit {
                     case "Date":
                         builder.setDate(fieldContent);
                         break;
-                    default: // TODO: warn the user that some field was ignored
+                    default: // TODO#2: warn the user that some field was ignored
                 }
                 line = input.readLine(); //prepare next iteration
                 if (line == null) parseError(); // end of stream is not supposed to happen now (commit data incomplete)
@@ -107,7 +107,7 @@ public class Commit {
     public String toString() {
         return "Commit{" +
                 "id='" + id + '\'' +
-                (mergedFrom != null ? ("mergedFrom...='" + mergedFrom + '\'') : "") + //TODO: find out if this is the only optional field
+                (mergedFrom != null ? ("mergedFrom...='" + mergedFrom + '\'') : "") + //TODO#3: find out if this is the only optional field
                 ", date='" + date + '\'' +
                 ", author='" + author + '\'' +
                 ", description='" + description + '\'' +
