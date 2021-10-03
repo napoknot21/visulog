@@ -31,7 +31,7 @@ public class CLILauncher {
                     String pValue = parts[1];
                     switch (pName) {
                         case "--addPlugin":
-                            // TODO: parse argument and make an instance of PluginConfig
+                            // TODO#1: parse argument and make an instance of PluginConfig
 
                             // Let's just trivially do this, before the TODO is fixed:
 
@@ -40,10 +40,10 @@ public class CLILauncher {
 
                             break;
                         case "--loadConfigFile":
-                            // TODO (load options from a file)
+                            // TODO#2 (load options from a file)
                             break;
                         case "--justSaveConfigFile":
-                            // TODO (save command line options to a file instead of running the analysis)
+                            // TODO#3 (save command line options to a file instead of running the analysis)
                             break;
                         default:
                             return Optional.empty();
@@ -58,7 +58,7 @@ public class CLILauncher {
 
     private static void displayHelpAndExit() {
         System.out.println("Wrong command...");
-        //TODO: print the list of options and their syntax
+        //TODO#4: print the list of options and their syntax
         System.exit(0);
     }
 }
