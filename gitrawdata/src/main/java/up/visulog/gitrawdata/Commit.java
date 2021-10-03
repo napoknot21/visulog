@@ -107,10 +107,10 @@ public class Commit {
     public String toString() {
         return "Commit{" +
                 "id='" + id + '\'' +
-                (mergedFrom != null ? ("mergedFrom...='" + mergedFrom + '\'') : "") + //TODO#3: find out if this is the only optional field
+                (mergedFrom != null ? ("mergedFrom...='" + mergedFrom + '\'') : "") + //TODO#3: find out if this is the only optional field (done)
                 ", date='" + date + '\'' +
                 ", author='" + author + '\'' +
-                ", description='" + description + '\'' +
+                (description != null ? (", description='" + description + '\'') : "" )+ //the other optional field
                 '}';
     }
 }
