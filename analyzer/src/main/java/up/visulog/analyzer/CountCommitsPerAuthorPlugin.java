@@ -16,9 +16,17 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
     }
 
     static Result processLog(List<Commit> gitLog) {
-        var result = new Result();
+        var result = new Result(); /* Crée un HashMap qui va associer auteur(key) à nb de commit(value) */
+
+        /*Parcous les commits*/
         for (var commit : gitLog) {
+            /*Cherche dans result si "commit.author" est déjà associé à un nb de commit:
+            si c'est le cas renvoie le nb de commit
+            sinon renvoie 0 */
             var nb = result.commitsPerAuthor.getOrDefault(commit.author, 0);
+
+            /* met à jour le nb de commit avec put (remplace la valeur précédente associée à la clé)
+            * si la clé y est déjà  */
             result.commitsPerAuthor.put(commit.author, nb + 1);
         }
         return result;
