@@ -11,12 +11,12 @@ import java.util.Optional;
 public class CLILauncher {
 
     public static void main(String[] args) {
-        var config = makeConfigFromCommandLineArgs(args);  //création de la configuration en fonction des arguments choisis (voir fonction ci dessous)
-        if (config.isPresent()) {
-            var analyzer = new Analyzer(config.get());
-            var results = analyzer.computeResults();
-            System.out.println(results.toHTML());
-        } else displayHelpAndExit();
+        var config = makeConfigFromCommandLineArgs(args);  //creation de la configuration en fonction des arguments choisis (voir fonction ci dessous)
+        if (config.isPresent()) { //verifie qu'une configuration a bien ete cree
+            var analyzer = new Analyzer(config.get()); //cree une variable analyzer qui contient un Analyzer cree à partir de la config reçue
+            var results = analyzer.computeResults(); //recupere les resultats de l'analyzer (voir Analyzer.java)
+            System.out.println(results.toHTML()); //affiche ces resultats au format HTML
+        } else displayHelpAndExit(); //voir fonction ci dessous
     }
 
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) { //reçoit les arguments passés en ligne de commande
