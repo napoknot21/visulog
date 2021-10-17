@@ -44,6 +44,7 @@ public class CLILauncher {
                             // TODO#2 (load options from a file)
                             break;
                         case "--justSaveConfigFile":
+
                             // TODO#3 (save command line options to a file instead of running the analysis)
                             break;
                         default:
@@ -57,8 +58,17 @@ public class CLILauncher {
         return Optional.of(new Configuration(gitPath, plugins)); //renvoie une configuration si c'est possible (si un plugin a bien ete defini)
     }
 
-    private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrete le programme
+    private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
         System.out.println("Wrong command...");
+        //En théorie, cela devrait afficher les arguments et leurs valeurs
+        //Il va falloir finir le switch precedent pour completer toutes les valeurs des arguments dans cette fonction
+        //Je propose ce "format" :
+        System.out.println("Try it again with this format: '. --[NAME_ARGUMENT]=[ARG_VALUE]'");
+        System.out.println("Some options...");
+        System.out.println(". --addPlugin="); //nom de l'argument
+        System.out.println("        countCommints"); //Deux tabulations pour les valuers possibles de l'argument courant
+        System.out.println(". --loadConfigFile=");
+        System.out.println(". --justSaveConfigFile=");
         //TODO#4: print the list of options and their syntax
         System.exit(0);
     }
