@@ -1,5 +1,9 @@
 package up.visulog.config;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,5 +25,23 @@ public class Configuration { //Classe pour associer un chemin à un (ou plusieur
 
     public Map<String, PluginConfig> getPluginConfigs() { //Pareil pour récupérer les plugins configurés
         return plugins;
+    }
+
+    public static Configuration loadConfigFile(Path Filepath)  {
+        try{
+            File file = new File(String.valueOf(Filepath));
+            /*Procède à la lecture du fichier afin de récupérer les données nécéssaire à la création de configurations à l'intérieur*/
+            /*Ce procédé est ce qu'on appelle 'Deserialization' */
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+
+            Configuration res = (Configuration)ois.readObject();
+            System.out.println("Configuration file loaded successfully.");
+            ois.close();
+            return res;
+        } catch (IOException |ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("The file couldn't be loaded.");
+            return null;
+        }
     }
 }
