@@ -5,6 +5,7 @@ import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -42,7 +43,11 @@ public class CLILauncher {
                             break;
                         case "--loadConfigFile":
                             // TODO#2 (load options from a file)
-                            break;
+                            if (check_directory(gitPath)){
+                                Configuration res = Configuration.loadConfigFile(gitPath);
+                                return Optional.of(res);
+                            }
+                            return Optional.empty();
                         case "--justSaveConfigFile":
 
                             // TODO#3 (save command line options to a file instead of running the analysis)
@@ -56,6 +61,12 @@ public class CLILauncher {
             }
         }
         return Optional.of(new Configuration(gitPath, plugins)); //renvoie une configuration si c'est possible (si un plugin a bien ete defini)
+    }
+
+    /*Pour voir si le chemin indique un fichier existant*/
+    private static boolean check_directory(Path gitPath) {
+        /*à implémenter*/
+        return true;
     }
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
