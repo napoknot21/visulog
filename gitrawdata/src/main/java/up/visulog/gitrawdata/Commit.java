@@ -13,12 +13,12 @@ import java.util.Optional;
 public class Commit {
     // FIXME: (some of) these fields could have more specialized types than String
     public final String id; // id est en hexadecimal d'après API
-    public final Date date;
-    public final String author;
-    public final String description;
-    public final String mergedFrom;
+    public final Date date; // le moment auquel le commit a été réalisé
+    public final String author; // le nom du collaborateur qui a commit
+    public final String description; // une brève description de la modofication qui a été faite
+    public final String mergedFrom; // la branche d'où vient la modification
 
-    public Commit(String id, String author, Date date, String description, String mergedFrom) {
+    public Commit(String id, String author, Date date, String description, String mergedFrom) { // simplement le constructeur
         this.id = id;
         this.author = author;
         this.date = date;
@@ -27,7 +27,7 @@ public class Commit {
     }
 
     // TODO#1: factor this out (similar code will have to be used for all git commands)
-    public static List<Commit> parseLogFromCommand(Path gitPath) {
+    public static List<Commit> parseLogFromCommand(Path gitPath) { // Alors là à partir d'ici je n'y comprends pas grand chose
         ProcessBuilder builder =
                 new ProcessBuilder("git", "log").directory(gitPath.toFile());
         Process process;
@@ -97,15 +97,15 @@ public class Commit {
             parseError();
         }
         return Optional.empty(); // this is supposed to be unreachable, as parseError should never return
-    }
+    } // jusque là environ je n'y comprends RIEN
 
     // Helper function for generating parsing exceptions. This function *always* quits on an exception. It *never* returns.
-    private static void parseError() {
+    private static void parseError() { // Une fonction à utiliser quand on a une erreur
         throw new RuntimeException("Wrong commit format.");
     }
 
     @Override
-    public String toString() {
+    public String toString() { // la méthode pour afficher les caractéristiques d'un commit
         return "Commit{" +
                 "id='" + id + '\'' +
                 (mergedFrom != null ? ("mergedFrom...='" + mergedFrom + '\'') : "") + //TODO#3: find out if this is the only optional field (done)
