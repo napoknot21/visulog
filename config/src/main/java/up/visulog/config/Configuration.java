@@ -1,15 +1,12 @@
 package up.visulog.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Configuration { //Classe pour associer un chemin à un (ou plusieurs) Plugin(s) configurés d'une certaine manière
+public class Configuration implements Serializable { //Classe pour associer un chemin à un (ou plusieurs) Plugin(s) configurés d'une certaine manière
 
     private final Path gitPath; //Chemin pour le plugin
     private final Map<String, PluginConfig> plugins; //Le(s) plugin(s) en question, organisé(s) dans une Map (associé à une chaîne de caractères)
