@@ -16,7 +16,24 @@ public class MergeCommitBuilder extends CommitBuilder {
         return this;
     }
 
-    /*public MergeCommit createCommit() { //Cree un commit avec le build du commit
+    @Override
+    public void CommitConfig(String fieldName, String fieldContent){
+        switch (fieldName) {
+            case "Author":
+                this.setAuthor(fieldContent);
+                break;
+            case "Merge":
+                this.setMergedFrom(fieldContent);
+                break;
+            case "Date":
+                this.setDate(fieldContent);
+                break;
+            default:
+                System.out.println(fieldName + " is ignored");
+        }
+    }
+
+    public MergeCommit createCommit() { //Cree un commit avec le build du commit
         return new MergeCommit(getId(), getAuthor(), getDate(), getDescription(),getMergedFrom());
-    }TODO: Decommenter la methode lorsque la classe MergeCommit sera crée */
+    }
 }

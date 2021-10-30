@@ -61,4 +61,16 @@ public class CommitBuilder {
     public Commit createCommit() { //Cree un commit avec le build du commit
         return new Commit(getId(), getAuthor(), getDate(), getDescription());
     }
+
+    public void CommitConfig(String fieldName, String fieldContent){
+        switch (fieldName) {
+            case "Author":
+                this.setAuthor(fieldContent);
+                break;
+            case "Date":
+                this.setDate(fieldContent);
+                break;
+            default: System.out.println(fieldName +" is ignored");
+        }
+    }
 }
