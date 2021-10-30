@@ -1,19 +1,11 @@
 package up.visulog.gitrawdata;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 public class MergeCommit extends Commit{
     public final String mergedFrom; // la branche d'où vient la modification
 
-    public MergeCommit(String id, String author, Date date, String description, String mergedFrom) { // simplement le constructeur
+    public MergeCommit(String id, String author, Date date, String description, String mergedFrom) { // Constructeur
         super(id, author, date, description);
         this.mergedFrom = mergedFrom;
     }

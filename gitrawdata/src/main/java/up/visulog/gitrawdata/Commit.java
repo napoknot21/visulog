@@ -15,11 +15,11 @@ public class Commit extends ChangesDescription{
     }
 
     // TODO#1: factor this out (similar code will have to be used for all git commands)
-    public static List<Commit> parseLogFromCommand (Path gitPath) { //Commit.java
+    public static List<Commit> parseLogFromCommand (Path gitPath) {  //renvoie la liste des commits selon le chemin git saisi en argument
         return parseLog(ChangesDescription.processCommand ("git","log",gitPath));
     }
 
-    public static List<Commit> parseLog(BufferedReader reader) {
+    public static List<Commit> parseLog(BufferedReader reader) { //analyse le log de git et renvoie la liste des commits contenus
         var result = new ArrayList<Commit>();
         Optional<Commit> commit = parseCommit(reader);
         while (commit.isPresent()) {
@@ -33,24 +33,25 @@ public class Commit extends ChangesDescription{
      * Parses a log item and outputs a commit object. Exceptions will be thrown in case the input does not have the proper format.
      * Returns an empty optional if there is nothing to parse anymore.
      */
-    public static Optional<Commit> parseCommit(BufferedReader input) {
+    public static Optional<Commit> parseCommit(BufferedReader input) { //analyse une partie du log de git et crée le commit associé puis le renvoie
         try {
 
-            var line = input.readLine();
+            var line = input.readLine(); //lis la premiere ligne du log pour verifier qu'on est bien face à un commit (ou MergeCommit)
             if (line == null) return Optional.empty(); // if no line can be read, we are done reading the buffer
             var idChunks = line.split(" ");
             if (!idChunks[0].equals("commit")) parseError();
 
-            line = input.readLine();
+            line = input.readLine(); //lis la seconde ligne du log pour voir son type (Commit ou MergeCommit)
             var builder = new CommitBuilder(idChunks[1]);
             if (line.substring(0, line.indexOf(":")).equals("Merge")){
                 builder = new MergeCommitBuilder(idChunks[1]);
-            }
+            }/*Lis les valeurs du log et  determine si l'on va construire un CommitBuilder ou un MergeCommitBuilder */
             while (!line.isEmpty()) {
                 var colonPos = line.indexOf(":");
                 var fieldName = line.substring(0, colonPos);
                 var fieldContent = line.substring(colonPos + 1).trim();
-                builder.CommitConfig(fieldName, fieldContent);
+                builder.CommitConfig(fieldName, fieldContent); /*prepare le CommitBuilder (ou MergeCommitBuilder) en fonction
+                des valeurs dans le log  */
                 line = input.readLine(); //prepare next iteration
                 if (line == null) parseError(); // end of stream is not supposed to happen now (commit data incomplete)
             }
