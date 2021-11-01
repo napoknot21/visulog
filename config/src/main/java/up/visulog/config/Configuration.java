@@ -25,9 +25,9 @@ public class Configuration implements Serializable { //Classe pour associer un c
         return plugins;
     }
 
-    public static Configuration loadConfigFile(Path Filepath)  {
+    public static Configuration loadConfigFile(String FilePath)  {
         try{
-            File file = new File(String.valueOf(Filepath)+configFileName);
+            File file = new File(FilePath + configFileName);
             /*Procède à la lecture du fichier afin de récupérer les données nécéssaire à la création de configurations à l'intérieur*/
             /*Ce procédé est ce qu'on appelle 'Deserialization' */
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
@@ -45,13 +45,14 @@ public class Configuration implements Serializable { //Classe pour associer un c
 
     //Fichier où on va sauvegarder les configurations
     private File getConfigFile(){
-        File configFile = new File(gitPath + configFileName);
+        File configFile = new File(gitPath.toString() + configFileName);
         //Si le fichier existe il retourne le dit fichier sinon on crée un nouveau fichier
         //qui contiendra les configurations
         try{
-            configFile.createNewFile();
-        }catch(IOException e){
-            System.out.println("The configuration file couldn't be created.");
+            if (configFile.createNewFile() )
+                System.out.println("Config file created.");
+        }catch(Exception e){
+            System.out.println("ERROR: the config file couldn't be created.");
         }
         return configFile;
     }

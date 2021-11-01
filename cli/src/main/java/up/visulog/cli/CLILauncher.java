@@ -4,6 +4,7 @@ import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -43,8 +44,12 @@ public class CLILauncher {
                             break;
                         case "--loadConfigFile":
                             // TODO#2 (load options from a file)
-                                Configuration res = Configuration.loadConfigFile(gitPath);
-                                return Optional.ofNullable(res);
+                                if (check_directory(pValue)){
+                                    Configuration res = Configuration.loadConfigFile(pValue);
+                                    return Optional.ofNullable(res);
+                                }
+                                return Optional.empty();
+
                         case "--justSaveConfigFile":
 
                             // TODO#3 (save command line options to a file instead of running the analysis)
@@ -59,6 +64,12 @@ public class CLILauncher {
         }
         return Optional.of(new Configuration(gitPath, plugins)); //renvoie une configuration si c'est possible (si un plugin a bien ete defini)
     }
+
+    private static boolean check_directory(String path){
+        File directory = new File(path);
+        return (directory.exists() && directory.isDirectory());
+    }
+
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
         System.out.println("Wrong command...");
