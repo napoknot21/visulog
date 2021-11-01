@@ -10,6 +10,7 @@ public class Configuration implements Serializable { //Classe pour associer un c
 
     private final Path gitPath; //Chemin pour le plugin
     private final Map<String, PluginConfig> plugins; //Le(s) plugin(s) en question, organisé(s) dans une Map (associé à une chaîne de caractères)
+    private static final String configFileName = "config.txt"; //Nom de fichier où les configurations seront stockées
 
     public Configuration(Path gitPath, Map<String, PluginConfig> plugins) {
         this.gitPath = gitPath;
@@ -26,7 +27,7 @@ public class Configuration implements Serializable { //Classe pour associer un c
 
     public static Configuration loadConfigFile(Path Filepath)  {
         try{
-            File file = new File(String.valueOf(Filepath));
+            File file = new File(String.valueOf(Filepath)+configFileName);
             /*Procède à la lecture du fichier afin de récupérer les données nécéssaire à la création de configurations à l'intérieur*/
             /*Ce procédé est ce qu'on appelle 'Deserialization' */
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
@@ -40,5 +41,18 @@ public class Configuration implements Serializable { //Classe pour associer un c
             System.out.println("The file couldn't be loaded.");
             return null;
         }
+    }
+
+    //Fichier où on va sauvegarder les configurations
+    private File getConfigFile(){
+        File configFile = new File(gitPath + configFileName);
+        //Si le fichier existe il retourne le dit fichier sinon on crée un nouveau fichier
+        //qui contiendra les configurations
+        try{
+            configFile.createNewFile();
+        }catch(IOException e){
+            System.out.println("The configuration file couldn't be created.");
+        }
+        return configFile;
     }
 }
