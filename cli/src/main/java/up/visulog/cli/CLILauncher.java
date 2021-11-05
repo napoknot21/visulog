@@ -3,7 +3,6 @@ package up.visulog.cli;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
@@ -54,47 +53,26 @@ public class CLILauncher {
 
                         case "--justSaveConfigFile":
                             // TODO#3 (save command line options to a file instead of running the analysis)
-                            if (pValue.equals("")) { //On vérifie que la valeur de l'argument n'est pas vide
-                                displayHelpAndExit();
-                            } else {
-                                String pName_file = "--addPlugin="; //On initialise le texte qui va être gardé dans le fichier
+                            if (pValue.equals("")) displayHelpAndExit();
+                            else {
+                                String pName_file = "--addPlugin=";
 
-                                //On complète le string precedent
-                                if (pValue.equals("countCommits")) {
-                                    pName_file += "countCommits"; //Dans ce cas ci, on aurait pName_file = "--addPlugin=countCommits"
-                                /*Il faudra completer cet if avec des else if pour les autres cas*/
-                                } else {
-                                    pName_file = "";
+                                switch (pValue) {
+                                    case "countCommits":
+                                        pName_file += "countCommits";
+                                        break;
+                                    /*Il faudra completer ce switch avec les autres cas*/
+                                    default:
+                                        pName_file = "";
+                                        break;
                                 }
 
-                                //On vérifie que le String n'est pas vide (cas sinon du if precedent)
                                 if (!pName_file.equals("")) {
 
-                                    File dir = new File("./Files"); //"~/visulog/cli/" où on va stocker les fichiers contenant des configs
+                                    File dir = new File("./Files");
+                                    if (!dir.isDirectory()) dir.mkdir();
 
-                                    if (!dir.isDirectory()) {
-                                        dir.mkdir(); //Si le repertoire n'existe pas, on le crée
-                                    }
-
-                                    try {
-
-                                        //On nomme les fichiers par leurs valeurs (pour les reconnaître plus facilement)
-                                        File f = new File("./Files/"+pValue+".txt");
-
-                                        if (f.createNewFile()) { //Si le fichier n'existe pas, on le crée
-                                            FileWriter fw = new FileWriter(f); //FileWriter sert à modifier le contenu d'un objet File
-                                            fw.write(pName_file); //On passe en paramètre le texte
-                                            fw.close(); //On "finalise" sa tâche
-                                            System.out.println("Le fichier a été crée");
-
-                                        } else {
-                                            System.out.println("Le fichier existe déjà");
-                                        }
-
-                                    } catch (IOException e) {
-                                        System.out.println("Il s'est produit une erreur. Essayez de nouveau");
-                                        e.printStackTrace();
-                                    }
+                                    createModifFile(pValue,pName_file);
 
                                 } else {
                                     displayHelpAndExit();
@@ -117,6 +95,24 @@ public class CLILauncher {
         return (directory.exists() && directory.isDirectory());
     }
 
+    public static void createModifFile (String pValue, String pName_file) {
+        try {
+            File f = new File("./Files/"+pValue+".txt");
+
+            if (f.createNewFile()) {
+                FileWriter fw = new FileWriter(f);
+                fw.write(pName_file);
+                fw.close();
+                System.out.println("Le fichier a été crée");
+
+            } else {
+                System.out.println("Le fichier existe déjà");
+            }
+        } catch (IOException e) {
+            System.out.println("Il s'est produit une erreur. Essayez de nouveau");
+            e.printStackTrace();
+        }
+    }
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
         System.out.println("Wrong command...");
