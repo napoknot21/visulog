@@ -4,6 +4,8 @@ import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -51,8 +53,53 @@ public class CLILauncher {
                                 return Optional.empty();
 
                         case "--justSaveConfigFile":
-
                             // TODO#3 (save command line options to a file instead of running the analysis)
+                            if (pValue.equals("")) { //On vérifie que la valeur de l'argument n'est pas vide
+                                displayHelpAndExit();
+                            } else {
+                                String pName_file = "--addPlugin="; //On initialise le texte qui va être gardé dans le fichier
+
+                                //On complète le string precedent
+                                if (pValue.equals("countCommits")) {
+                                    pName_file += "countCommits"; //Dans ce cas ci, on aurait pName_file = "--addPlugin=countCommits"
+                                /*Il faudra completer cet if avec des else if pour les autres cas*/
+                                } else {
+                                    pName_file = "";
+                                }
+
+                                //On vérifie que le String n'est pas vide (cas sinon du if precedent)
+                                if (!pName_file.equals("")) {
+
+                                    File dir = new File("./Files"); //"~/visulog/cli/" où on va stocker les fichiers contenant des configs
+
+                                    if (!dir.isDirectory()) {
+                                        dir.mkdir(); //Si le repertoire n'existe pas, on le crée
+                                    }
+
+                                    try {
+
+                                        //On nomme les fichiers par leurs valeurs (pour les reconnaître plus facilement)
+                                        File f = new File("./Files/"+pValue+".txt");
+
+                                        if (f.createNewFile()) { //Si le fichier n'existe pas, on le crée
+                                            FileWriter fw = new FileWriter(f); //FileWriter sert à modifier le contenu d'un objet File
+                                            fw.write(pName_file); //On passe en paramètre le texte
+                                            fw.close(); //On "finalise" sa tâche
+                                            System.out.println("Le fichier a été crée");
+
+                                        } else {
+                                            System.out.println("Le fichier existe déjà");
+                                        }
+
+                                    } catch (IOException e) {
+                                        System.out.println("Il s'est produit une erreur. Essayez de nouveau");
+                                        e.printStackTrace();
+                                    }
+
+                                } else {
+                                    displayHelpAndExit();
+                                }
+                            }
                             break;
                         default:
                             return Optional.empty(); //renvoie une valeur vide si le nom de l'argument n'est pas valide
@@ -79,7 +126,7 @@ public class CLILauncher {
         System.out.println("Try it again with this format: '. --[NAME_ARGUMENT]=[ARG_VALUE]'");
         System.out.println("Some options...");
         System.out.println(". --addPlugin="); //nom de l'argument
-        System.out.println("        countCommints"); //Deux tabulations pour les valuers possibles de l'argument courant
+        System.out.println("        countCommits"); //Deux tabulations pour les valuers possibles de l'argument courant
         System.out.println(". --loadConfigFile=");
         System.out.println(". --justSaveConfigFile=");
         //TODO#4: print the list of options and their syntax
