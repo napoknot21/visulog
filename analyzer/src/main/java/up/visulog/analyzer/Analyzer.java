@@ -50,6 +50,7 @@ public class Analyzer {
     private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {  /**Cette méthode "fabrique" les plugins d'après les noms rentrés en ligne de commande.*/
         switch (pluginName) {                                                                    /**Elle les places dans une boite qui peut être vide si le nom rentré ne correspond pas à celui d'un plugin.*/
             case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
+            case "countMergeCommits" : return Optional.of(new CountMergeCommitsPerAuthorPlugin(config));
             default : return Optional.empty(); /**dans le cas où pluginName n'est pas un plugin supporté*/
         }
     }
