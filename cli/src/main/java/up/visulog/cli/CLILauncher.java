@@ -45,7 +45,8 @@ public class CLILauncher {
                             break;
                         case "--loadConfigFile":
                             // TODO#2 (load options from a file)
-                                if (check_directory(pValue)){
+                                if(pValue.length()==0) displayHelpAndExit();
+                                else if (check_directory(pValue)){
                                     Configuration res = Configuration.loadConfigFile(pValue);
                                     return Optional.ofNullable(res);
                                 }
