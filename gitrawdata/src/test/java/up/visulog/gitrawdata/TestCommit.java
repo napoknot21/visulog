@@ -2,10 +2,16 @@ package up.visulog.gitrawdata;
 
 import org.junit.Test;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,6 +36,15 @@ public class TestCommit {
             var log = Commit.parseLog(reader);
 //            System.out.println(log);
             assertEquals(expected, log.toString());
+        }
+    }
+
+    public static void main(String[] args) {
+
+        BufferedReader mergeCommit = ChangesDescription.processCommand("git","log", Paths.get("."));
+        List<Commit> commitList = Commit.parseLog(mergeCommit);
+        for(Commit c : commitList){
+            if (c instanceof MergeCommit) System.out.println(c.toString());
         }
     }
 
