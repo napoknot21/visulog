@@ -39,14 +39,19 @@ public class CLILauncher {
 
                             // Let's just trivially do this, before the TODO is fixed:
 
-                            if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig() { //si l'argument a pour valeur "countCommits", crée un
-                            });
-                            else if (pValue.equals("countMergeCommits")) plugins.put("countMergeCommits", new PluginConfig(){});
+                            if (pValue.equals("countCommits"))
+                                plugins.put("countCommits", new PluginConfig() { });//si l'argument a pour valeur "countCommits", crée un
+
+                            else if (pValue.equals("countMergeCommits"))
+                                plugins.put("countMergeCommits", new PluginConfig(){});
+
 
                             break;
                         case "--loadConfigFile":
                             // TODO#2 (load options from a file)
-                                if(pValue.length()==0) displayHelpAndExit();
+                                if(pValue.length()==0)
+                                    displayHelpAndExit();
+
                                 else if (check_directory(pValue)){
                                     Configuration res = Configuration.loadConfigFile(pValue);
                                     return Optional.ofNullable(res);

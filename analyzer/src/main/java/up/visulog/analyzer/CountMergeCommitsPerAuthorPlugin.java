@@ -16,7 +16,7 @@ public class CountMergeCommitsPerAuthorPlugin extends CountCommitsPerAuthorPlugi
     static Result processLog(List<Commit> gitLog) {
         var result = new Result(); /* Crée un HashMap qui va associer auteur(key) à nb de commit(value) */
 
-        /*Parcous les commits*/
+        /*Parcours les commits*/
         for (var commit : gitLog) {
             /*Cherche dans result si "commit.author" est déjà associé à un nb de commit:
             si c'est le cas renvoie le nb de commit
