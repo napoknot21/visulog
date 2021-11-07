@@ -31,4 +31,15 @@ public class CountMergeCommitsPerAuthorPlugin extends CountCommitsPerAuthorPlugi
         }
         return result;
     }
+
+    @Override
+    public void run() {
+        result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()));
+    }
+
+    @Override
+    public Result getResult() {
+        if (result == null) run();
+        return result;
+    }
 }
