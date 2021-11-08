@@ -1,5 +1,7 @@
 package up.visulog.gitrawdata;
 
+import java.io.BufferedReader;
+import java.nio.file.Path;
 import java.util.Date;
 
 public class CharacterChanges extends ChangesDescription{
@@ -10,5 +12,14 @@ public class CharacterChanges extends ChangesDescription{
         super(id, author, date, description);
         this.addedCharacters = added;
         this.removedCharcaters = removed;
+    }
+
+    public static void/*CharacterChanges*/ parseDiffFromCommand (Path gitPath, String idCommit) {
+        //return parseDiff(ChangesDescription.processCommand ("git","diff -numstat " + idCommit,gitPath));
+        parseDiff(ChangesDescription.processCommand ("git","diff -numstat " + idCommit,gitPath));
+    }
+
+    public static void/*CharacterChanges*/ parseDiff(BufferedReader reader){
+        System.out.println("reader");
     }
 }
