@@ -1,0 +1,28 @@
+plugins {
+    application
+    id("org.openjfx.javafxplugin") version "0.0.10"
+}
+
+version = "0.0.1"
+group = "up"
+
+javafx {
+    version = "13.0.2"
+    modules("javafx.controls", "javafx.fxml")
+}
+
+application {
+    mainClassName = "up.visulog.ui.Test"
+} //A changer selon la classe App
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+    plugins.apply("application")
+    plugins.apply("org.openjfx.javafxplugin")
+
+    java.sourceCompatibility = JavaVersion.VERSION_1_10
+
+}
+
