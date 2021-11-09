@@ -19,7 +19,10 @@ public class CLILauncher {
             var analyzer = new Analyzer(config.get()); //cree une variable analyzer qui contient un Analyzer cree à partir de la config reçue
             var results = analyzer.computeResults(); //recupere les resultats de l'analyzer (voir Analyzer.java)
             System.out.println(results.toHTML()); //affiche ces resultats au format HTML
-        } else displayHelpAndExit(); //voir fonction ci dessous
+        } else {
+            System.out.println("Wrong command...");
+            displayHelpAndExit(); //voir fonction ci dessous
+        }
     }
 
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) { //reçoit les arguments passés en ligne de commande
@@ -29,11 +32,21 @@ public class CLILauncher {
         for (var arg : args) {
             if (arg.startsWith("--")) { //verifie que les arguments sont au format "--nomArg=valArg"
                 String[] parts = arg.split("="); //separe chaque argument en 2: le nom de l'argument (ex: "--addPlugin") et sa valeur ("ex: countCommits"), et les met dans un tableau
-                if (parts.length != 2) return Optional.empty(); //renvoie une valeur vide s'il manque le nom ou la valeur de l'argument
+                if (parts.length != 2) {
+                    return Optional.empty(); //renvoie une valeur vide s'il manque le nom ou la valeur de l'argument
+                }
                 else {
                     String pName = parts[0];
                     String pValue = parts[1];
-                    switch (pName) { //sépare les différents cas de figure en fonction du nom de l'argument
+                    switch (pName) {
+                        //sépare les différents cas de figure en fonction du nom de l'argument
+                        case "--displayHelp":
+                            /*à gérer dans l'interface :
+                            fixer la commande de displayHelp telle que l'argument soit '--displayHelp=help'
+                            ou autre du moment qu'il y ait  deux mots non vides séparés de '='
+                             */
+                            displayHelpAndExit(); break;
+
                         case "--addPlugin":
                             // TODO#1: parse argument and make an instance of PluginConfig
 
@@ -44,7 +57,8 @@ public class CLILauncher {
 
                             else if (pValue.equals("countMergeCommits"))
                                 plugins.put("countMergeCommits", new PluginConfig(){});
-
+                            else
+                                return Optional.empty();
 
                             break;
                         case "--loadConfigFile":
@@ -122,7 +136,7 @@ public class CLILauncher {
     }
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
-        System.out.println("Wrong command...");
+
         //En théorie, cela devrait afficher les arguments et leurs valeurs
         //Il va falloir finir le switch precedent pour completer toutes les valeurs des arguments dans cette fonction
         //Je propose ce "format" :
