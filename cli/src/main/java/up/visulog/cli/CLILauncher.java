@@ -38,8 +38,8 @@ public class CLILauncher {
 
                             // Let's just trivially do this, before the TODO is fixed:
 
-                            if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig() { //si l'argument a pour valeur "countCommits", crée un
-                            });
+                            if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig());  //si l'argument a pour valeur "countCommits", crée un
+                            if (pValue.equals("countCharacters")) plugins.put("countCharacters", new PluginConfig());
 
                             break;
                         case "--loadConfigFile":
