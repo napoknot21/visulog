@@ -7,6 +7,8 @@ import java.util.Map;
 // TODO: define what this type should be (probably a Map: settingKey -> settingValue)
 public class PluginConfig implements Serializable { //Pour que les configurations puissent être stockées dans un fichier et réutilisées
     public final Map<String, String> settings = new HashMap<String, String>();
+
+
     /*Encore à déterminer ce que value va représenter : j'hésite entre soit un path ou une commande (?) je ne sais pas à voir*/
     public PluginConfig(){}
 
