@@ -1,12 +1,16 @@
 package up.visulog.analyzer;
 
 import org.junit.Test;
+import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.CommitBuilder;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TestCountCommitsPerAuthorPlugin {
     /* Let's check whether the number of authors is preserved and that the sum of the commits of each author is equal to the total number of commits */
@@ -27,7 +31,9 @@ public class TestCountCommitsPerAuthorPlugin {
     }
 
     public static void main(String[] args) {
-
-        checkCommitSum();
+        Configuration c= new Configuration(Paths.get("."),new HashMap<>());
+        Analyzer a = new Analyzer(c);
+        Optional<AnalyzerPlugin> aa= a.makePlugin("CountCommitsPerAuthor");
+        assertFalse(aa.isPresent());
     }
 }
