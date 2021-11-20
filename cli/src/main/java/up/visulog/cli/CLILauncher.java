@@ -3,11 +3,8 @@ package up.visulog.cli;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -79,6 +76,7 @@ public class CLILauncher {
                                 String pName_file = "--addPlugin=";
 
                                 switch (pValue) {
+                                    //todo : à factoriser
                                     case "countCommits":
                                         pName_file += "countCommits";
                                         break;
@@ -93,7 +91,7 @@ public class CLILauncher {
                                     File dir = new File("./Files");
                                     if (!dir.isDirectory()) dir.mkdir();
 
-                                    createModifFile(pValue,pName_file);
+                                    Configuration.createModifFile(pValue,pName_file);
 
                                 } else {
                                     displayHelpAndExit();
@@ -113,27 +111,9 @@ public class CLILauncher {
 
     private static boolean check_directory(String path){
         File directory = new File(path);
-        return (directory.exists() && directory.isDirectory());
+        return (directory.exists());
     }
 
-    public static void createModifFile (String pValue, String pName_file) {
-        try {
-            File f = new File("./Files/"+pValue+".txt");
-
-            if (f.createNewFile()) {
-                FileWriter fw = new FileWriter(f);
-                fw.write(pName_file);
-                fw.close();
-                System.out.println("Le fichier a été crée");
-
-            } else {
-                System.out.println("Le fichier existe déjà");
-            }
-        } catch (IOException e) {
-            System.out.println("Il s'est produit une erreur. Essayez de nouveau");
-            e.printStackTrace();
-        }
-    }
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
 
