@@ -49,14 +49,14 @@ public class CLILauncher {
 
                             // Let's just trivially do this, before the TODO is fixed:
 
-                            if (pValue.equals("countCommits"))
-                                plugins.put("countCommits", new PluginConfig() { });//si l'argument a pour valeur "countCommits", crée un
+                            if (pValue.equals("countCommitsPerAuthor"))
+                                plugins.put("countCommitsPerAuthor", new PluginConfig() { });//si l'argument a pour valeur "countCommits", crée un
 
                             else if(pValue.equals("countCommitsPerDay"))
                                 plugins.put("countCommitsPerDay",new PluginConfig(){});
 
-                            else if (pValue.equals("countMergeCommits"))
-                                plugins.put("countMergeCommits", new PluginConfig(){});
+                            else if (pValue.equals("countMergeCommitsPerAuthor"))
+                                plugins.put("countMergeCommitsPerAuthor", new PluginConfig(){});
 
                             else
                                 return Optional.empty();
