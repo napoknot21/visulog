@@ -53,11 +53,30 @@ public class Analyzer {
 
 
     protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
+        /*Check if there's a plugin identified by the name given in the Configuration HashMap
+        if(this.config.getPluginConfigs().containsKey(pluginName)){
+            try{
+                @SuppressWarnings("unchecked")
+                 Save the plugin Class
+                        Class<?> c= (Class<AnalyzerPlugin>)Class.forName(pluginName+"Plugin");
+                Constructor<?> [] pluginConstructor = c.getConstructors();
+                return Optional.of((AnalyzerPlugin)pluginConstructor[0].newInstance(this.config));
+
+
+            }catch (Exception e){
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();*/
+
         switch (pluginName) {                                                                    /**Elle les places dans une boite qui peut être vide si le nom rentré ne correspond pas à celui d'un plugin.*/
             case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
+            case "countCommitsPerDay" : return Optional.of(new CountCommitsPerDayPlugin(config));
             case "countMergeCommits" : return Optional.of(new CountMergeCommitsPerAuthorPlugin(config));
             default : return Optional.empty(); /**dans le cas où pluginName n'est pas un plugin supporté*/
         }
+
+
     }
 
 
