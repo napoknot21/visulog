@@ -55,8 +55,9 @@ public class MethodButton extends Button { //Classe Button permettant de lancer 
         return new Analyzer(config).computeResults();
     }
 
-    public void toHtml(AnalyzerResult result) {
+    public String toHtml(AnalyzerResult result) {
         System.out.println(result.toHTML());
+        return result.toHTML();
     }
 
 
