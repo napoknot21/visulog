@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
-    protected final Configuration configuration;
-    protected Result result;
+    private final Configuration configuration;
+    private Result result;
 
     public CountCommitsPerAuthorPlugin(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
