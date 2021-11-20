@@ -1,39 +1,32 @@
 package up.visulog.ui;
 
-import com.sun.javafx.fxml.builder.JavaFXSceneBuilder;
-import com.sun.javafx.scene.ParentHelper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
-public class MenuButton  extends Pane {
-    private static double nextPosY = 0;
+public class MenuRadioButton extends Pane {
+    private String plugin;
+    private static double nextPosX = 0;
 
-    public MenuButton () {
+    public MenuRadioButton (String plugin) {
         super();
+        this.plugin=plugin;
         initialize();
     }
-
-    private void initialize() {
-        this.getChildren().addAll(initializeMenuButtonItem(this));
+    public void initialize() {
+        this.getChildren().addAll(initializeMenuRadioButtonItem());
     }
 
-    private ArrayList<MenuButtonItem> initializeMenuButtonItem(Pane p) {
-        ArrayList<MenuButtonItem> buttons = new ArrayList<>();
-        for (String key : MenuButtonItem.NAME_TO_PLUGIN_NAME.keySet()) {
-            MenuButtonItem b = new MenuButtonItem(key);
+    public ArrayList<MenuRadioButtonItem> initializeMenuRadioButtonItem() {
+        ArrayList<MenuRadioButtonItem> buttons = new ArrayList<>();
+        for (String key : MenuRadioButtonItem.RADIO_BUTTON_NAME.keySet()) {
+            MenuRadioButtonItem b = new MenuRadioButtonItem(key);
             b.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -55,14 +48,12 @@ public class MenuButton  extends Pane {
         return buttons;
     }
 
-    class MenuButtonItem extends MethodButton { // Represente les boutons du menu
-
-        public MenuButtonItem(String label) {
-            super(label);
-            this.setLayoutY(nextPosY);
+    class MenuRadioButtonItem extends MethodRadioButton {
+        public MenuRadioButtonItem(String label) {
+            super(label, plugin);
+            this.setLayoutX(nextPosX);
             this.setLayoutX(0);
-            nextPosY = this.getLayoutY() + 30;
+            nextPosX = this.getLayoutY() + 30;
         }
-
     }
 }
