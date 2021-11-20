@@ -69,12 +69,33 @@ public class Analyzer {
         }
         return Optional.empty();*/
 
-        switch (pluginName) {                                                                    /**Elle les places dans une boite qui peut être vide si le nom rentré ne correspond pas à celui d'un plugin.*/
-            case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
-            case "countCommitsPerDay" : return Optional.of(new CountCommitsPerDayPlugin(config));
-            case "countMergeCommits" : return Optional.of(new CountMergeCommitsPerAuthorPlugin(config));
-            default : return Optional.empty(); /**dans le cas où pluginName n'est pas un plugin supporté*/
+        //switch (pluginName) {                                                                    /**Elle les places dans une boite qui peut être vide si le nom rentré ne correspond pas à celui d'un plugin.*/
+            //case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
+            //case "countCommitsPerDay" : return Optional.of(new CountCommitsPerDayPlugin(config));
+            //case "countMergeCommits" : return Optional.of(new CountMergeCommitsPerAuthorPlugin(config));
+          //  default : return Optional.empty(); /**dans le cas où pluginName n'est pas un plugin supporté*/
+        //}
+        String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
+
+
+        if(this.config.getPluginConfigs().containsKey(pluginName)){
+
+            try {
+                @SuppressWarnings("unchecked")
+                Class<?> c = Class.forName("up.visulog.analyzer.CountCommitsPerDayPlugin");
+                Constructor<?> classConstruct = c.getConstructor();
+                return (Optional<AnalyzerPlugin>)classConstruct.newInstance(this.config);
+
+            } catch (ReflectiveOperationException e){
+                e.printStackTrace();
+                System.out.println("Plugin not found.");
+                return Optional.empty();
+            }
         }
+        System.out.println("NO");
+
+
+        return null;
 
 
     }
