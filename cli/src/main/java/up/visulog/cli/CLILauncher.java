@@ -48,18 +48,11 @@ public class CLILauncher {
                             // TODO#1: parse argument and make an instance of PluginConfig
 
                             // Let's just trivially do this, before the TODO is fixed:
-
-                            if (pValue.equals("countCommitsPerAuthor"))
-                                plugins.put("countCommitsPerAuthor", new PluginConfig() { });//si l'argument a pour valeur "countCommits", crée un
-
-                            else if(pValue.equals("countCommitsPerDay"))
-                                plugins.put("countCommitsPerDay",new PluginConfig(){});
-
-                            else if (pValue.equals("countMergeCommitsPerAuthor"))
-                                plugins.put("countMergeCommitsPerAuthor", new PluginConfig(){});
-
-                            else
-                                return Optional.empty();
+                            try{
+                                if (Analyzer.findClassPlugins(pValue)!=null) plugins.put(pValue, new PluginConfig());
+                            }catch(ClassNotFoundException e){
+                                displayHelpAndExit();
+                            }
 
                             break;
                         case "--loadConfigFile":
@@ -78,16 +71,13 @@ public class CLILauncher {
                             if (pValue.equals("")) displayHelpAndExit();
                             else {
                                 String pName_file = "--addPlugin=";
-
-                                switch (pValue) {
-                                    //todo : à factoriser
-                                    case "countCommits":
-                                        pName_file += "countCommits";
-                                        break;
-                                    /*Il faudra completer ce switch avec les autres cas*/
-                                    default:
-                                        pName_file = "";
-                                        break;
+                                try{
+                                    if (Analyzer.findClassPlugins(pValue) !=null){
+                                        pName_file += pValue;
+                                    }
+                                }catch (ClassNotFoundException e){
+                                    System.out.println("PLugin not valid.");
+                                    displayHelpAndExit();
                                 }
 
                                 if (!pName_file.equals("")) {
