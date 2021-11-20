@@ -54,14 +54,10 @@ public class Analyzer {
 
     protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
         /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
-
-        String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
         if(this.config.getPluginConfigs().containsKey(pluginName)){
-
             try {
+                Constructor<?> classConstruct = findClassPlugins(pluginName).getConstructor(Configuration.class); // Get the constructor of the pluginClass using getConstructor() method
 
-                Class<?> c = Class.forName("up.visulog.analyzer."+plug+"Plugin");
-                Constructor<?> classConstruct = c.getConstructor(Configuration.class);
                 return Optional.of((AnalyzerPlugin)classConstruct.newInstance(this.config));
 
             } catch (ReflectiveOperationException e){
@@ -71,6 +67,12 @@ public class Analyzer {
             }
         }
         return Optional.empty();
+    }
+
+    public static Class <?> findClassPlugins(String pluginName) throws ClassNotFoundException {
+        String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
+        Class<?> c = Class.forName("up.visulog.analyzer."+plug+"Plugin"); // returns the Class object for the plugin
+        return c;
     }
 
 
