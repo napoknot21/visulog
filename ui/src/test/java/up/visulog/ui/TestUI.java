@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 public class TestUI {
-    public static class TestMethodButton extends Application {
+    /*public static class TestMethodButton extends Application {
         private String[] args;
 
         @Override
@@ -46,5 +46,5 @@ public class TestUI {
         public void testMethoButton() {
             launch(args);
         }
-    }
+    }*/
 }
