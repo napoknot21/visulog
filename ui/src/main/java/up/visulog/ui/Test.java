@@ -22,31 +22,8 @@ public class Test extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Pane p = new Pane();
-        ArrayList<MethodButton> buttons = new ArrayList<>();
-        for (String key : MethodButton.NAME_TO_PLUGIN_NAME.keySet()) {
-            MethodButton b = new MethodButton(key);
-            b.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    String s = b.toHtml(b.run());
-                    try {
-                        File resultHtml = new File("src\\result.html");
-                        PrintWriter writer = new PrintWriter(resultHtml);
-                        writer.println(s);
-                        writer.close();
-                        File var2 = new File("src\\result.html");
-                        Desktop.getDesktop().browse(var2.toURI());
-                    } catch (IOException var3) {
-                        var3.printStackTrace();
-                    }
-                }
-            });
-            buttons.add(b);
-        }
-        p.getChildren().addAll(buttons);
-        Scene scene = new Scene(p);
-        //scene.getStylesheets().add("src\\style.css");
+    //FixMe: Trouver un moyen de changer la scene pour afficher le plugin demande
+        Scene scene = new Scene(new MenuRadioButton("CountCommit"));
         primaryStage.setTitle("Test");
         primaryStage.setScene(scene);
         primaryStage.show();

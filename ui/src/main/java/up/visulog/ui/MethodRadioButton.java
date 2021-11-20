@@ -1,27 +1,27 @@
 package up.visulog.ui;
 
+import javafx.scene.control.RadioButton;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.analyzer.AnalyzerResult;
-import javafx.scene.control.Button;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
 import java.nio.file.FileSystems;
 import java.util.HashMap;
 
-public class MethodButton extends Button
-    implements UIController{ //Classe Button permettant de lancer les plugins a partir des boutons
-
+public class MethodRadioButton extends RadioButton
+        implements UIController {
     private final String value;
-    static int posX=0;
+    protected static HashMap<String,String> RADIO_BUTTON_NAME = initializeRadioButtonName();
 
-    public MethodButton(String label) {
+    public MethodRadioButton (String label, String plugin) {
         super(label);
         String v="";
-        if (NAME_TO_PLUGIN_NAME.containsKey(label)) v = NAME_TO_PLUGIN_NAME.get(label);
+        String name="";
+        if (RADIO_BUTTON_NAME.containsKey(label) ) name = RADIO_BUTTON_NAME.get(label);
+        plugin += name;
+        if (NAME_TO_PLUGIN_NAME.containsKey(plugin)) v = NAME_TO_PLUGIN_NAME.get(plugin);
         this.value = v;
-        this.setLayoutX(posX);
-        posX+=200;
     }
 
     @Override
@@ -34,12 +34,18 @@ public class MethodButton extends Button
         return new Analyzer(config).computeResults();
     }
 
-    public String toHtml(AnalyzerResult result) {
-        System.out.println(result.toHTML());
-        return result.toHTML();
+    private static HashMap<String,String> initializeRadioButtonName() {
+        RADIO_BUTTON_NAME = new HashMap<>();
+        RADIO_BUTTON_NAME.put("Par jour"," PerDay");
+
+
+        return RADIO_BUTTON_NAME;
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public String toHtml(AnalyzerResult result) {
+        if (result==null) return "Empty !";
+        System.out.println(result.toHTML());
+        return result.toHTML();
     }
 }
