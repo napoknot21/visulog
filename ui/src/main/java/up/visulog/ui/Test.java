@@ -23,7 +23,8 @@ public class Test extends Application {
     @Override
     public void start(Stage primaryStage) {
     //FixMe: Trouver un moyen de changer la scene pour afficher le plugin demande
-        Scene scene = new Scene(new MenuRadioButton("CountCommit"));
+        Scene scene = new Scene(new MenuButton());
+        //Scene scene = new Scene(new MenuRadioButton("CountCommits"));
         primaryStage.setTitle("Test");
         primaryStage.setScene(scene);
         primaryStage.show();
