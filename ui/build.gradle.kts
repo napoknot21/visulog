@@ -8,7 +8,7 @@ group = "up"
 
 javafx {
     version = "13.0.2"
-    modules("javafx.controls", "javafx.fxml")
+    modules("javafx.controls", "javafx.fxml", "javafx.web")
 }
 
 application {
