@@ -3,7 +3,8 @@ package up.visulog.cli;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
-import java.io.File;
+
+import java.io.*;
 import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Optional;
@@ -57,15 +58,28 @@ public class CLILauncher {
                             break;
                         case "--loadConfigFile":
                             // TODO#2 (load options from a file)
-                                if(pValue.length()==0)
+                                if(pValue.length()==0){
+                                    System.out.println("ici");
                                     displayHelpAndExit();
 
-                                else if (check_directory(pValue)){
-                                    Configuration res = Configuration.loadConfigFile(pValue);
-                                    return Optional.ofNullable(res);
+                                } else{
+                                    File dir = new File("./Files");
+                                    if(!dir.isDirectory()) {
+                                        System.out.println("Files: no such directory.");
+                                        displayHelpAndExit();
+                                    }
+                                    try{
+                                        File f = new File("./Files/"+pValue+".txt");
+                                        if(!f.isFile()) {
+                                            System.out.println("The configFile doesn't exist.");
+                                            displayHelpAndExit();
+                                        }
+                                        BufferedReader br = new BufferedReader(new FileReader(f));
+                                        return makeConfigFromCommandLineArgs(new String[]{br.readLine()});
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                return Optional.empty();
-
                         case "--justSaveConfigFile":
                             // TODO#3 (save command line options to a file instead of running the analysis)
                             if (pValue.equals("")) displayHelpAndExit();
