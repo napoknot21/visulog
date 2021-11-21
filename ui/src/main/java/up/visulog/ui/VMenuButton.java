@@ -1,27 +1,20 @@
 package up.visulog.ui;
 
-import com.sun.javafx.fxml.builder.JavaFXSceneBuilder;
-import com.sun.javafx.scene.ParentHelper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import up.visulog.ui.controller.MethodButton;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
-public class MenuButton  extends Pane {
+public class VMenuButton extends Pane {
     private static double nextPosY = 0;
 
-    public MenuButton () {
+    public VMenuButton() {
         super();
         initialize();
     }
