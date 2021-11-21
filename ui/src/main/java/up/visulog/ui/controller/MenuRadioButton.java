@@ -2,9 +2,9 @@ package up.visulog.ui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.layout.Pane;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.web.WebEngine;
-import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
@@ -13,17 +13,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 
-public class MenuRadioButton extends Pane {
+public class MenuRadioButton extends VMenu
+        implements WebViewModifier {
     private static double nextPosX = 0;
-    private String plugin;
-    private Stage PrimaryStage;
-    private WebEngine webEngine;
+    private final String plugin;
 
-    public MenuRadioButton(String plugin, Stage PrimaryStage) {
+    public MenuRadioButton() {
         super();
-        this.plugin = plugin;
-        this.PrimaryStage = PrimaryStage;
-        //webEngine = getWebEngine();
+        plugin = getPlugin();
         initialize();
     }
 
@@ -32,6 +29,7 @@ public class MenuRadioButton extends Pane {
     }
 
     public ArrayList<MenuRadioButtonItem> initializeMenuRadioButtonItem() {
+        WebEngine webEngine = getWebEngine();
         ArrayList<MenuRadioButtonItem> buttons = new ArrayList<>();
         for (String key : MenuRadioButtonItem.RADIO_BUTTON_NAME.keySet()) {
             MenuRadioButtonItem b = new MenuRadioButtonItem(key);
@@ -39,6 +37,7 @@ public class MenuRadioButton extends Pane {
                 @Override
                 public void handle(ActionEvent event) {
                     String s = b.toHtml(b.run());
+                    webEngine.loadContent(s);
                     try {
                         File resultHtml = new File("src\\result.html");
                         PrintWriter writer = new PrintWriter(resultHtml);
@@ -56,6 +55,16 @@ public class MenuRadioButton extends Pane {
         return buttons;
     }
 
+    private String getPlugin() {
+        var NodeList = this.getParent().getChildrenUnmodifiable();
+        for (Node node : NodeList) {
+            if (node instanceof javafx.scene.control.Label) {
+                return ((Label) node).getText();
+            }
+        }
+        return "";
+    }
+
     class MenuRadioButtonItem extends MethodRadioButton {
         public MenuRadioButtonItem(String label) {
             super(label, plugin);
@@ -64,14 +73,4 @@ public class MenuRadioButton extends Pane {
             nextPosX = this.getLayoutY() + 30;
         }
     }
-
-    /*public WebEngine getWebEngine() {
-        var nodeList = PrimaryStage.getScene().getRoot().getChildrenUnmodifiable();
-        for (Node node : nodeList) {
-            if (node instanceof Pane)
-
-                return (WebEngine) node;
-        }
-        return null;
-    }*/
 }

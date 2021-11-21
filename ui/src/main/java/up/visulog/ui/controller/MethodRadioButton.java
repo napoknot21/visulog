@@ -12,6 +12,7 @@ import java.util.HashMap;
 public class MethodRadioButton extends RadioButton
         implements UIController {
     private final String value;
+
     public MethodRadioButton(String label, String plugin) {
         super(label);
         String v = "";
@@ -20,7 +21,7 @@ public class MethodRadioButton extends RadioButton
         plugin += name;
         if (NAME_TO_PLUGIN_NAME.containsKey(plugin)) v = NAME_TO_PLUGIN_NAME.get(plugin);
         this.value = v;
-    }    protected static HashMap<String, String> RADIO_BUTTON_NAME = initializeRadioButtonName();
+    }
 
     private static HashMap<String, String> initializeRadioButtonName() {
         RADIO_BUTTON_NAME = new HashMap<>();
@@ -38,7 +39,7 @@ public class MethodRadioButton extends RadioButton
         plugin.put(value, PLUGINS.get(value));
         var config = new Configuration(gitPath, plugin);
         return new Analyzer(config).computeResults();
-    }
+    }    protected static HashMap<String, String> RADIO_BUTTON_NAME = initializeRadioButtonName();
 
     @Override
     public String toHtml(AnalyzerResult result) {
@@ -46,6 +47,8 @@ public class MethodRadioButton extends RadioButton
         System.out.println(result.toHTML());
         return result.toHTML();
     }
+
+
 
 
 }

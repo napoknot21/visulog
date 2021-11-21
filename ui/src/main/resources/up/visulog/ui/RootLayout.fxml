@@ -3,15 +3,13 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
-<?import up.visulog.ui.VMenuButton?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
+<?import up.visulog.ui.controller.VMenuButton?>
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
             xmlns:fx="http://javafx.com/fxml/1">
     <SplitPane dividerPositions="0.13712374581939799" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0"
                AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                AnchorPane.topAnchor="-1.0">
         <VMenuButton minWidth="-Infinity" prefHeight="398.0" prefWidth="116.0" SplitPane.resizableWithParent="false"/>
-        <Pane prefHeight="398.0" prefWidth="472.0">
-            <WebView fx:id="web" prefHeight="-1.0" prefWidth="-1.0"/>
-        </Pane>
+        <WebView fx:id="web" prefHeight="-1.0" prefWidth="-1.0"/>
     </SplitPane>
 </AnchorPane>
