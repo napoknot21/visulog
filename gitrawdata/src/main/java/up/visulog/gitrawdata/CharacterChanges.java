@@ -2,19 +2,17 @@ package up.visulog.gitrawdata;
 
 import java.io.BufferedReader;
 import java.nio.file.Path;
-import java.util.Date;String id, String author, Date date, String description,
 import java.io.IOException;
-import java.util.Optional;
 
 public class CharacterChanges extends ChangesDescription{
     public final int addedCharacters;
-    public final int removedCharcaters;
+    public final int removedCharacters;
     public Commit commit;
 
     public CharacterChanges(int added, int removed, Commit commit) { // simplement le constructeur
         super(commit.id, commit.author, commit.date, commit.description);
         this.addedCharacters = added;
-        this.removedCharcaters = removed;
+        this.removedCharacters = removed;
         this.commit = commit;
     }
 
@@ -23,21 +21,23 @@ public class CharacterChanges extends ChangesDescription{
     }
 
     public static CharacterChanges parseDiff(BufferedReader reader, Commit commit){
-        String line = null;
+        String line;
         try {
             line = reader.readLine();
-
             int char_added = 0;
             int char_deleted = 0;
             while (line != null) {
                 String[] charChanged = line.split(" ");
-                char_added += Integer.valueOf(charChanged[0]);
-                char_deleted += Integer.valueOf(charChanged[1]);
+                if (charChanged[0].equals("-")) char_added += 0;
+                else char_added += Integer.valueOf(charChanged[0]);
+                if (charChanged[1].equals("-")) char_deleted += 0;
+                else char_deleted += Integer.valueOf(charChanged[1]);
             }
             CharacterChanges cc = new CharacterChanges(char_added,char_deleted,commit);
             return cc;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
