@@ -13,19 +13,30 @@ public class MethodButton extends Button
         implements UIController { //Classe Button permettant de lancer les plugins a partir des boutons
 
     static int posX = 0;
+    static HashMap<String, String> BUTTON_NAME_TO_PLUGIN_NAME = initButtonNameToPluginName();
     private final String value;
+    //Map (Nom du bouton -> nom du plugin)
 
     public MethodButton(String label) {
         super(label);
         String v = "";
-        if (NAME_TO_PLUGIN_NAME.containsKey(label)) v = NAME_TO_PLUGIN_NAME.get(label);
+        if (BUTTON_NAME_TO_PLUGIN_NAME.containsKey(label)) v = BUTTON_NAME_TO_PLUGIN_NAME.get(label);
         this.value = v;
         this.setLayoutX(posX);
         posX += 200;
     }
 
+    private static HashMap<String, String> initButtonNameToPluginName() { //Initialise la map
+        HashMap<String, String> BUTTON_NAME_TO_PLUGIN_NAME = new HashMap<>();
+        BUTTON_NAME_TO_PLUGIN_NAME.put("Commits", "countCommitsPerAuthor");
+        BUTTON_NAME_TO_PLUGIN_NAME.put("Merge Commits", "countMergeCommitsPerAuthor");
+        //Todo: a remplir selon les plugins
+
+        return BUTTON_NAME_TO_PLUGIN_NAME;
+    }
+
     @Override
-    public AnalyzerResult run() {
+    public AnalyzerResult run() { //Lance le plugin relie au bouton
         if (!PLUGINS.containsKey(this.value)) return null;
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
         var plugin = new HashMap<String, PluginConfig>();
@@ -34,10 +45,12 @@ public class MethodButton extends Button
         return new Analyzer(config).computeResults();
     }
 
-    public String toHtml(AnalyzerResult result) {
+    public String toHtml(AnalyzerResult result) { // retourne le resultats sous html
+        if (result == null) return "";
         System.out.println(result.toHTML());
         return result.toHTML();
     }
+
 
     public String getValue() {
         return value;
