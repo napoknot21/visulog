@@ -22,6 +22,7 @@ public abstract class VMenu extends Pane
     public void setup(Stage PrimaryStage) { //Initialise le priomary stage et le webEngine
         this.PrimaryStage = PrimaryStage;
         initWebEngine();
+        System.out.println(webEngine);
     }
 
     @Override
@@ -29,6 +30,11 @@ public abstract class VMenu extends Pane
         if (PrimaryStage == null) return;
         var nodeList = PrimaryStage.getScene().getRoot().getChildrenUnmodifiable();
         for (Node node : nodeList) {
+            if (node instanceof WebView) {
+                webEngine = ((WebView) node).getEngine();
+                return;
+            }
+
             initWebEngine(node);
         }
     }
