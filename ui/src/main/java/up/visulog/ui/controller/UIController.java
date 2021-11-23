@@ -6,18 +6,24 @@ import up.visulog.config.PluginConfig;
 import java.util.HashMap;
 
 public interface UIController {
-    String value = "";
+    String value = ""; // Value courante du controller
     HashMap<String, String> NAME_TO_PLUGIN_NAME = initializeNameToPluginName();
+    // Map (Nom sur l'UI -> nom du plugin)
     HashMap<String, PluginConfig> PLUGINS = initializePlugins();
-
-    private static HashMap<String, String> initializeNameToPluginName() { //(Nom du bouton -> Nom du plugin)
-        HashMap<String, String> NAME_TO_PLUGIN_NAME = new HashMap<>();
-        NAME_TO_PLUGIN_NAME.put("Commits", "countCommits");
-        NAME_TO_PLUGIN_NAME.put("Merge Commits", "countMergeCommits");
+    //Map (Nom du plugin -> pluginConfig)
 
 
+    private static HashMap<String, String> initializeNameToPluginName() { //Initialise la map automatiquement en fonction
+        HashMap<String, String> NAME_TO_PLUGIN_NAME                     //En fonction des boutons
+                = new HashMap<>(MethodButton.BUTTON_NAME_TO_PLUGIN_NAME);
+        for (String plugin : MethodButton.BUTTON_NAME_TO_PLUGIN_NAME.values()) {
+            for (String filter : MethodRadioButton.RADIO_BUTTON_NAME.values()) {
+                NAME_TO_PLUGIN_NAME.put(plugin + filter, (plugin + filter).replace(" ", ""));
+            }
+        }
         return NAME_TO_PLUGIN_NAME;
     }
+
 
     private static HashMap<String, PluginConfig> initializePlugins() { //Initialise la liste des plugins disponible
         //Fixme: A adapter a notre implementation de PluginConfig

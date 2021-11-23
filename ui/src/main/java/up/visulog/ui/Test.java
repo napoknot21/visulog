@@ -23,13 +23,12 @@ public class Test extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        //FixMe: Trouver un moyen de changer la scene pour afficher le plugin demande
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Test");
         initRootLayout();
     }
 
-    public void initRootLayout() {
+    public void initRootLayout() { //initialise la racine de l'application
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Test.class.getResource("/up/visulog/ui/RootLayout.fxml"));
@@ -43,13 +42,14 @@ public class Test extends Application {
         }
     }
 
-    private void setChildrenStage(Node node) {
+    //Fonction donnant aux enfants la possibilité d'agir avec le primaryStage
+    private void setChildrenStage(Node node) { //Fonction de parcours
         if (node == null) return;
         if (node instanceof SplitPane) setChildrenStage((SplitPane) node);
         setChildrenStage((Parent) node);
     }
 
-    private void setChildrenStage(Parent parent) {
+    private void setChildrenStage(Parent parent) { //Fonction de parcours
         if (parent == null) return;
         for (Node node : parent.getChildrenUnmodifiable()) {
             if (node instanceof VMenu) ((VMenu) node).setup(primaryStage);
@@ -57,7 +57,7 @@ public class Test extends Application {
         }
     }
 
-    private void setChildrenStage(SplitPane parent) {
+    private void setChildrenStage(SplitPane parent) { //Fonction de parcours
         if (parent == null) return;
         for (Node node : parent.getItems()) {
             if (node instanceof VMenu) ((VMenu) node).setup(primaryStage);
