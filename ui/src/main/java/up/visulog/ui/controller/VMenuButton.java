@@ -75,6 +75,10 @@ public class VMenuButton extends VMenu
         if (PrimaryStage == null) return;
         var nodeList = PrimaryStage.getScene().getRoot().getChildrenUnmodifiable();
         for (Node node : nodeList) {
+            if (node instanceof MenuRadioButton) {
+                menuRadioButton = (MenuRadioButton) node;
+                return;
+            }
             getMenuRadioButton(node);
         }
     }
@@ -91,6 +95,7 @@ public class VMenuButton extends VMenu
         for (Node node : nodeList) {
             if (node instanceof MenuRadioButton) {
                 menuRadioButton = (MenuRadioButton) node;
+                return;
             }
 
             getMenuRadioButton(node);
@@ -103,6 +108,7 @@ public class VMenuButton extends VMenu
         for (Node node : nodeList) {
             if (node instanceof MenuRadioButton) {
                 menuRadioButton = (MenuRadioButton) node;
+                return;
             }
             getMenuRadioButton(node);
         }
