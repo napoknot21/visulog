@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CountCommitsPerDayPlugin implements  AnalyzerPlugin{
+public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
     private final Configuration configuration;
     private Result result;
 
-    public CountCommitsPerDayPlugin(Configuration generalConfiguration) {
+    public CountCommitsPerAuthorPerDayPlugin(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
