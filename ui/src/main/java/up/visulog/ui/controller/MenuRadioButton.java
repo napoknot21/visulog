@@ -46,7 +46,7 @@ public class MenuRadioButton extends VMenu //Genere le menu de filtres
                         System.out.println(b.getValue());
                         String s = b.toHtml(b.run());
                         getWebEngine().loadContent(s);
-                        try {
+                        /*try {
                             File resultHtml = new File("src\\result.html");
                             PrintWriter writer = new PrintWriter(resultHtml);
                             writer.println(s);
@@ -55,7 +55,7 @@ public class MenuRadioButton extends VMenu //Genere le menu de filtres
                             Desktop.getDesktop().browse(var2.toURI());
                         } catch (IOException var3) {
                             var3.printStackTrace();
-                        }
+                        }*/
                     }
                 });
             }

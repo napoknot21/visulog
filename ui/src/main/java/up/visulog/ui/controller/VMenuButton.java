@@ -41,6 +41,7 @@ public class VMenuButton extends VMenu
     }
 
     void initMenuButtonAction() { //Initialise l'action des boutons
+        WebEngine webEngine = getWebEngine();
         for (Node node : this.getChildren()) {
             MenuButtonItem b = (MenuButtonItem) node;
             if (b != null) {
@@ -49,11 +50,12 @@ public class VMenuButton extends VMenu
                     public void handle(ActionEvent event) {
 
                         String s = b.toHtml(b.run());
-                        getWebEngine().loadContent(s);
+
+                        if(webEngine != null) webEngine.loadContent(s);
                         if (menuRadioButton != null) {
                             menuRadioButton.initMenuButtonAction(b.getValue());
                         }
-                        try {
+                       /* try {
                             File resultHtml = new File("src\\result.html");
                             PrintWriter writer = new PrintWriter(resultHtml);
                             writer.println(s);
@@ -62,7 +64,7 @@ public class VMenuButton extends VMenu
                             Desktop.getDesktop().browse(var2.toURI());
                         } catch (IOException var3) {
                             var3.printStackTrace();
-                        }
+                        }*/
                     }
                 });
             }
