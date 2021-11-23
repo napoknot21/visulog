@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class TestCountCommitsPerAuthorPlugin {
     /* Let's check whether the number of authors is preserved and that the sum of the commits of each author is equal to the total number of commits */
     @Test
-    public static void checkCommitSum() {
+   public static void checkCommitSum() {
         var log = new ArrayList<Commit>();
         String[] authors = {"foo", "bar", "baz"};
         var entries = 20;
