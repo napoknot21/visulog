@@ -8,9 +8,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
+//Classe mere des menus de visulog (boutons et radio boutons)
 public abstract class VMenu extends Pane
         implements WebViewModifier {
-    private Stage PrimaryStage;
+    protected Stage PrimaryStage;
     private WebEngine webEngine;
 
     public Stage getPrimaryStage() {
@@ -18,13 +19,13 @@ public abstract class VMenu extends Pane
     }
 
     @Override
-    public void setup(Stage PrimaryStage) {
+    public void setup(Stage PrimaryStage) { //Initialise le priomary stage et le webEngine
         this.PrimaryStage = PrimaryStage;
         initWebEngine();
     }
 
     @Override
-    public void initWebEngine() {
+    public void initWebEngine() { //Initialise le webEngine
         if (PrimaryStage == null) return;
         var nodeList = PrimaryStage.getScene().getRoot().getChildrenUnmodifiable();
         for (Node node : nodeList) {
@@ -36,7 +37,7 @@ public abstract class VMenu extends Pane
         return webEngine;
     }
 
-    private void initWebEngine(SplitPane parent) {
+    private void initWebEngine(SplitPane parent) { //Fonction de parcours, initialise le webEngine
         if (parent == null) return;
         var nodeList = parent.getItems();
         for (Node node : nodeList) {
@@ -48,7 +49,7 @@ public abstract class VMenu extends Pane
         }
     }
 
-    private void initWebEngine(Parent parent) {
+    private void initWebEngine(Parent parent) { //Fonction de parcours, initialise le webEngine
         if (parent == null) return;
         var nodeList = parent.getChildrenUnmodifiable();
         for (Node node : nodeList) {
@@ -60,7 +61,7 @@ public abstract class VMenu extends Pane
         }
     }
 
-    private void initWebEngine(Node node) {
+    private void initWebEngine(Node node) { //Fonction de parcours, initialise le webEngine
         if (node == null) return;
         if (node instanceof SplitPane) initWebEngine((SplitPane) node);
         initWebEngine((Parent) node);

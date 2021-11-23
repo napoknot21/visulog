@@ -3,13 +3,19 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.WebView?>
+<?import up.visulog.ui.controller.MenuRadioButton?>
 <?import up.visulog.ui.controller.VMenuButton?>
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
             xmlns:fx="http://javafx.com/fxml/1">
-    <SplitPane dividerPositions="0.13712374581939799" layoutY="-1.0" prefHeight="400.0" prefWidth="600.0"
-               AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-               AnchorPane.topAnchor="-1.0">
-        <VMenuButton minWidth="-Infinity" prefHeight="398.0" prefWidth="116.0" SplitPane.resizableWithParent="false"/>
-        <WebView fx:id="web" prefHeight="-1.0" prefWidth="-1.0"/>
+    <SplitPane dividerPositions="0.14715719063545152" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="1.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
+        <VMenuButton maxWidth="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="100.0"/>
+        <SplitPane dividerPositions="0.8994974874371859" minWidth="-Infinity" orientation="VERTICAL" prefHeight="398.0"
+                   prefWidth="400.0">
+            <items>
+                <WebView fx:id="web" minHeight="-1.0" prefHeight="276.0" prefWidth="513.0"/>
+                <MenuRadioButton maxHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="492.0"/>
+            </items>
+        </SplitPane>
     </SplitPane>
 </AnchorPane>
