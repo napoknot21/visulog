@@ -17,21 +17,21 @@ public class CharacterChanges extends ChangesDescription{
     }
 
     public static CharacterChanges parseDiffFromCommand (Path gitPath, Commit commit) {
-        return parseDiff(ChangesDescription.processCommand ("git","diff --numstat " + commit.id,gitPath), commit);
+        return parseDiff(ChangesDescription.processCommand("git","diff --numstat " + commit.id, gitPath), commit);
     }
 
     public static CharacterChanges parseDiff(BufferedReader reader, Commit commit){
-        String line;
         try {
-            line = reader.readLine();
+            String line = reader.readLine();
             int char_added = 0;
             int char_deleted = 0;
-            while (line != null) {
+            while (line.isEmpty()) {
                 String[] charChanged = line.split(" ");
                 if (charChanged[0].equals("-")) char_added += 0;
                 else char_added += Integer.valueOf(charChanged[0]);
                 if (charChanged[1].equals("-")) char_deleted += 0;
                 else char_deleted += Integer.valueOf(charChanged[1]);
+                line = reader.readLine();
             }
             CharacterChanges cc = new CharacterChanges(char_added,char_deleted,commit);
             return cc;
