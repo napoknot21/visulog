@@ -39,7 +39,7 @@ public class CLILauncher {
                             // Let's just trivially do this, before the TODO is fixed:
 
                             if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig());  //si l'argument a pour valeur "countCommits", crée un
-                            if (pValue.equals("countCharacters")) plugins.put("countCharacters", new PluginConfig());
+                            if (pValue.equals("countLines")) plugins.put("countLines", new PluginConfig());
 
                             break;
                         case "--loadConfigFile":
@@ -79,7 +79,8 @@ public class CLILauncher {
         System.out.println("Try it again with this format: '. --[NAME_ARGUMENT]=[ARG_VALUE]'");
         System.out.println("Some options...");
         System.out.println(". --addPlugin="); //nom de l'argument
-        System.out.println("        countCommints"); //Deux tabulations pour les valuers possibles de l'argument courant
+        System.out.println("        countCommits"); //Deux tabulations pour les valuers possibles de l'argument courant
+        System.out.println("        countLines");
         System.out.println(". --loadConfigFile=");
         System.out.println(". --justSaveConfigFile=");
         //TODO#4: print the list of options and their syntax
