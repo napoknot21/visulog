@@ -6,6 +6,13 @@
 ##
 ##############################################################################
 
+
+#Check if the current computer is in SCRIPT and if the environment is already set
+if [ -z "${GRADLE_SCRIPT_ENV}" ] || [ ! "${GRADLE_SCRIPT_ENV}" ]; then
+  setGradleScriptEnv
+  fi
+
+
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
@@ -32,6 +39,23 @@ DEFAULT_JVM_OPTS='"-Xmx64m"'
 
 # Use the maximum available, or set MAX_FD != -1 to use that value.
 MAX_FD="maximum"
+
+
+# setup the GRADLE_OPTS environment variable so that gradle uses the SCRIPT proxy for downloading its dependencies.
+# It will also use a custom trust store to fix the one used by the SCRIPT
+setGradleScriptEnv () {
+  echo "Are you using a SCRIPT computer ? [Y/N]"
+  read ans
+
+  if [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
+    source SCRIPT/envsetup
+  fi
+
+   GRADLE_SCRIPT_ENV=true
+  export global GRADLE_SCRIPT_ENV
+}
+
+
 
 warn () {
     echo "$*"
