@@ -1,22 +1,21 @@
 package up.visulog.ui.controllers;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import up.visulog.ui.model.Model;
-import up.visulog.ui.views.MethodButton;
 import up.visulog.ui.views.View;
-import up.visulog.ui.views.VisulogButtons;
-import up.visulog.ui.views.VisulogScene;
+import up.visulog.ui.views.objects.MethodButton;
+import up.visulog.ui.views.objects.VisulogButtons;
+import up.visulog.ui.views.scenes.VisulogScene;
 
 public abstract class Controller {
 
-    protected Stage view;
+    protected View view;
     protected Model model;
     protected VisulogScene scene;
 
-    public Controller(Stage view, Model model, Scene scene) {
+    public Controller(View view, Model model, VisulogScene scene) {
         this.view = view;
         this.model = model;
+        this.scene = scene;
     }
 
     protected abstract void runPlugin(VisulogButtons b);

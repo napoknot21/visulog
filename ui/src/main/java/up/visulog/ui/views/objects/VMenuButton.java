@@ -1,4 +1,4 @@
-package up.visulog.ui.views;
+package up.visulog.ui.views.objects;
 
 import javafx.scene.Node;
 import up.visulog.ui.controllers.Controller;
@@ -8,9 +8,8 @@ import java.util.ArrayList;
 
 //Genre le menu de boutons lateral
 public class VMenuButton extends VMenu
-        implements SceneChild {
+        implements SceneChild, IndependentsButtonsMenu {
     private static double nextPosY = 0;
-    private static MenuRadioButton menuRadioButton; //Filtres
 
 
     public VMenuButton() {
@@ -32,7 +31,7 @@ public class VMenuButton extends VMenu
         return buttons;
     }
 
-    void initMenuButtonAction() { //Initialise l'action des boutons
+    public void initMenuButtonAction() { //Initialise l'action des boutons
         Controller controller = getController();
         for (Node node : this.getChildren()) {
             MenuButtonItem b = (MenuButtonItem) node;
@@ -43,7 +42,8 @@ public class VMenuButton extends VMenu
     }
 
 
-    class MenuButtonItem extends MethodButton { // Represente les boutons du menu
+    class MenuButtonItem extends MethodButton
+            implements VisulogButtons { // Represente les boutons du menu
 
         public MenuButtonItem(String label) {
             super(label);

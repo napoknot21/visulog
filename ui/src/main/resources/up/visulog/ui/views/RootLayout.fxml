@@ -2,13 +2,12 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
 
-<?import up.visulog.ui.views.MenuRadioButton?>
-<?import up.visulog.ui.views.VMenuButton?>
+<?import up.visulog.ui.views.objects.MenuRadioButton?>
+<?import up.visulog.ui.views.objects.VMenuButton?>
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <WebView fx:id="web" layoutX="119.0" minHeight="-1.0" prefHeight="450.0" prefWidth="538.0" />
     <MenuRadioButton layoutX="119.0" layoutY="413.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="538.0" style="-fx-background-color: #000080;" />
