@@ -32,23 +32,23 @@ public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
         ArrayList<String> commitsPerAuthor = getAuthors(gitLog);
 
         for(String author : commitsPerAuthor){ /*On parcourt d'abord tous les auteurs*/
+            Map<String, Integer> commitsPerDay = new HashMap<>();
             for (var commit : gitLog){
-
+                /*On s'intéresse qu'aux commits d'une certaine personne*/
                 if(commit.author.equals(author)){
-                    /*On s'intéresse qu'aux commits d'une certaine personne*/
-                    Map<String, Integer> commitsPerDay = new HashMap<>();
 
                     /*On change le format de la date pour que l'on puisse trier par date*/
-                    DateFormat outputFormat = new SimpleDateFormat("EEE MMM dd yyyy");
+                    DateFormat outputFormat = new SimpleDateFormat("MMM dd yyyy");
                     String dateString = outputFormat.format(commit.date);
 
                     /*On compte les commits de l'auteur par date*/
                     var nb = commitsPerDay.getOrDefault(dateString, 0);
                     commitsPerDay.put(dateString, nb+1);
 
-                    result.commitsPerAuthorPerDay.put(author, commitsPerDay);
                 }
             }
+            result.commitsPerAuthorPerDay.put(author, commitsPerDay);
+
         }
         return result;
     }
