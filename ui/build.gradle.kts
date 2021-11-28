@@ -12,7 +12,7 @@ javafx {
 }
 
 application {
-    mainClassName = "up.visulog.ui.Test"
+    mainClassName = "up.visulog.ui.VisulogGUI"
 } //A changer selon la classe App
 
 allprojects {

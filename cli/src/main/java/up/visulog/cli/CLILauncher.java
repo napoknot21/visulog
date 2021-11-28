@@ -3,6 +3,9 @@ package up.visulog.cli;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
+import up.visulog.ui.VisulogGUI;
+
+import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
@@ -14,6 +17,7 @@ import java.util.Optional;
 public class CLILauncher {
 
     public static void main(String[] args) {
+        if (args.length==0) return;
         var config = makeConfigFromCommandLineArgs(args);  //creation de la configuration en fonction des arguments choisis (voir fonction ci dessous)
         if (config.isPresent()) { //verifie qu'une configuration a bien ete cree
             var analyzer = new Analyzer(config.get()); //cree une variable analyzer qui contient un Analyzer cree à partir de la config reçue
