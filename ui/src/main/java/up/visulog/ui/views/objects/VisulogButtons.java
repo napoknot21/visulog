@@ -1,4 +1,4 @@
-package up.visulog.ui.views;
+package up.visulog.ui.views.objects;
 
 public interface VisulogButtons {
 

@@ -1,4 +1,4 @@
-package up.visulog.ui.views;
+package up.visulog.ui.views.scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,8 +8,8 @@ import up.visulog.ui.model.Model;
 public abstract class VisulogScene extends Scene {
 
     private final Model model;
-    private Controller controller;
     private final Parent root;
+    private Controller controller;
 
     public VisulogScene(Parent root) {
         super(root);
@@ -32,4 +32,5 @@ public abstract class VisulogScene extends Scene {
     public abstract void update();
 
     public abstract void update(String s);
+
 }

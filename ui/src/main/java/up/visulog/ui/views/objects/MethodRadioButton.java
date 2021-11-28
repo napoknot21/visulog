@@ -1,4 +1,4 @@
-package up.visulog.ui.views;
+package up.visulog.ui.views.objects;
 
 import javafx.scene.control.RadioButton;
 import up.visulog.ui.model.Model;
@@ -19,7 +19,6 @@ public class MethodRadioButton extends RadioButton
 
     @Override
     public void setValue(String plugin) {
-        System.out.println(plugin);
         String v = "";
         String name = "";
         if (Model.RADIO_BUTTON_NAME.containsKey(this.getText())) name = Model.RADIO_BUTTON_NAME.get(this.getText());

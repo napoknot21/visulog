@@ -1,9 +1,6 @@
 package up.visulog.ui.model;
 
 import up.visulog.analyzer.AnalyzerResult;
-import up.visulog.config.PluginConfig;
-
-import java.util.HashMap;
 
 public class Model implements MapRelations {
 
@@ -25,19 +22,4 @@ public class Model implements MapRelations {
         return result;
     }
 
-    public HashMap<String, PluginConfig> getPLUGINS() {
-        return PLUGINS;
-    }
-
-    public HashMap<String, String> getBUTTON_NAME_TO_PLUGIN_NAME() {
-        return BUTTON_NAME_TO_PLUGIN_NAME;
-    }
-
-    public HashMap<String, String> getNAME_TO_PLUGIN_NAME() {
-        return NAME_TO_PLUGIN_NAME;
-    }
-
-    public HashMap<String, String> getRADIO_BUTTON_NAME() {
-        return RADIO_BUTTON_NAME;
-    }
 }

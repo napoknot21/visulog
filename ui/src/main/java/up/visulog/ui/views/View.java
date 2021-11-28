@@ -1,18 +1,24 @@
 package up.visulog.ui.views;
 
+import javafx.application.Platform;
 import javafx.stage.Stage;
+import up.visulog.ui.views.scenes.*;
 
-import java.io.IOException;
 
 public class View extends Stage {
 
     private VisulogScene scene;
 
-    public View() throws IOException {
+    public View() {
         super();
-        setScene(new WebEngineScene(this));
-        //setScene(new HomeScene(this));
+        updateScene(new WebEngineScene(this));
         setTitle("Visulog");
+        setOnCloseRequest(
+                (event -> {
+                    Platform.exit();
+                    System.exit(0);
+                })
+        );
     }
 
     public void updateScene(VisulogScene scene) {

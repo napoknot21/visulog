@@ -1,4 +1,4 @@
-package up.visulog.ui.views;
+package up.visulog.ui.views.scenes;
 
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -20,4 +20,5 @@ public class HomeScene extends VisulogScene {
     public void update(String s) {
 
     }
+
 }
