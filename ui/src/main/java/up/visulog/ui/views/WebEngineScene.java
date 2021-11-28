@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import up.visulog.ui.VisulogGUI;
 import up.visulog.ui.controllers.WebEngineController;
 
 import java.io.IOException;
@@ -24,21 +25,18 @@ public class WebEngineScene extends VisulogScene
         this.view = view;
         setController(new WebEngineController(view, getModel(), this));
         //FixMe : Trouver pourquoi la localisation du fichier donne une erreur
-        /*try {
+        try {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(WebEngineScene.class.getResource("up/visulog/ui/views/RootLayout.fxml"));
+        loader.setLocation(WebEngineScene.class.getResource("/up/visulog/ui/views/RootLayout.fxml"));
         AnchorPane root = (AnchorPane) loader.load();
         System.out.println(root);
         setRoot(root);
+        setupChildren();
+        initWebEngine();
+        ((WebEngineController) getController()).getMenuRadioButton();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        } finally {*/
-
-            setupChildren();
-            initWebEngine();
-        //((WebEngineController) getController()).getMenuRadioButton();
-        //}
-
+        }
     }
 
     @Override

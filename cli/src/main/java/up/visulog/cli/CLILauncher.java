@@ -3,7 +3,6 @@ package up.visulog.cli;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
-import up.visulog.ui.VisulogGUI;
 
 import java.awt.*;
 import java.io.FileWriter;
