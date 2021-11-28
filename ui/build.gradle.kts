@@ -7,7 +7,7 @@ version = "0.0.1"
 group = "up"
 
 javafx {
-    version = "13.0.2"
+    version = "17"
     modules("javafx.controls", "javafx.fxml", "javafx.web")
 }
 

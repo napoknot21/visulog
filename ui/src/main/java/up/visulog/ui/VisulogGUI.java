@@ -13,14 +13,12 @@ import java.io.IOException;
 public class VisulogGUI extends Application {
     private View view;
 
-    public VisulogGUI () throws IOException {
-        super();
-        view = new View();
-    }
+
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+        view = new View();
         /*Scene scene = new WebEngineScene(primaryStage);
         primaryStage.setScene(new HomeScene(primaryStage));
         primaryStage.setTitle("Visulog");
