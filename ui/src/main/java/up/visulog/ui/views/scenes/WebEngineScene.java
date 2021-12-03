@@ -8,7 +8,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import up.visulog.ui.controllers.WebEngineController;
+import up.visulog.ui.controllers.Controller;
 import up.visulog.ui.views.View;
 import up.visulog.ui.views.objects.IndependentsButtonsMenu;
 import up.visulog.ui.views.objects.SceneChild;
@@ -24,13 +24,13 @@ public class WebEngineScene extends VisulogScene
     public WebEngineScene(View view) {
         super(new Label("Hello World"));
         this.view = view;
-        setController(new WebEngineController(view, getModel(), this));
+        setController(new Controller(view, getModel(), this));
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(WebEngineScene.class.getResource("/up/visulog/ui/views/RootLayout.fxml"));
             Parent root = loader.load();
             setRoot(root);
-            ((WebEngineController) getController()).setMenuRadioButton();
+            getController().setMenuRadioButton();
             initWebEngine();
             setupChildren();
         } catch (IOException e) {
@@ -116,5 +116,7 @@ public class WebEngineScene extends VisulogScene
         initWebEngine((Parent) node);
     }
 
-
+    public WebEngine getWebEngine() {
+        return webEngine;
+    }
 }
