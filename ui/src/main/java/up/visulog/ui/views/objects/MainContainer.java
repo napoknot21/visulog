@@ -3,10 +3,7 @@ package up.visulog.ui.views.objects;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import up.visulog.ui.controllers.Controller;
@@ -20,22 +17,30 @@ public class MainContainer extends VBox
     Controller controller;
     Model model;
     WebEngine webEngine;
+    WebView web;
 
 
     public MainContainer () {
+        super();
         this.getChildren().add(new GraphParameter(this));
 
     }
 
     @Override
     public void setup(VisulogScene scene) {
+
         this.controller = scene.getController();
         this.model = scene.getModel();
         if (scene instanceof WebEngineScene)
-            this.webEngine = ((WebEngineScene) scene).getWebEngine();
+            this.web = ((WebEngineScene) scene).getWeb();
+            this.webEngine = web.getEngine();
     }
 
     public WebEngine getWebEngine() {
         return webEngine;
+    }
+
+    public WebView getWeb() {
+        return web;
     }
 }

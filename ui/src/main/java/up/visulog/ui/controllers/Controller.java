@@ -2,7 +2,6 @@ package up.visulog.ui.controllers;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -13,7 +12,9 @@ import up.visulog.ui.model.Model;
 import up.visulog.ui.views.View;
 import up.visulog.ui.views.objects.*;
 import up.visulog.ui.views.scenes.VisulogScene;
+import up.visulog.ui.views.objects.GraphParameter.ChartButton;
 
+import java.lang.invoke.MethodType;
 import java.nio.file.FileSystems;
 import java.util.HashMap;
 
@@ -91,20 +92,20 @@ public class Controller {
         }
     }
 
-    public void switchWebMode(GraphParameter container, Pane mainContainer) {
-        if (!(mainContainer instanceof MainContainer)) return;
-        container.getChildren().forEach(node -> {if (node instanceof RadioButton) node.setVisible(false);});
+    public void switchWebMode(GraphParameter container, MainContainer mainContainer) {
+        container.getChildren().forEach(node -> {if (node instanceof VisulogChartButtons) node.setVisible(false);});
+        mainContainer.getChildren().add(mainContainer.getWeb());
     }
 
-    public void switchGraphMode(HBox container, Pane mainContainer) {
-        if (!(mainContainer instanceof MainContainer)) return;
-        container.getChildren().forEach(node -> {if (node instanceof RadioButton) node.setVisible(true);});
+    public void switchGraphMode(HBox container, MainContainer mainContainer) {
+        container.getChildren().forEach(node -> {if (node instanceof VisulogChartButtons) node.setVisible(true);});
+        mainContainer.getChildren().remove(mainContainer.getWeb());
     }
 
-    public void initAction (RadioButton ret) {
-        ret.selectedProperty().addListener(e -> {
-            if (ret.isSelected()) System.out.println(ret.getText()+ " checked");
-            else System.out.println(ret.getText()+" unchecked");
-        });
+    public void applyFilter (ChartButton b, MainContainer mainContainer) {
+            if (b.isSelected()) System.out.println(b.getText() + " checked");
+            else System.out.println(b.getText() + " unchecked");
     }
+
+
 }
