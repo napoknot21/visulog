@@ -47,6 +47,7 @@ public class WebEngineScene extends VisulogScene
     @Override
     public void update(String s) {
         webEngine.loadContent(s);
+        //Todo add the CSS here with webEngine.setUserStyleSheetLocation(String path);
     }
 
     private void setupChildren() {
