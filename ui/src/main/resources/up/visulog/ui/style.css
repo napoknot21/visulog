@@ -8,6 +8,7 @@
     -fx-text-fill: white;
     -fx-opacity: 1;
     -fx-background-color: #000080;
+
 }
 
 .label-bright {
@@ -103,16 +104,16 @@
 .button {
     -fx-cursor : hand;
     -fx-padding: 5 22 5 22;
-    /*-fx-border-color: #e2e2e2;
-    /*-fx-border-width: 2;*/
     -fx-background-radius: 0;
     -fx-background-color: #7D7DFF;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 11pt;
+    -fx-font-size: 9pt;
     -fx-text-fill: #d8d8d8;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
     -fx-alignement: center;
-    -fx-pref-width: 148.0;
+    -fx-pref-width: 138.0;
+    -fx-text-alignment: left;
+
 }
 
 .button:hover {
