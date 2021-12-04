@@ -7,14 +7,14 @@
 <?import up.visulog.ui.views.objects.*?>
 
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
-    <MainContainer layoutX="143.0" prefHeight="412.0" prefWidth="514.0">
-        <WebView fx:id="web" layoutX="119.0" minHeight="-1.0" prefHeight="414.0" prefWidth="396.0" />
+    <MainContainer layoutX="143.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="359.0" prefWidth="457.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <WebView fx:id="web" layoutX="119.0" minHeight="-1.0" minWidth="-1.0" prefHeight="1440.0" prefWidth="457.0" />
     </MainContainer>
-    <MenuRadioButton layoutX="119.0" layoutY="413.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="538.0" style="-fx-background-color: #000080;" />
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-4.0" prefHeight="63.0" prefWidth="148.0" style="-fx-background-color: #000080;" text="VISULOG" textAlignment="CENTER">
+    <MenuRadioButton layoutX="143.0" layoutY="413.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="457.0" style="-fx-background-color: #000080;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="0.0" />
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-4.0" prefHeight="63.0" prefWidth="148.0" style="-fx-background-color: #000080;" text="VISULOG" textAlignment="CENTER" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="0.0">
         <font>
             <Font name="Courier New" size="25.0" />
         </font>
     </Label>
-    <VMenuButton layoutX="-4.0" layoutY="47.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="148.0" style="-fx-background-color: #000080;" />
+    <VMenuButton layoutX="-4.0" layoutY="47.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="148.0" style="-fx-background-color: #000080;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="47.0" />
 </AnchorPane>
