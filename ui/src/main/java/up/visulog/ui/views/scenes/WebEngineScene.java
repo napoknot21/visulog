@@ -20,6 +20,7 @@ public class WebEngineScene extends VisulogScene
 
     Stage view;
     WebEngine webEngine;
+    WebView web;
 
     public WebEngineScene(View view) {
         super(new Label("Hello World"));
@@ -109,7 +110,8 @@ public class WebEngineScene extends VisulogScene
     private void initWebEngine(Node node) { //Fonction de parcours, initialise le webEngine
         if (node == null) return;
         if (node instanceof WebView) {
-            webEngine = ((WebView) node).getEngine();
+            web = (WebView) node;
+            webEngine = web.getEngine();
             return;
         }
         if (node instanceof SplitPane) initWebEngine((SplitPane) node);
@@ -118,5 +120,9 @@ public class WebEngineScene extends VisulogScene
 
     public WebEngine getWebEngine() {
         return webEngine;
+    }
+
+    public WebView getWeb() {
+        return web;
     }
 }

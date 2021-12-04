@@ -19,17 +19,7 @@ public class GraphParameter extends HBox
     Model model;
     Pane mainContainer;
     CheckBox graphique;
-    RadioButton pieChart,barChart;
-
-    public RadioButton getPieChart() {
-        return pieChart;
-    }
-
-    public RadioButton getBarChart() {
-        return barChart;
-    }
-
-    public GraphParameter (Pane mainContainer) {
+    public GraphParameter (MainContainer mainContainer) {
         this.mainContainer=mainContainer;
         graphique = new CheckBox("Graphique");
         this.getChildren().add(graphique);
@@ -45,24 +35,40 @@ public class GraphParameter extends HBox
     public void setup(VisulogScene scene) {
         this.model=scene.getModel();
         this.controller=scene.getController();
-        this.getChildren().addAll(initGraphParameters());
+        if (mainContainer instanceof MainContainer)
+        this.getChildren().addAll(initGraphParameters((MainContainer) mainContainer));
     }
 
-    private Collection<Node> initGraphParameters() {
-        LinkedList<Node> ret = new LinkedList<>();
-        ToggleGroup group = new ToggleGroup();
-        pieChart = initRadioButton("Pie Chart",group);
-        barChart = initRadioButton("Bar Chart", group);
-
-        ret.add(pieChart); ret.add(barChart);
+    private Collection<ChartButton> initGraphParameters(MainContainer mainContainer) {
+        LinkedList<ChartButton> ret = new LinkedList<>();
+        for (String plugin : ChartButton.NAME_TO_CHART_FILTER.keySet()) {
+            ret.add(initChartButton(plugin, mainContainer));
+        }
         return ret;
     }
 
-    private RadioButton initRadioButton(String label, ToggleGroup group) {
-        RadioButton ret = new RadioButton(label);
-        ret.setToggleGroup(group);
-        ret.setVisible(false);
-        controller.initAction(ret);
-        return ret;
+    private ChartButton initChartButton(String label, MainContainer mainContainer) {
+        ChartButton b = new ChartButton(label);
+        b.setVisible(false);
+        b.selectedProperty().addListener(e -> controller.applyFilter(b, mainContainer));
+        return b;
+    }
+
+    public static class ChartButton extends RadioButton
+            implements VisulogChartButtons {
+
+        String chartName;
+
+        public ChartButton (String label) {
+            super(label);
+            String v = "";
+            if (ChartButton.NAME_TO_CHART_FILTER.containsKey(label)) v = ChartButton.NAME_TO_CHART_FILTER.get(label);
+            this.chartName = v;
+            this.setToggleGroup(ChartButton.GROUP);
+        }
+
+        public String getChartName() {
+            return chartName;
+        }
     }
 }
