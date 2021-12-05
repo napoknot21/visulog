@@ -14,7 +14,7 @@ public class MergeCommit extends Commit{
     public String toString() { // la méthode pour afficher les caractéristiques d'un commit
         return "Commit{" +
                 "id='" + id + '\'' +
-                (mergedFrom != null ? ("mergedFrom...='" + mergedFrom + '\'') : "") +
+                "mergedFrom...='" + mergedFrom + '\''+
                 ", date='" + date + '\'' +
                 ", author='" + author + '\'' +
                 (description != null ? (", description='" + description + '\'') : "" )+ //the other optional field
