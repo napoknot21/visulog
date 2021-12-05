@@ -28,7 +28,7 @@ public class CountLinesPerAuthorPlugin implements AnalyzerPlugin {
             sinon renvoie un tableau vide */
             changes = result.lineChangesPerAuthor.getOrDefault(commit.author, changes);
             changes[0] += change.addedLines;
-            changes[1] -= change.removedLines;
+            changes[1] += change.removedLines;
             /* met à jour le tableau contenant les nb de lignes changées avec put (remplace la valeur précédente associée à la clé)
              * si la clé y est déjà  */
             result.lineChangesPerAuthor.put(commit.author, changes);

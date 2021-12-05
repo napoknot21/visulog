@@ -17,21 +17,34 @@ public class LineChanges extends ChangesDescription{
     }
 
     public static LineChanges parseDiffFromCommand (Path gitPath, Commit commit) {
-        return parseDiff(ChangesDescription.processCommand("git","diff --numstat " + commit.id, gitPath), commit);
+        String[] args = {"git", "log", "--numstat", commit.id};
+        return parseDiff(ChangesDescription.processCommand(args , gitPath), commit);
     }
 
     public static LineChanges parseDiff(BufferedReader reader, Commit commit){
         try {
-            String line = reader.readLine();
             int line_added = 0;
             int line_deleted = 0;
-            while (line.isEmpty()) {
-                String[] lineChanged = line.split(" ");
-                if (lineChanged[0].equals("-")) line_added += 0;
-                else line_added += Integer.valueOf(lineChanged[0]);
-                if (lineChanged[1].equals("-")) line_deleted += 0;
-                else line_deleted += Integer.valueOf(lineChanged[1]);
-                line = reader.readLine();
+            String line = reader.readLine();
+            line = reader.readLine();
+            String[] isMerged = line.split("\\s+");
+            if (isMerged[0].equals("Merge:")) return new LineChanges(0,0,commit);
+            while (!line.isEmpty()) line = reader.readLine();
+            line = reader.readLine();
+            while (!line.isEmpty()) line = reader.readLine();
+            line = reader.readLine();
+            while (line != null) {
+                if (!line.isEmpty()) {
+                    String[] lineChanged = line.split("\\s+");
+                    if (lineChanged[0].equals("-")) line_added += 0;
+                    else line_added += Integer.valueOf(lineChanged[0]);
+                    if (lineChanged[1].equals("-")) line_deleted += 0;
+                    else line_deleted += Integer.valueOf(lineChanged[1]);
+                    line = reader.readLine();
+                }else{
+                    reader.close();
+                    break;
+                }
             }
             LineChanges cc = new LineChanges(line_added, line_deleted,commit);
             return cc;
