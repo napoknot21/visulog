@@ -4,19 +4,22 @@ import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.MergeCommit;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class CountMergeCommitsPerAuthorPlugin extends CountCommitsPerAuthorPlugin{
-
+public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
+    private final Configuration configuration;
+    private Result result;
 
     public CountMergeCommitsPerAuthorPlugin(Configuration generalConfiguration) {
-        super(generalConfiguration);
+        this.configuration=generalConfiguration;
     }
 
     static Result processLog(List<Commit> gitLog) {
-        var result = new Result(); /* Crée un HashMap qui va associer auteur(key) à nb de commit(value) */
+        var result = new Result();
 
-        /*Parcous les commits*/
+
         for (var commit : gitLog) {
             /*Cherche dans result si "commit.author" est déjà associé à un nb de commit:
             si c'est le cas renvoie le nb de commit
@@ -30,5 +33,38 @@ public class CountMergeCommitsPerAuthorPlugin extends CountCommitsPerAuthorPlugi
             }
         }
         return result;
+    }
+
+    @Override
+    public void run() {
+        result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()));
+    }
+
+    @Override
+    public Result getResult() {
+        if (result == null) run();
+        return result;
+    }
+    static class Result implements AnalyzerPlugin.Result {
+        protected final Map<String, Integer> commitsPerAuthor = new HashMap<>(); //FIXME : protected ou private ?
+
+        Map<String, Integer> getCommitsPerAuthor() {
+            return commitsPerAuthor;
+        }
+
+        @Override
+        public String getResultAsString() {
+            return commitsPerAuthor.toString();
+        }
+
+        @Override
+        public String getResultAsHtmlDiv() {
+            StringBuilder html = new StringBuilder("<div>Merge commits per author: <ul>");
+            for (var item : commitsPerAuthor.entrySet()) {
+                html.append("<li>").append(item.getKey()).append(": ").append(item.getValue()).append("</li>");
+            }
+            html.append("</ul></div>");
+            return html.toString();
+        }
     }
 }

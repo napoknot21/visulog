@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;1,200&display=swap');
+
+*{
+    list-style: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+a{
+    color: #f1f1f1;
+}
+
+body{
+    position: relative;
+    min-height: 100vh;
+    width: 80%;
+    left: 20%;
+    overflow: hidden;
+    display: grid;
+    justify-content: center;
+
+}
+
+h1{
+    text-align: center;
+}
+
+nav{
+    height: 100%;
+    width: 15%;
+    background-color: #23222c;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: #f1f1f1;
+    padding: 6px 14px;
+}
+
+.logo_name{
+    border-radius: 50px;
+background: #23222c;
+box-shadow:  9px 9px 18px #0e0e12,
+             -9px -9px 18px #383646;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    font-size: 22px;
+}
+
+nav ul{
+    margin-top: 20px;
+}
+
+nav ul li{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin: 0 5px;
+  
+}
+
+nav ul li .tooltip{
+    position: absolute;
+    left: 190px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 35px;
+    width: 122px;
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    line-height: 35px;
+    text-align: center;
+    transition: 0s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+nav ul li:focus{
+    background-color: #f1f1f1;
+}
+
+nav ul li:hover .tooltip{
+   top: 50%;
+   opacity: 1;
+   transition: all 0.5s ease;
+}
+
+nav ul li a{
+    
+    display: flex;
+    align-items: center;
+    transition: all 0.4s ease;
+    border-radius: 12px;
+    padding: 10px;
+  
+}
+
+nav ul li a:hover{
+    background-color: #f1f1f1;
+    color: #11101d;
+}
+
+.graphique{
+    background-image: url(grapCam.jpg);
+    height: 300px;
+    width: 300px;
+ 
+}
+
