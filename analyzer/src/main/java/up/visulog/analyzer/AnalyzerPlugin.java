@@ -1,11 +1,14 @@
 package up.visulog.analyzer;
 
 import java.lang.module.Configuration;
+import java.util.Map;
 
 public interface AnalyzerPlugin {
     interface Result {
         String getResultAsString();
         String getResultAsHtmlDiv();
+        Map<String,Integer> getResultAsMap();
+
     }
 
     /**

@@ -4,7 +4,7 @@ import javafx.scene.control.RadioButton;
 import up.visulog.ui.model.Model;
 
 public class MethodRadioButton extends RadioButton
-        implements VisulogButtons {
+        implements PluginButtons {
     private String value = "";
 
     public MethodRadioButton(String label) {
