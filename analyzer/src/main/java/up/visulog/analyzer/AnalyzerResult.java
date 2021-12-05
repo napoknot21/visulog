@@ -19,7 +19,7 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
     }
 
     public String toHTML() { //renvoie les resultats dans un format HTML
-        String head = "<head><link href=\"styleHTML.css\" type=\"text/css\" rel=\"stylesheet\" /></head>";
+        String head = "<head></head>";
         String body =  "<body>"+subResults.stream().map(AnalyzerPlugin.Result::getResultAsHtmlDiv).reduce("", (acc, cur) -> acc + cur) + "</body>";
         return "<html>" + head + body + "</html>";
     }
