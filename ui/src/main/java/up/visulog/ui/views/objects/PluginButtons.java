@@ -7,4 +7,6 @@ public interface PluginButtons {
     void setValue(String plugin);
 
     String getPlugin();
+
+    String getText();
 }

@@ -2,7 +2,8 @@ package up.visulog.ui.views;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import up.visulog.ui.views.scenes.*;
+import up.visulog.ui.views.scenes.VisulogScene;
+import up.visulog.ui.views.scenes.WebEngineScene;
 
 
 public class View extends Stage {
@@ -13,6 +14,8 @@ public class View extends Stage {
         super();
         updateScene(new WebEngineScene(this));
         setTitle("Visulog");
+        setHeight(480);
+        setWidth(720);
         setOnCloseRequest(
                 (event -> {
                     Platform.exit();
