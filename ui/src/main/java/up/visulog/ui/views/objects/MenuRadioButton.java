@@ -45,8 +45,8 @@ public class MenuRadioButton extends VMenu
     }
 
 
-    class MenuRadioButtonItem extends MethodRadioButton
-            implements VisulogButtons { // Correspond a un radio button
+    static class MenuRadioButtonItem extends MethodRadioButton
+            implements PluginButtons { // Correspond a un radio button
         public MenuRadioButtonItem(String label) {
             super(label);
             this.setLayoutX(nextPosX);

@@ -2,9 +2,9 @@ package up.visulog.ui.controllers;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.chart.Chart;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
@@ -12,9 +12,7 @@ import up.visulog.ui.model.Model;
 import up.visulog.ui.views.View;
 import up.visulog.ui.views.objects.*;
 import up.visulog.ui.views.scenes.VisulogScene;
-import up.visulog.ui.views.objects.GraphParameter.ChartButton;
 
-import java.lang.invoke.MethodType;
 import java.nio.file.FileSystems;
 import java.util.HashMap;
 
@@ -32,7 +30,7 @@ public class Controller {
 
     MenuRadioButton menuRadioButton;
 
-    public void executeAction(VisulogButtons b) {
+    public void executeAction(PluginButtons b) {
         if (b == null) return;
         runPlugin(b);
         this.scene.update(model.toHtml());
@@ -40,14 +38,14 @@ public class Controller {
 
     public void executeAction(MethodButton b) {
         if (b == null) return;
-        executeAction((VisulogButtons) b);
+        executeAction((PluginButtons) b);
         if (menuRadioButton != null) {
             menuRadioButton.initMenuButtonAction(b.getPlugin());
         }
 
     }
 
-    protected void runPlugin(VisulogButtons b) {  //Execute le plugin Todo: amelioration de cette partie
+    protected void runPlugin(PluginButtons b) {  //Execute le plugin Todo: amelioration de cette partie
         var PLUGINS = Model.PLUGINS;
         if (!PLUGINS.containsKey(b.getValue())) return;
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
@@ -93,18 +91,33 @@ public class Controller {
     }
 
     public void switchWebMode(GraphParameter container, MainContainer mainContainer) {
-        container.getChildren().forEach(node -> {if (node instanceof VisulogChartButtons) node.setVisible(false);});
+        container.getChildren().forEach(node -> {if (node instanceof ChartButtons) node.setVisible(false);});
+        mainContainer.getChildren().removeIf(node -> node instanceof Chart);
         mainContainer.getChildren().add(mainContainer.getWeb());
     }
 
     public void switchGraphMode(HBox container, MainContainer mainContainer) {
-        container.getChildren().forEach(node -> {if (node instanceof VisulogChartButtons) node.setVisible(true);});
+        container.getChildren().forEach(node -> {
+            if (node instanceof ChartButtons) {
+                node.setVisible(true);
+                Chart chart =((ChartButton) node).getChart();
+                if (chart != null) mainContainer.getChildren().add(chart);
+            }
+        });
         mainContainer.getChildren().remove(mainContainer.getWeb());
     }
 
+    //fixme: possibility to show chart without any plugin launched
+    //fixme: update the chart when a plugin is launched
     public void applyFilter (ChartButton b, MainContainer mainContainer) {
-            if (b.isSelected()) System.out.println(b.getText() + " checked");
-            else System.out.println(b.getText() + " unchecked");
+            if (b.isSelected()) {
+                b.update();
+                mainContainer.getChildren().add(b.getChart());
+            }
+            else {
+                b.setChart(null);
+                mainContainer.getChildren().removeIf(node -> node instanceof Chart);
+            }
     }
 
 

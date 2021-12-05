@@ -1,6 +1,6 @@
 package up.visulog.ui.views.objects;
 
-public interface VisulogButtons {
+public interface PluginButtons {
 
     String getValue();
 

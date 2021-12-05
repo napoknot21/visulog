@@ -42,8 +42,8 @@ public class VMenuButton extends VMenu
     }
 
 
-    class MenuButtonItem extends MethodButton
-            implements VisulogButtons { // Represente les boutons du menu
+    static class MenuButtonItem extends MethodButton
+            implements PluginButtons { // Represente les boutons du menu
 
         public MenuButtonItem(String label) {
             super(label);

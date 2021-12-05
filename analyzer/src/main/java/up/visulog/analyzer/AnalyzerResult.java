@@ -1,6 +1,8 @@
 package up.visulog.analyzer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnalyzerResult { //classe qui contient les resultats obtenus via Analyzer sous forme de liste
     public List<AnalyzerPlugin.Result> getSubResults() {
@@ -13,9 +15,21 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
         this.subResults = subResults;
     }
 
+    public Map <String,Integer> toMap () {
+        return subResults.stream().map(AnalyzerPlugin.Result::getResultAsMap).reduce(new HashMap<>(), (map1, map2) -> {
+            for (String key : map2.keySet()) {
+                int value2 = map2.getOrDefault(key,0);
+                int value1 = map1.getOrDefault(key, 0);
+                map1.put(key,value1+value2);
+            }
+            return map1;
+        });
+    }
+
     @Override
     public String toString() { //renvoie les resultats en tant que String
-        return subResults.stream().map(AnalyzerPlugin.Result::getResultAsString).reduce("", (acc, cur) -> acc + "\n" + cur);
+         return subResults.stream().map(AnalyzerPlugin.Result::getResultAsString).reduce("", (acc, cur) -> acc + "\n" + cur);
+
     }
 
     public String toHTML() { //renvoie les resultats dans un format HTML

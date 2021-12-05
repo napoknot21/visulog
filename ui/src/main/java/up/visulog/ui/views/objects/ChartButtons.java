@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public interface VisulogChartButtons {
+public interface ChartButtons {
 
     ToggleGroup GROUP = new ToggleGroup();
     HashMap<String, String> NAME_TO_CHART_FILTER = initNameToChartFilter();

@@ -2,6 +2,8 @@ package up.visulog.ui.model;
 
 import up.visulog.analyzer.AnalyzerResult;
 
+import java.util.Map;
+
 public class Model implements MapRelations {
 
     private AnalyzerResult result;
@@ -16,6 +18,10 @@ public class Model implements MapRelations {
         if (result == null) return "";
         System.out.println(result.toHTML());
         return result.toHTML();
+    }
+
+    public Map<String,Integer> getResultAsMap () {
+        return this.result.toMap();
     }
 
     public AnalyzerResult getResult() {
