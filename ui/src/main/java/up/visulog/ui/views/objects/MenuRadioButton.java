@@ -3,6 +3,7 @@ package up.visulog.ui.views.objects;
 import javafx.scene.Node;
 import up.visulog.ui.controllers.Controller;
 import up.visulog.ui.model.Model;
+import up.visulog.ui.views.scenes.VisulogScene;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,11 @@ public class MenuRadioButton extends VMenu
         return buttons;
     }
 
+    @Override
+    public void setup(VisulogScene scene) {
+        super.setup(scene);
+        this.getController().setMenuRadioButton(this);
+    }
 
     public void initMenuButtonAction(String plugin) { //Initialise l'action de chaque Radio button en fonction de leur filtre
         Controller controller = getController();

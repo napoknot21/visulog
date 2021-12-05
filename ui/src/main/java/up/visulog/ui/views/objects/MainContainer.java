@@ -31,6 +31,7 @@ public class MainContainer extends VBox
 
         this.controller = scene.getController();
         this.model = scene.getModel();
+        controller.setMainContainer(this);
         if (scene instanceof WebEngineScene)
             this.web = ((WebEngineScene) scene).getWeb();
             this.webEngine = web.getEngine();

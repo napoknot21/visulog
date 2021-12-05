@@ -31,7 +31,6 @@ public class WebEngineScene extends VisulogScene
             loader.setLocation(WebEngineScene.class.getResource("/up/visulog/ui/views/RootLayout.fxml"));
             Parent root = loader.load();
             setRoot(root);
-            getController().setMenuRadioButton();
             initWebEngine();
             setupChildren();
         } catch (IOException e) {

@@ -27,7 +27,7 @@ implements ChartButtons, SceneChild {
         return chartName;
     }
 
-    public abstract void update();
+    public abstract void update(String chartTitle);
 
     @Override
     public void setup(VisulogScene scene) {
