@@ -1,0 +1,11 @@
+body{
+    background-color: #fDfDfD;
+}
+
+div{
+    background-color: red;
+    text-decoration :  underline;
+            word-spacing :     10px;
+            background-color : #adff2f;/* greenyellow */
+            padding :          5px;
+}

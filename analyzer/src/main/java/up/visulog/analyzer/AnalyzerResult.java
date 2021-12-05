@@ -19,7 +19,9 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
     }
 
     public String toHTML() { //renvoie les resultats dans un format HTML
-        return "<html><body>"+subResults.stream().map(AnalyzerPlugin.Result::getResultAsHtmlDiv).reduce("", (acc, cur) -> acc + cur) + "</body></html>";
+        String head = "<head><link href=\"styleHTML.css\" type=\"text/css\" rel=\"stylesheet\" /></head>";
+        String body =  "<body>"+subResults.stream().map(AnalyzerPlugin.Result::getResultAsHtmlDiv).reduce("", (acc, cur) -> acc + cur) + "</body>";
+        return "<html>" + head + body + "</html>";
     }
 
     /*Informations un peu plus détaillées sur ce que renvoient les méthodes toString() et toHTML():
