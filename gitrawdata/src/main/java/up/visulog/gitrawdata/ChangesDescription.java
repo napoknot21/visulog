@@ -1,9 +1,6 @@
 package up.visulog.gitrawdata;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.Date;
 
@@ -21,14 +18,14 @@ public class ChangesDescription { //objets qui définissent un changement apport
         this.description = description;
     }
 
-    public static BufferedReader processCommand (String cmd, String arg, Path gitPath) {
+    public static BufferedReader processCommand (String[] args, Path gitPath) {
         ProcessBuilder builder =
-                new ProcessBuilder(cmd, arg).directory(gitPath.toFile());
+                new ProcessBuilder(args).directory(gitPath.toFile());
         Process process;
         try {
             process = builder.start();
         } catch (IOException e) {
-            throw new RuntimeException("Error running\"" +cmd+" "+arg+"\".", e);
+            throw new RuntimeException("Error running\"" +args[0]+" "+args[2]+"\".", e);
         }
         InputStream is = process.getInputStream();
         return new BufferedReader(new InputStreamReader(is));
