@@ -10,7 +10,7 @@ public class BarChartButton extends ChartButton{
     }
 
     @Override
-    public void update() {
+    public void update(String chartName) {
         setChart(new PieChart());
     }
 }

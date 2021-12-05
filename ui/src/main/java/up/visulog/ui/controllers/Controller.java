@@ -27,7 +27,8 @@ public class Controller {
         this.model = model;
         this.scene = scene;
     }
-
+    GraphParameter graphParameter;
+    MainContainer mainContainer;
     MenuRadioButton menuRadioButton;
 
     public void executeAction(PluginButtons b) {
@@ -52,51 +53,29 @@ public class Controller {
         var plugin = new HashMap<String, PluginConfig>();
         plugin.put(b.getValue(), PLUGINS.get(b.getValue()));
         var config = new Configuration(gitPath, plugin);
-        model.update(new Analyzer(config).computeResults());
+        model.update(new Analyzer(config).computeResults(), b.getPlugin());
+        this.updateMainContainer();
     }
 
-    public void setMenuRadioButton() { //Cherche dans l'arborescene le menuRadioButton
-        var nodeList = scene.getRoot().getChildrenUnmodifiable();
-        if (nodeList == null) return;
-        for (Node node : nodeList) {
-
-            setMenuRadioButton(node);
-        }
+    private void updateMainContainer() {
+        graphParameter.getGraphique().setVisible(true);
+        graphParameter.getChildren().forEach(node -> {
+            if (node instanceof ChartButton && ((ChartButton) node).isSelected()) {
+                ChartButton button = (ChartButton) node;
+                mainContainer.getChildren().remove(button.getChart());
+                button.update(model.getCurrentPlugin());
+                mainContainer.getChildren().add(button.getChart());
+            }
+        });
     }
 
-    private void setMenuRadioButton(Node node) { //Fonction de parcours, Cherche dans l'arborescene le menuRadioButton
-        if (node == null) return;
-        if (node instanceof MenuRadioButton) {
-            menuRadioButton = (MenuRadioButton) node;
-            return;
-        }
-        if (node instanceof SplitPane) setMenuRadioButton((SplitPane) node);
-        else setMenuRadioButton((Parent) node);
-    }
-
-    private void setMenuRadioButton(SplitPane parent) { //Fonction de parcours, Cherche dans l'arborescene le menuRadioButton
-        if (parent == null) return;
-        var nodeList = parent.getItems();
-        for (Node node : nodeList) {
-            setMenuRadioButton(node);
-        }
-    }
-
-    private void setMenuRadioButton(Parent parent) { //Fonction de parcours, Cherche dans l'arborescene le menuRadioButton
-        if (parent == null) return;
-        var nodeList = parent.getChildrenUnmodifiable();
-        for (Node node : nodeList) {
-            setMenuRadioButton(node);
-        }
-    }
-
-    public void switchWebMode(GraphParameter container, MainContainer mainContainer) {
+    public void switchWebMode(GraphParameter container) {
         container.getChildren().forEach(node -> {if (node instanceof ChartButtons) node.setVisible(false);});
         mainContainer.getChildren().removeIf(node -> node instanceof Chart);
         mainContainer.getChildren().add(mainContainer.getWeb());
     }
 
-    public void switchGraphMode(HBox container, MainContainer mainContainer) {
+    public void switchGraphMode(HBox container) {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) {
                 node.setVisible(true);
@@ -107,11 +86,9 @@ public class Controller {
         mainContainer.getChildren().remove(mainContainer.getWeb());
     }
 
-    //fixme: possibility to show chart without any plugin launched
-    //fixme: update the chart when a plugin is launched
-    public void applyFilter (ChartButton b, MainContainer mainContainer) {
+    public void applyFilter (ChartButton b) {
             if (b.isSelected()) {
-                b.update();
+                b.update(model.getCurrentPlugin());
                 mainContainer.getChildren().add(b.getChart());
             }
             else {
@@ -120,5 +97,15 @@ public class Controller {
             }
     }
 
+    public void setGraphParameter(GraphParameter graphParameter) {
+        this.graphParameter = graphParameter;
+    }
 
+    public void setMenuRadioButton(MenuRadioButton menuRadioButton) {
+        this.menuRadioButton = menuRadioButton;
+    }
+
+    public void setMainContainer(MainContainer mainContainer) {
+        this.mainContainer = mainContainer;
+    }
 }

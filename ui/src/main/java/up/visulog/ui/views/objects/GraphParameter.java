@@ -20,15 +20,16 @@ public class GraphParameter extends HBox
     Model model;
     Pane mainContainer;
     CheckBox graphique;
+
     public GraphParameter (MainContainer mainContainer) {
         this.mainContainer=mainContainer;
         graphique = new CheckBox("Graphique");
         this.getChildren().add(graphique);
-
+        graphique.setVisible(false);
         GraphParameter container = this;
         graphique.selectedProperty().addListener(e -> {
-            if (graphique.isSelected()) controller.switchGraphMode(container,mainContainer);
-            else controller.switchWebMode(container, mainContainer);
+            if (graphique.isSelected()) controller.switchGraphMode(container);
+            else controller.switchWebMode(container);
         });
     }
 
@@ -36,6 +37,7 @@ public class GraphParameter extends HBox
     public void setup(VisulogScene scene) {
         this.model=scene.getModel();
         this.controller=scene.getController();
+        controller.setGraphParameter(this);
         if (mainContainer instanceof MainContainer)
         this.getChildren().addAll(initGraphParameters((MainContainer) mainContainer));
     }
@@ -54,7 +56,7 @@ public class GraphParameter extends HBox
     private ChartButton initChartButton(String label, MainContainer mainContainer, String plugin) throws ReflectiveOperationException {
         ChartButton b = classInstance(label,plugin);
         b.setVisible(false);
-        b.selectedProperty().addListener(e -> controller.applyFilter(b, mainContainer));
+        b.selectedProperty().addListener(e -> controller.applyFilter(b));
         return b;
     }
 
@@ -66,4 +68,7 @@ public class GraphParameter extends HBox
         return Class.forName("up.visulog.ui.views.objects."+plugin+"Button"); // returns the Class object for the plugin
     }
 
+    public CheckBox getGraphique() {
+        return graphique;
+    }
 }

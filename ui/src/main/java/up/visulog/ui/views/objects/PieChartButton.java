@@ -18,16 +18,16 @@ public class PieChartButton extends ChartButton{
     }
 
     @Override
-    public void update() {
-        setChart(new PieChart((ObservableList<PieChart.Data>)getData()));
+    public void update(String chartName) {
+        Chart chart = new PieChart(getData());
+        chart.setTitle(chartName);
+        setChart(chart);
     }
 
     protected ObservableList<PieChart.Data> getData() {
         Map<String, Integer> result = getModel().getResultAsMap();
         LinkedList<PieChart.Data> list = new LinkedList<>();
-        result.forEach((key,value) -> {
-            list.add(new PieChart.Data(key,value));
-        });
+        result.forEach((key,value) -> list.add(new PieChart.Data(key,value)));
         return FXCollections.observableArrayList(list);
         }
 
