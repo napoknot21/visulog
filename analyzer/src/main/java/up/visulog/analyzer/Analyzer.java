@@ -16,6 +16,8 @@ package up.visulog.analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -75,5 +77,18 @@ public class Analyzer {
         return c;
     }
 
-
+    public static ArrayList<String> listOfPlugins(String root){
+        ArrayList<String> pluginsList = new ArrayList<>();
+        try{
+            File dir = new File(root+"/analyzer/src/main/java/up/visulog/analyzer");
+            File [] files = dir.listFiles();
+            for(File classes : files){
+                if (classes.getName().endsWith("Plugin.java") && !classes.getName().equals("AnalyzerPlugin.java"))
+                    pluginsList.add(classes.getName().replace("Plugin.java",""));
+            }
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+        return pluginsList;
+    }
 }
