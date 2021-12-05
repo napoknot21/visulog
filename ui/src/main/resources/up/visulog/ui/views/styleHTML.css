@@ -1,11 +1,5 @@
-body{
-    background-color: #fDfDfD;
+*{
+    list-style: none;
+    background-color: grey;
 }
 
-div{
-    background-color: red;
-    text-decoration :  underline;
-            word-spacing :     10px;
-            background-color : #adff2f;/* greenyellow */
-            padding :          5px;
-}
