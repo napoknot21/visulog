@@ -48,6 +48,7 @@ public class WebEngineScene extends VisulogScene
     public void update(String s) {
         webEngine.loadContent(s);
         //Todo add the CSS here with webEngine.setUserStyleSheetLocation(String path);
+        webEngine.setUserStyleSheetLocation(String.valueOf(WebEngineScene.class.getResource("/up/visulog/ui/views/styleHTML.css")));
     }
 
     private void setupChildren() {
