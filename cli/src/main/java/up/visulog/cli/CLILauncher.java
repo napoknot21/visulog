@@ -18,7 +18,7 @@ public class CLILauncher {
             var results = analyzer.computeResults(); //recupere les resultats de l'analyzer (voir Analyzer.java)
             System.out.println(results.toHTML()); //affiche ces resultats au format HTML
         } else {
-            System.out.println("Wrong command...");
+            System.out.println("[UNKNOWN ARGUMENTS]");
             displayHelpAndExit(); //voir fonction ci dessous
         }
     }
@@ -52,14 +52,13 @@ public class CLILauncher {
                             try{
                                 if (Analyzer.findClassPlugins(pValue)!=null) plugins.put(pValue, new PluginConfig());
                             }catch(ClassNotFoundException e){
-                                displayHelpAndExit();
+                                return Optional.empty();
                             }
 
                             break;
                         case "--loadConfigFile":
                             // TODO#2 (load options from a file)
                                 if(pValue.length()==0){
-                                    System.out.println("ici");
                                     displayHelpAndExit();
 
                                 } else{
@@ -125,16 +124,22 @@ public class CLILauncher {
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
 
-        //En théorie, cela devrait afficher les arguments et leurs valeurs
-        //Il va falloir finir le switch precedent pour completer toutes les valeurs des arguments dans cette fonction
-        //Je propose ce "format" :
-        System.out.println("Try it again with this format: '. --[NAME_ARGUMENT]=[ARG_VALUE]'");
-        System.out.println("Some options...");
-        System.out.println(". --addPlugin="); //nom de l'argument
-        System.out.println("        countCommits"); //Deux tabulations pour les valuers possibles de l'argument courant
-        System.out.println(". --loadConfigFile=");
-        System.out.println(". --justSaveConfigFile=");
+        System.out.print("---Manual---" +
+                "\nTo run the software through gradle, you need to pass the program arguments behind '--args=' ." +
+                "\nFor instance: ./gradlew run --args='. --addPlugin=CountCommits' : " +
+                "Will count the commits of each author in the current branch of the git repository present in the current folder (\".\")." +
+                "\n\nValid arguments: " +
+                "\n\t\t --addPlugin=");
+        for(String plugins : Analyzer.listOfPlugins("..")){
+            System.out.print("\n\t\t\t"+plugins);
+        }
+        System.out.print("\n\t\t --loadConfigFile=[pluginName*] : to load an existing plugin in the configuration" +
+                "\n\t\t --justSaveConfigFile=[pluginName*] : to save a plugin in the configuration" +
+                "\n\n *from the list of plugins above" );
+
         //TODO#4: print the list of options and their syntax
         System.exit(0);
     }
+
+
 }

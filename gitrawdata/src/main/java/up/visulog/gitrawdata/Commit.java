@@ -16,7 +16,8 @@ public class Commit extends ChangesDescription{
 
     // TODO#1: factor this out (similar code will have to be used for all git commands)
     public static List<Commit> parseLogFromCommand (Path gitPath) {  //renvoie la liste des commits selon le chemin git saisi en argument
-        return parseLog(ChangesDescription.processCommand ("git","log",gitPath));
+        String[] args = {"git","log"};
+        return parseLog(ChangesDescription.processCommand (args ,gitPath));
     }
 
     public static List<Commit> parseLog(BufferedReader reader) { //analyse le log de git et renvoie la liste des commits contenus
