@@ -16,7 +16,7 @@ public class Model implements MapRelations {
 
     }
 
-    public boolean isPluginLaunched () {
+    public boolean isPluginLaunched() {
         return this.result != null;
     }
 
@@ -30,7 +30,7 @@ public class Model implements MapRelations {
         return result.toHTML();
     }
 
-    public Map<String,Integer> getResultAsMap () {
+    public Map<String, Integer> getResultAsMap() {
         return this.result.toMap();
     }
 

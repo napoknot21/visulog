@@ -1,7 +1,6 @@
 package up.visulog.ui.views.objects;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import up.visulog.ui.controllers.Controller;
 import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;

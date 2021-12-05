@@ -1,21 +1,19 @@
-package up.visulog.ui.views.objects;
+package up.visulog.ui.views.objects.chart;
 
-import javafx.collections.ObservableList;
 import javafx.scene.chart.Chart;
 import javafx.scene.control.RadioButton;
 import up.visulog.ui.model.Model;
+import up.visulog.ui.views.objects.SceneChild;
 import up.visulog.ui.views.scenes.VisulogScene;
 
-import java.util.List;
-
 public abstract class ChartButton extends RadioButton
-implements ChartButtons, SceneChild {
+        implements ChartButtons, SceneChild {
 
-    private String chartName;
+    private final String chartName;
     private Model model;
     private Chart chart;
 
-    public ChartButton (String label) {
+    public ChartButton(String label) {
         super(label);
         String v = "";
         if (ChartButton.NAME_TO_CHART_FILTER.containsKey(label)) v = ChartButton.NAME_TO_CHART_FILTER.get(label);
@@ -27,7 +25,7 @@ implements ChartButtons, SceneChild {
         return chartName;
     }
 
-    public abstract void update(String chartTitle);
+    public abstract void update(String chartTitle); //Met a jour le graphe
 
     @Override
     public void setup(VisulogScene scene) {
@@ -44,5 +42,9 @@ implements ChartButtons, SceneChild {
 
     public void setChart(Chart chart) {
         this.chart = chart;
+    }
+
+    public boolean isChartSet() {
+        return chart != null;
     }
 }

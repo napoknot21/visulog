@@ -15,7 +15,7 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
         this.subResults = subResults;
     }
 
-    public Map <String,Integer> toMap () {
+    public Map <String,Integer> toMap () { //Renvoi les resultats en tant que map
         return subResults.stream().map(AnalyzerPlugin.Result::getResultAsMap).reduce(new HashMap<>(), (map1, map2) -> {
             for (String key : map2.keySet()) {
                 int value2 = map2.getOrDefault(key,0);
