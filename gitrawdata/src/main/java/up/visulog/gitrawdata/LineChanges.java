@@ -26,6 +26,7 @@ public class LineChanges extends ChangesDescription{
             int line_added = 0;
             int line_deleted = 0;
             String line = reader.readLine();
+            line = reader.readLine();
             String[] isMerged = line.split("\\s+");
             if (isMerged[0].equals("Merge:")) return new LineChanges(0,0,commit);
             while (!line.isEmpty()) line = reader.readLine();
