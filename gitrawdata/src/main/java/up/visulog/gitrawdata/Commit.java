@@ -2,6 +2,7 @@ package up.visulog.gitrawdata;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public class Commit extends ChangesDescription{
 
-    public Commit(String id, String author, Date date, String description) { // simplement le constructeur
+    public Commit(BigInteger id, String author, Date date, String description) { // simplement le constructeur
         super(id, author, date, description);
     }
 
