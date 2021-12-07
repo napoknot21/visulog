@@ -6,13 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PluginConfig implements Serializable { //Pour que les configurations puissent être stockées dans un fichier et réutilisées
+public class PluginConfig implements Serializable {
     public final Map<String, ArrayList<String>> config = new HashMap<>();
 
-
-    /*Encore à déterminer ce que value va représenter : j'hésite entre soit un path ou une commande (?) je ne sais pas à voir*/
     public PluginConfig(){}
-
 
 
     public PluginConfig(HashMap<String, ArrayList<String>> pluginConfig) {
