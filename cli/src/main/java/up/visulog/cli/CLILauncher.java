@@ -48,7 +48,6 @@ public class CLILauncher {
                         case "--addPlugin":
                             // TODO#1: parse argument and make an instance of PluginConfig
 
-                            // Let's just trivially do this, before the TODO is fixed:
                             try{
                                 if (Analyzer.findClassPlugins(pValue)!=null) plugins.put(pValue, new PluginConfig());
                             }catch(ClassNotFoundException e){
@@ -57,7 +56,6 @@ public class CLILauncher {
 
                             break;
                         case "--loadConfigFile":
-                            // TODO#2 (load options from a file)
                                 if(pValue.length()==0){
                                     displayHelpAndExit();
 
@@ -80,7 +78,6 @@ public class CLILauncher {
                                     }
                                 }
                         case "--justSaveConfigFile":
-                            // TODO#3 (save command line options to a file instead of running the analysis)
                             if (pValue.equals("")) displayHelpAndExit();
                             else {
                                 String pName_file = "--addPlugin=";
@@ -136,8 +133,6 @@ public class CLILauncher {
         System.out.print("\n\t\t --loadConfigFile=[pluginName*] : to load an existing plugin in the configuration" +
                 "\n\t\t --justSaveConfigFile=[pluginName*] : to save a plugin in the configuration" +
                 "\n\n *from the list of plugins above" );
-
-        //TODO#4: print the list of options and their syntax
         System.exit(0);
     }
 

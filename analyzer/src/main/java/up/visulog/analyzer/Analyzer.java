@@ -51,9 +51,6 @@ public class Analyzer {
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
     }
 
-    // TODO#2: find a way so that the list of plugins is not hardcoded in this factory
-
-
     protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
         /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
         if(this.config.getPluginConfigs().containsKey(pluginName)){
