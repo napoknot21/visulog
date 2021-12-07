@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.util.Date;
 
 public class ChangesDescription { //objets qui définissent un changement apporté à ub fichier (commits, mergecommits, ...)
-    // FIXME: (some of) these fields could have more specialized types than String (à verifier dans Commit.java et MergeCommit.java aussi)
     public final String id; // id est en hexadecimal d'après API
     public final Date date; // le moment auquel le commit a été réalisé
     public final String author; // le nom du collaborateur qui a commit
