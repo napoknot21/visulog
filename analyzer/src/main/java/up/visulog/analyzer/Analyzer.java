@@ -80,7 +80,10 @@ public class Analyzer {
             File dir = new File(root+"/analyzer/src/main/java/up/visulog/analyzer");
             File [] files = dir.listFiles();
             for(File classes : files){
-                if (classes.getName().endsWith("Plugin.java") && !classes.getName().equals("AnalyzerPlugin.java"))
+                if (classes.getName().endsWith("Plugin.java") &&
+                        !classes.getName().equals("AnalyzerPlugin.java") &&
+                        !classes.getName().equals("ResearchPlugin.java")
+                )
                     pluginsList.add(classes.getName().replace("Plugin.java",""));
             }
         }catch (Exception e ){

@@ -2,6 +2,7 @@ package up.visulog.cli;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
@@ -29,6 +30,14 @@ public class TestCLILauncher {
     }
 
     public static void main(String[] args) {
-        testArgumentParser();
+        //testArgumentParser();
+        String [] ar = new String[]{"--addPlugin=afkjkf","--alkdlfj","encore dans le deuxième", "--plus dans le deuxieme"};
+        ArrayList<String> aa = CLILauncher.inputFiltering(ar);
+        for(String s : aa) System.out.println(s);
+
+        String [] a = new String[0];
+        ArrayList<String> aaa = CLILauncher.inputFiltering(a);
+        for(String s : aaa) System.out.println(s);
+
     }
 }
