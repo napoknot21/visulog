@@ -34,12 +34,12 @@ public class CLILauncher {
         for (var arg : input) {
             if (arg.startsWith("--")) { //verifie que les arguments sont au format "--nomArg=valArg"
                 String[] parts = arg.split("="); //separe chaque argument en 2: le nom de l'argument (ex: "--addPlugin") et sa valeur ("ex: countCommits"), et les met dans un tableau
-
                 if (parts.length != 2) {
 
                     return Optional.empty(); //renvoie une valeur vide s'il manque le nom ou la valeur de l'argument
                 }
                 else {
+
                     String pName = parts[0];
                     String pValue = parts[1];
                     switch (pName) {
@@ -52,14 +52,13 @@ public class CLILauncher {
                             displayHelpAndExit(); break;
 
                         case "--addPlugin":
-                            // TODO#1: parse argument and make an instance of PluginConfig
-
                             try{
-                                if (Analyzer.findClassPlugins(pValue)!=null) plugins.put(pValue, new PluginConfig());
+                                if (Analyzer.findClassPlugins(pValue)!=null)
+                                    plugins.put(pValue, new PluginConfig());
                             }catch(ClassNotFoundException e){
+                                System.out.println("HEEERE");
                                 return Optional.empty();
                             }
-
                             break;
 
                         case "--research":
@@ -147,12 +146,14 @@ public class CLILauncher {
         while (pos<args.length){
             String str = "";
             do {
-                if (pos==0)
+                if (pos==0 || args[pos].startsWith("--") && !args[pos].startsWith("--research")){
                     str += args[pos++];
-                else
+                }
+                else{
                     str +=args[pos++]+" ";
-
+                }
             }while (pos < args.length && !args[pos].startsWith("--"));
+
             input.add(str);
         }
         return input;
