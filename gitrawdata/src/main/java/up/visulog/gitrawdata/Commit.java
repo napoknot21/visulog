@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Commit extends ChangesDescription{
+    public List<String> files = new ArrayList<>();
 
     public Commit(String id, String author, Date date, String description) { // simplement le constructeur
         super(id, author, date, description);
@@ -84,4 +85,5 @@ public class Commit extends ChangesDescription{
                 (description != null ? (", description='" + description + '\'') : "" )+ //the other optional field
                 '}';
     }
+
 }

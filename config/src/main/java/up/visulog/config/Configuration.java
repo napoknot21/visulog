@@ -24,6 +24,10 @@ public class Configuration implements Serializable { //Classe pour associer un c
         return plugins;
     }
 
+    public PluginConfig getPluginConfig(String key){
+        return plugins.get(key);
+    }
+
     public static Configuration loadConfigFile(String FilePath)  {
         try{
             File file = new File(FilePath);

@@ -6,8 +6,10 @@ import up.visulog.config.PluginConfig;
 
 import java.io.*;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class CLILauncher {
 
@@ -27,10 +29,14 @@ public class CLILauncher {
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
         var plugins = new HashMap<String, PluginConfig>(); //cree une hashmap avec pour cles des Strings et pour valeur des "PluginConfig" (-> à definir dans PluginConfig.java)
         /*Une hashmap est une sorte de liste qui associe à chaque valeur une clé qui permet de la retrouver facilement (bien plus pratique que les listes vues en L1) */
-        for (var arg : args) {
+
+        ArrayList<String> input = inputFiltering(args);
+        for (var arg : input) {
             if (arg.startsWith("--")) { //verifie que les arguments sont au format "--nomArg=valArg"
                 String[] parts = arg.split("="); //separe chaque argument en 2: le nom de l'argument (ex: "--addPlugin") et sa valeur ("ex: countCommits"), et les met dans un tableau
+
                 if (parts.length != 2) {
+
                     return Optional.empty(); //renvoie une valeur vide s'il manque le nom ou la valeur de l'argument
                 }
                 else {
@@ -55,6 +61,24 @@ public class CLILauncher {
                             }
 
                             break;
+
+                        case "--research":
+                            if(pValue.length()==0)
+                                displayHelpAndExit();
+                            else {
+                                ArrayList<String> keyWords = new ArrayList<>();
+                                try(Scanner sc = new Scanner(pValue)) {
+                                    while (sc.hasNext()) {
+                                        keyWords.add(sc.next());
+                                    }
+                                }
+
+                                HashMap <String, ArrayList<String>> pluginConfig = new HashMap<>();
+                                pluginConfig.put("keyWords",keyWords);
+                                plugins.put("research", new PluginConfig(pluginConfig));
+                            }
+                            break;
+
                         case "--loadConfigFile":
                                 if(pValue.length()==0){
                                     displayHelpAndExit();
@@ -113,9 +137,25 @@ public class CLILauncher {
         return Optional.of(new Configuration(gitPath, plugins)); //renvoie une configuration si c'est possible (si un plugin a bien ete defini)
     }
 
-    private static boolean check_directory(String path){
-        File directory = new File(path);
-        return (directory.exists());
+    public static ArrayList<String> inputFiltering(String [] args){
+        /*Pour traiter le cas où l'utilisateur pourra insèrer plusieures commandes à la fois
+        * cas limite : l'argument pValue peut contenir des espaces donc on traite ce cas ici
+        * pour que chaque argument soit délimiter par '--' qui se trouve au début de chaque commande
+        * */
+        ArrayList<String> input = new ArrayList<>();
+        int pos = 0 ;
+        while (pos<args.length){
+            String str = "";
+            do {
+                if (pos==0)
+                    str += args[pos++];
+                else
+                    str +=args[pos++]+" ";
+
+            }while (pos < args.length && !args[pos].startsWith("--"));
+            input.add(str);
+        }
+        return input;
     }
 
 
@@ -130,7 +170,8 @@ public class CLILauncher {
         for(String plugins : Analyzer.listOfPlugins("..")){
             System.out.print("\n\t\t\t"+plugins);
         }
-        System.out.print("\n\t\t --loadConfigFile=[pluginName*] : to load an existing plugin in the configuration" +
+        System.out.print("\n\t\t --research=[keyWord] : to load all commits related to the keyWord" +
+                "\n\t\t --loadConfigFile=[pluginName*] : to load an existing plugin in the configuration" +
                 "\n\t\t --justSaveConfigFile=[pluginName*] : to save a plugin in the configuration" +
                 "\n\n *from the list of plugins above" );
         System.exit(0);

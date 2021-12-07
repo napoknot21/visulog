@@ -2,7 +2,9 @@ package up.visulog.gitrawdata;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CommitBuilder {
@@ -11,6 +13,8 @@ public class CommitBuilder {
     private Date date;        //date de publication du commit
     private String description; //Description du commit
     // dont provient le commit
+
+    private List<String> files = new ArrayList<String>();
 
     public CommitBuilder(String id) {
         this.id = id;
