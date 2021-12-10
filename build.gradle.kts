@@ -13,7 +13,7 @@ allprojects {
     }
     plugins.apply("java")
 
-    java.sourceCompatibility = JavaVersion.VERSION_1_10
+    java.sourceCompatibility = JavaVersion.VERSION_11
 
 }
 
