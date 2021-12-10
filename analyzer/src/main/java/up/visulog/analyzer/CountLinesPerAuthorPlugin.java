@@ -69,5 +69,10 @@ public class CountLinesPerAuthorPlugin implements AnalyzerPlugin {
             html.append("</ul></div>");
             return html.toString();
         }
+
+        @Override
+        public Map<String, Integer> getResultAsMap() {
+            return null;
+        }
     }
 }
