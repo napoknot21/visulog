@@ -22,7 +22,7 @@ allprojects {
     plugins.apply("application")
     plugins.apply("org.openjfx.javafxplugin")
 
-    java.sourceCompatibility = JavaVersion.VERSION_1_10
+    java.sourceCompatibility = JavaVersion.VERSION_11
 
 }
 
