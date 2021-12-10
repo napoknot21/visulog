@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: define what this type should be (probably a Map: settingKey -> settingValue)
+
 public class PluginConfig implements Serializable { //Pour que les configurations puissent être stockées dans un fichier et réutilisées
     public final Map<String, String> settings = new HashMap<String, String>();
 

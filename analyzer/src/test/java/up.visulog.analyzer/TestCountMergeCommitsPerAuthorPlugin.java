@@ -15,7 +15,7 @@ public class TestCountMergeCommitsPerAuthorPlugin {
         for(Commit c : commitList){
             if (c instanceof MergeCommit) mergeCommitList.add(c);
         }
-        CountCommitsPerAuthorPlugin.Result res = CountMergeCommitsPerAuthorPlugin.processLog(mergeCommitList);
+        CountMergeCommitsPerAuthorPlugin.Result res = CountMergeCommitsPerAuthorPlugin.processLog(mergeCommitList);
         System.out.println(res.getResultAsHtmlDiv());
     }
 }

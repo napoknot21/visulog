@@ -2,6 +2,7 @@ package up.visulog.gitrawdata;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,13 +11,13 @@ import java.util.Optional;
 
 public class Commit extends ChangesDescription{
 
-    public Commit(String id, String author, Date date, String description) { // simplement le constructeur
+    public Commit(BigInteger id, String author, Date date, String description) { // simplement le constructeur
         super(id, author, date, description);
     }
 
-    // TODO#1: factor this out (similar code will have to be used for all git commands)
     public static List<Commit> parseLogFromCommand (Path gitPath) {  //renvoie la liste des commits selon le chemin git saisi en argument
-        return parseLog(ChangesDescription.processCommand ("git","log",gitPath));
+        String[] args = {"git","log"};
+        return parseLog(ChangesDescription.processCommand (args ,gitPath));
     }
 
     public static List<Commit> parseLog(BufferedReader reader) { //analyse le log de git et renvoie la liste des commits contenus

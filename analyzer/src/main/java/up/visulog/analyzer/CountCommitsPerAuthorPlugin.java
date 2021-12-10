@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
-    protected final Configuration configuration;
-    protected Result result;
+    private final Configuration configuration;
+    private Result result;
 
     public CountCommitsPerAuthorPlugin(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
     static Result processLog(List<Commit> gitLog) {
-        var result = new Result(); /* Crée un HashMap qui va associer auteur(key) à nb de commit(value) */
+        var result = new Result();
 
-        /*Parcours les commits*/
+
         for (var commit : gitLog) {
             /*Cherche dans result si "commit.author" est déjà associé à un nb de commit:
             si c'est le cas renvoie le nb de commit
@@ -44,9 +44,14 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
     }
 
     static class Result implements AnalyzerPlugin.Result {
+
         protected final Map<String, Integer> commitsPerAuthor = new HashMap<>(); //FIXME : protected ou private ?
 
+
+
+
         public Map<String, Integer> getResultAsMap() {
+
             return commitsPerAuthor;
         }
 
