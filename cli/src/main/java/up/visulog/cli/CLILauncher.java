@@ -14,9 +14,23 @@ import java.io.*;
 
 import java.nio.file.FileSystems;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class CLILauncher {
+
+    private static LinkedList<String> PLUGIN_NAME = initPluginName();//Fixme: A supprimer lorsque les plugin seront fonctionnels
+
+    private static LinkedList<String> initPluginName() {
+        PLUGIN_NAME = new LinkedList<>();
+        PLUGIN_NAME.add("CountCommitsPerAuthor");
+        PLUGIN_NAME.add("CountMergeCommitsPerAuthor");
+        //PLUGIN_NAME.add("CountLinesPerAuthor");
+        //Fixme: A supprimer lorsque les plugin seront fonctionnels
+
+        return PLUGIN_NAME;
+    }
 
     public static void main(String[] args) {
         if (args.length==0) return;
@@ -31,6 +45,7 @@ public class CLILauncher {
         }
     }
 
+
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) { //reçoit les arguments passés en ligne de commande
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
         var plugins = new HashMap<String, PluginConfig>(); //cree une hashmap avec pour cles des Strings et pour valeur des "PluginConfig" (-> à definir dans PluginConfig.java)
@@ -39,6 +54,12 @@ public class CLILauncher {
             if (arg.startsWith("--")) { //verifie que les arguments sont au format "--nomArg=valArg"
                 String[] parts = arg.split("="); //separe chaque argument en 2: le nom de l'argument (ex: "--addPlugin") et sa valeur ("ex: countCommits"), et les met dans un tableau
                 if (parts.length != 2) {
+
+                    if ((parts.length > 0 ) && (parts[0].equals("--allPlugin"))) {
+                        plugins = getAllPlugin();
+                        return  Optional.of(new Configuration(gitPath, plugins));
+                    }
+
                     return Optional.empty(); //renvoie une valeur vide s'il manque le nom ou la valeur de l'argument
                 }
                 else {
@@ -63,6 +84,7 @@ public class CLILauncher {
                             }
 
                             break;
+
                         case "--loadConfigFile":
                                 if(pValue.length()==0){
                                     displayHelpAndExit();
@@ -110,6 +132,7 @@ public class CLILauncher {
                                 }
                             }
                             break;
+
                         default:
                             return Optional.empty(); //renvoie une valeur vide si le nom de l'argument n'est pas valide
                     }
@@ -119,6 +142,13 @@ public class CLILauncher {
             }
         }
         return Optional.of(new Configuration(gitPath, plugins)); //renvoie une configuration si c'est possible (si un plugin a bien ete defini)
+    }
+
+    private static HashMap<String, PluginConfig> getAllPlugin() {
+        HashMap<String,PluginConfig> plugins = new HashMap<>();
+        PLUGIN_NAME.forEach(s -> plugins.put(s,new PluginConfig()));//Fixme: A supprimer lorsque les plugin seront fonctionnels
+        /*Analyzer.listOfPlugins("..").forEach(s -> plugins.put(s,new PluginConfig()));*/ //Fixme: A decomenter
+        return plugins;
     }
 
     private static boolean check_directory(String path){
