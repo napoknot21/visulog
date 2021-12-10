@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.web.*?>
-<?import up.visulog.ui.views.objects.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
-    <MainContainer layoutX="143.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="359.0" prefWidth="457.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <WebView fx:id="web" layoutX="119.0" minHeight="-1.0" minWidth="-1.0" prefHeight="1440.0" prefWidth="457.0" />
+<?import up.visulog.ui.views.objects.MainContainer?>
+<?import up.visulog.ui.views.objects.MenuRadioButton?>
+<?import up.visulog.ui.views.objects.VMenuButton?>
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <MainContainer layoutX="166.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="359.0" prefWidth="457.0" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="-23.0" AnchorPane.topAnchor="0.0">
+      <children>
+           <WebView fx:id="web" minHeight="-1.0" minWidth="-1.0" prefHeight="821.0" prefWidth="439.0" />
+      </children>
     </MainContainer>
-    <MenuRadioButton layoutX="143.0" layoutY="413.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="457.0" style="-fx-background-color: #000080;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="0.0" />
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-4.0" prefHeight="63.0" prefWidth="148.0" style="-fx-background-color: #000080;" text="VISULOG" textAlignment="CENTER" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="0.0">
+    <MenuRadioButton layoutX="166.0" layoutY="359.0" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="439.0" style="-fx-background-color: #7D7DFF;" AnchorPane.bottomAnchor="-1.3999999999999773" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="-5.0" />
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-4.0" prefHeight="63.0" prefWidth="170.0" style="-fx-background-color: #7D7DFF;" text="VISULOG" textAlignment="CENTER" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="0.0">
         <font>
             <Font name="Courier New" size="25.0" />
         </font>
     </Label>
-    <VMenuButton layoutX="-4.0" layoutY="47.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="148.0" style="-fx-background-color: #000080;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="47.0" />
+    <VMenuButton layoutX="-4.0" layoutY="47.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="463.0" prefWidth="170.0" style="-fx-background-color: #7D7DFF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="47.0" />
 </AnchorPane>
