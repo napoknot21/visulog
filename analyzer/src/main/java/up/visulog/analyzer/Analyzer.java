@@ -16,7 +16,12 @@ package up.visulog.analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.File;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,7 +40,7 @@ public class Analyzer {
         for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) {  
             var pluginName = pluginConfigEntry.getKey();
             var pluginConfig = pluginConfigEntry.getValue();
-            var plugin = makePlugin(pluginName, pluginConfig); /**on créé un nouvel Objet de plugin, qui correspond au pluginName et on le mets dans une boite*/
+            var plugin = makePlugin(pluginName); /**on créé un nouvel Objet de plugin, qui correspond au pluginName et on le mets dans une boite*/
             plugin.ifPresent(plugins::add);  /**on ajoute le plugin (s'il est bien dans la boite optional) à la liste plugins.*/
         }
         // run all the plugins
@@ -46,13 +51,41 @@ public class Analyzer {
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
     }
 
-    // TODO#2: find a way so that the list of plugins is not hardcoded in this factory
-    private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {  /**Cette méthode "fabrique" les plugins d'après les noms rentrés en ligne de commande.*/
-        switch (pluginName) {                                                                    /**Elle les places dans une boite qui peut être vide si le nom rentré ne correspond pas à celui d'un plugin.*/
-            case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
-            case "countMergeCommits" : return Optional.of(new CountMergeCommitsPerAuthorPlugin(config));
-            default : return Optional.empty(); /**dans le cas où pluginName n'est pas un plugin supporté*/
+    protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
+        /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
+        if(this.config.getPluginConfigs().containsKey(pluginName)){
+            try {
+                Constructor<?> classConstruct = findClassPlugins(pluginName).getConstructor(Configuration.class); // Get the constructor of the pluginClass using getConstructor() method
+
+                return Optional.of((AnalyzerPlugin)classConstruct.newInstance(this.config));
+
+            } catch (ReflectiveOperationException e){
+                e.printStackTrace();
+                System.out.println("Plugin not found.");
+                return Optional.empty();
+            }
         }
+        return Optional.empty();
     }
 
+    public static Class <?> findClassPlugins(String pluginName) throws ClassNotFoundException {
+        String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
+        Class<?> c = Class.forName("up.visulog.analyzer."+plug+"Plugin"); // returns the Class object for the plugin
+        return c;
+    }
+
+    public static ArrayList<String> listOfPlugins(String root){
+        ArrayList<String> pluginsList = new ArrayList<>();
+        try{
+            File dir = new File(root+"/analyzer/src/main/java/up/visulog/analyzer");
+            File [] files = dir.listFiles();
+            for(File classes : files){
+                if (classes.getName().endsWith("Plugin.java") && !classes.getName().equals("AnalyzerPlugin.java"))
+                    pluginsList.add(classes.getName().replace("Plugin.java",""));
+            }
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+        return pluginsList;
+    }
 }

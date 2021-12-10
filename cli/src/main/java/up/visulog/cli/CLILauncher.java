@@ -4,12 +4,15 @@ import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+
 import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+
+import java.io.*;
+
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -23,7 +26,7 @@ public class CLILauncher {
             var results = analyzer.computeResults(); //recupere les resultats de l'analyzer (voir Analyzer.java)
             System.out.println(results.toHTML()); //affiche ces resultats au format HTML
         } else {
-            System.out.println("Wrong command...");
+            System.out.println("[UNKNOWN ARGUMENTS]");
             displayHelpAndExit(); //voir fonction ci dessous
         }
     }
@@ -53,42 +56,46 @@ public class CLILauncher {
                         case "--addPlugin":
                             // TODO#1: parse argument and make an instance of PluginConfig
 
-                            // Let's just trivially do this, before the TODO is fixed:
-
-                            if (pValue.equals("countCommits"))
-                                plugins.put("countCommits", new PluginConfig() { });//si l'argument a pour valeur "countCommits", crée un
-
-                            else if (pValue.equals("countMergeCommits"))
-                                plugins.put("countMergeCommits", new PluginConfig(){});
-                            else
+                            try{
+                                if (Analyzer.findClassPlugins(pValue)!=null) plugins.put(pValue, new PluginConfig());
+                            }catch(ClassNotFoundException e){
                                 return Optional.empty();
+                            }
 
                             break;
                         case "--loadConfigFile":
-                            // TODO#2 (load options from a file)
-                                if(pValue.length()==0)
+                                if(pValue.length()==0){
                                     displayHelpAndExit();
 
-                                else if (check_directory(pValue)){
-                                    Configuration res = Configuration.loadConfigFile(pValue);
-                                    return Optional.ofNullable(res);
+                                } else{
+                                    File dir = new File("./Files");
+                                    if(!dir.isDirectory()) {
+                                        System.out.println("Files: no such directory.");
+                                        displayHelpAndExit();
+                                    }
+                                    try{
+                                        File f = new File("./Files/"+pValue+".txt");
+                                        if(!f.isFile()) {
+                                            System.out.println("The configFile doesn't exist.");
+                                            displayHelpAndExit();
+                                        }
+                                        BufferedReader br = new BufferedReader(new FileReader(f));
+                                        return makeConfigFromCommandLineArgs(new String[]{br.readLine()});
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                return Optional.empty();
-
                         case "--justSaveConfigFile":
-                            // TODO#3 (save command line options to a file instead of running the analysis)
                             if (pValue.equals("")) displayHelpAndExit();
                             else {
                                 String pName_file = "--addPlugin=";
-
-                                switch (pValue) {
-                                    case "countCommits":
-                                        pName_file += "countCommits";
-                                        break;
-                                    /*Il faudra completer ce switch avec les autres cas*/
-                                    default:
-                                        pName_file = "";
-                                        break;
+                                try{
+                                    if (Analyzer.findClassPlugins(pValue) !=null){
+                                        pName_file += pValue;
+                                    }
+                                }catch (ClassNotFoundException e){
+                                    System.out.println("PLugin not valid.");
+                                    displayHelpAndExit();
                                 }
 
                                 if (!pName_file.equals("")) {
@@ -96,7 +103,7 @@ public class CLILauncher {
                                     File dir = new File("./Files");
                                     if (!dir.isDirectory()) dir.mkdir();
 
-                                    createModifFile(pValue,pName_file);
+                                    Configuration.createModifFile(pValue,pName_file);
 
                                 } else {
                                     displayHelpAndExit();
@@ -116,40 +123,26 @@ public class CLILauncher {
 
     private static boolean check_directory(String path){
         File directory = new File(path);
-        return (directory.exists() && directory.isDirectory());
+        return (directory.exists());
     }
 
-    public static void createModifFile (String pValue, String pName_file) {
-        try {
-            File f = new File("./Files/"+pValue+".txt");
-
-            if (f.createNewFile()) {
-                FileWriter fw = new FileWriter(f);
-                fw.write(pName_file);
-                fw.close();
-                System.out.println("Le fichier a été crée");
-
-            } else {
-                System.out.println("Le fichier existe déjà");
-            }
-        } catch (IOException e) {
-            System.out.println("Il s'est produit une erreur. Essayez de nouveau");
-            e.printStackTrace();
-        }
-    }
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
 
-        //En théorie, cela devrait afficher les arguments et leurs valeurs
-        //Il va falloir finir le switch precedent pour completer toutes les valeurs des arguments dans cette fonction
-        //Je propose ce "format" :
-        System.out.println("Try it again with this format: '. --[NAME_ARGUMENT]=[ARG_VALUE]'");
-        System.out.println("Some options...");
-        System.out.println(". --addPlugin="); //nom de l'argument
-        System.out.println("        countCommits"); //Deux tabulations pour les valuers possibles de l'argument courant
-        System.out.println(". --loadConfigFile=");
-        System.out.println(". --justSaveConfigFile=");
-        //TODO#4: print the list of options and their syntax
+        System.out.print("---Manual---" +
+                "\nTo run the software through gradle, you need to pass the program arguments behind '--args=' ." +
+                "\nFor instance: ./gradlew run --args='. --addPlugin=CountCommits' : " +
+                "Will count the commits of each author in the current branch of the git repository present in the current folder (\".\")." +
+                "\n\nValid arguments: " +
+                "\n\t\t --addPlugin=");
+        for(String plugins : Analyzer.listOfPlugins("..")){
+            System.out.print("\n\t\t\t"+plugins);
+        }
+        System.out.print("\n\t\t --loadConfigFile=[pluginName*] : to load an existing plugin in the configuration" +
+                "\n\t\t --justSaveConfigFile=[pluginName*] : to save a plugin in the configuration" +
+                "\n\n *from the list of plugins above" );
         System.exit(0);
     }
+
+
 }

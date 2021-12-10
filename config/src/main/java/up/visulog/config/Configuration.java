@@ -2,15 +2,14 @@ package up.visulog.config;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Configuration implements Serializable { //Classe pour associer un chemin à un (ou plusieurs) Plugin(s) configurés d'une certaine manière
 
     private final Path gitPath; //Chemin pour le plugin
     private final Map<String, PluginConfig> plugins; //Le(s) plugin(s) en question, organisé(s) dans une Map (associé à une chaîne de caractères)
-    private static final String configFileName = "config.txt"; //Nom de fichier où les configurations seront stockées
 
     public Configuration(Path gitPath, Map<String, PluginConfig> plugins) {
         this.gitPath = gitPath;
@@ -27,7 +26,7 @@ public class Configuration implements Serializable { //Classe pour associer un c
 
     public static Configuration loadConfigFile(String FilePath)  {
         try{
-            File file = new File(FilePath + configFileName);
+            File file = new File(FilePath);
             /*Procède à la lecture du fichier afin de récupérer les données nécéssaire à la création de configurations à l'intérieur*/
             /*Ce procédé est ce qu'on appelle 'Deserialization' */
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
@@ -43,17 +42,25 @@ public class Configuration implements Serializable { //Classe pour associer un c
         }
     }
 
-    //Fichier où on va sauvegarder les configurations
-    private File getConfigFile(){
-        File configFile = new File(gitPath.toString() + configFileName);
-        //Si le fichier existe il retourne le dit fichier sinon on crée un nouveau fichier
-        //qui contiendra les configurations
-        try{
-            if (configFile.createNewFile() )
-                System.out.println("Config file created.");
-        }catch(Exception e){
-            System.out.println("ERROR: the config file couldn't be created.");
+    public static void createModifFile (String pValue, String pName_file) {
+        try {
+            File f = new File("./Files/"+pValue+".txt");
+
+            if (f.createNewFile()) {
+                FileWriter fw = new FileWriter(f);
+                fw.write(pName_file);
+                fw.close();
+                System.out.println("The file has been created.");
+
+            } else {
+                System.out.println("The file already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("OOPS! An error occurred while creating the file. Please try again.");
+            e.printStackTrace();
         }
-        return configFile;
     }
+
+
+
 }
