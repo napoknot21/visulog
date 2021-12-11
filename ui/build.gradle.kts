@@ -7,12 +7,12 @@ version = "0.0.1"
 group = "up"
 
 javafx {
-    version = "13.0.2"
+    version = "17"
     modules("javafx.controls", "javafx.fxml", "javafx.web")
 }
 
 application {
-    mainClassName = "up.visulog.ui.Test"
+    mainClassName = "up.visulog.ui.VisulogLauncher"
 } //A changer selon la classe App
 
 allprojects {
@@ -22,7 +22,7 @@ allprojects {
     plugins.apply("application")
     plugins.apply("org.openjfx.javafxplugin")
 
-    java.sourceCompatibility = JavaVersion.VERSION_1_10
+    java.sourceCompatibility = JavaVersion.VERSION_11
 
 }
 

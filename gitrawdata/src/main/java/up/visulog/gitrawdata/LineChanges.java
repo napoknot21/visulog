@@ -17,7 +17,7 @@ public class LineChanges extends ChangesDescription{
     }
 
     public static LineChanges parseDiffFromCommand (Path gitPath, Commit commit) {
-        String[] args = {"git", "log", "--numstat", commit.id};
+        String[] args = {"git", "log", "--numstat", commit.id.toString(16)};
         return parseDiff(ChangesDescription.processCommand(args , gitPath), commit);
     }
 
@@ -26,7 +26,9 @@ public class LineChanges extends ChangesDescription{
             int line_added = 0;
             int line_deleted = 0;
             String line = reader.readLine();
+            if (line == null) return new LineChanges(0,0,commit);
             line = reader.readLine();
+            if (line == null) return new LineChanges(0,0,commit);
             String[] isMerged = line.split("\\s+");
             if (isMerged[0].equals("Merge:")) return new LineChanges(0,0,commit);
             while (!line.isEmpty()) line = reader.readLine();

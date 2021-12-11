@@ -1,4 +1,4 @@
-package up.visulog.analyzer;
+/*package up.visulog.analyzer;
 
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
@@ -31,17 +31,17 @@ public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
         var result = new Result();
         ArrayList<String> commitsPerAuthor = getAuthors(gitLog);
 
-        for(String author : commitsPerAuthor){ /*On parcourt d'abord tous les auteurs*/
+        for(String author : commitsPerAuthor){ /*On parcourt d'abord tous les auteurs*//*
             Map<String, Integer> commitsPerDay = new HashMap<>();
             for (var commit : gitLog){
-                /*On s'intéresse qu'aux commits d'une certaine personne*/
+                /*On s'intéresse qu'aux commits d'une certaine personne*//*
                 if(commit.author.equals(author)){
 
-                    /*On change le format de la date pour que l'on puisse trier par date*/
+                    /*On change le format de la date pour que l'on puisse trier par date*//*
                     DateFormat outputFormat = new SimpleDateFormat("MMM dd yyyy");
                     String dateString = outputFormat.format(commit.date);
 
-                    /*On compte les commits de l'auteur par date*/
+                    /*On compte les commits de l'auteur par date*//*
                     var nb = commitsPerDay.getOrDefault(dateString, 0);
                     commitsPerDay.put(dateString, nb+1);
 
@@ -66,8 +66,8 @@ public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
     }
 
     static class Result implements AnalyzerPlugin.Result {
-        protected final Map<String , Map<String, Integer>> commitsPerAuthorPerDay = new HashMap<>();
-        Map<String , Map<String, Integer>> getCommitsPerAuthorPerDay() {
+        protected final Map<String , Integer> commitsPerAuthorPerDay = new HashMap<>();
+        public Map<String , Integer> getResultAsMap() {
             return commitsPerAuthorPerDay;
         }
 
@@ -76,7 +76,7 @@ public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
             return commitsPerAuthorPerDay.toString();
         }
 
-        @Override
+
         public String getResultAsHtmlDiv() {
             StringBuilder html = new StringBuilder("<div>Commits per author per day: <ul>");
             for (var item : commitsPerAuthorPerDay.entrySet()) {
@@ -100,3 +100,4 @@ public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
     }
 }
 
+*/
