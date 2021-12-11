@@ -45,10 +45,12 @@ public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
         if (result == null) run();
         return result;
     }
-    static class Result implements AnalyzerPlugin.Result {
-        protected final Map<String, Integer> commitsPerAuthor = new HashMap<>(); //FIXME : protected ou private ?
 
-        Map<String, Integer> getCommitsPerAuthor() {
+
+
+    static class Result implements AnalyzerPlugin.Result {
+        protected final Map<String, Integer> commitsPerAuthor = new HashMap<>();
+        public Map<String, Integer> getResultAsMap() {
             return commitsPerAuthor;
         }
 
@@ -68,3 +70,4 @@ public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
         }
     }
 }
+

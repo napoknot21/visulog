@@ -44,15 +44,17 @@ public class Analyzer {
             plugin.ifPresent(plugins::add);  /**on ajoute le plugin (s'il est bien dans la boite optional) à la liste plugins.*/
         }
         // run all the plugins
-        // TODO#1: try running them in parallel
-        for (var plugin: plugins) plugin.run(); /**ensuite on fait tourner tous les plugins qui sont dans la liste plugins.*/
+        for (var plugin : plugins) {
+            Thread plug = new Thread(plugin);
+            plug.start();
+            try {
+                plug.join();
+            } catch (InterruptedException ignored) {}
+        } /**ensuite on fait tourner tous les plugins qui sont dans la liste plugins.*/
 
         // store the results together in an AnalyzerResult instance and return it
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
     }
-
-    // TODO#2: find a way so that the list of plugins is not hardcoded in this factory
-
 
     protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
         /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
