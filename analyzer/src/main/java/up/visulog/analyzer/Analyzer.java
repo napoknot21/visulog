@@ -44,13 +44,11 @@ public class Analyzer {
             plugin.ifPresent(plugins::add);  /**on ajoute le plugin (s'il est bien dans la boite optional) à la liste plugins.*/
         }
         // run all the plugins
+        ThreadGroup group = new ThreadGroup("plugins");
         for (var plugin : plugins) {
-            Thread plug = new Thread(plugin);
-            plug.start();
-            try {
-                plug.join();
-            } catch (InterruptedException ignored) {}
+            new Thread(group, plugin).start();
         } /**ensuite on fait tourner tous les plugins qui sont dans la liste plugins.*/
+        while (group.activeCount()>0) Thread.onSpinWait();
 
         // store the results together in an AnalyzerResult instance and return it
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
