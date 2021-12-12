@@ -2,20 +2,19 @@ package up.visulog.gitrawdata;
 
 import java.io.BufferedReader;
 import java.nio.file.Path;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class LineChanges {
 
     public static String author;
 
-    public static Map<String, int[]> parseDiffFromCommand (Path gitPath) {
+    public static Map<String, int[]> parseDiffFromCommand(Path gitPath) {
         String[] args = {"git", "log", "--numstat"};
-        return parseDiff(ChangesDescription.processCommand(args,gitPath));
+        return parseDiff(ChangesDescription.processCommand(args, gitPath));
     }
 
-
-    public static Map<String,int[]> parseDiff(BufferedReader reader){
+    public static Map<String, int[]> parseDiff(BufferedReader reader) {
         var objects = reader.lines().toArray();
         HashMap<String, int[]> map = new HashMap<>();
         for (var obj : objects) {
@@ -32,14 +31,13 @@ public class LineChanges {
                     if (title.equals("Author:")) {
                         StringBuilder stringBuilder = new StringBuilder();
                         boolean stop = false;
-                        for(int i=1; i<lineChanged.length && !stop; i++) {
+                        for (int i = 1; i < lineChanged.length && !stop; i++) {
                             if (lineChanged[i].contains("<")) stop = true;
                             else stringBuilder.append(lineChanged[i]).append(" ");
                         }
                         author = stringBuilder.toString();
                         nameChanged = true;
                     }
-
                     if (lineChanged[0].matches("\\d+")) {
                         addedLine += Integer.parseInt(lineChanged[0]);
                         addChanged = true;
