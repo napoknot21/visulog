@@ -2,58 +2,62 @@ package up.visulog.gitrawdata;
 
 import java.io.BufferedReader;
 import java.nio.file.Path;
-import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
-public class LineChanges extends ChangesDescription{
-    public final int addedLines;
-    public final int removedLines;
-    public Commit commit;
+public class LineChanges {
 
-    public LineChanges(int added, int removed, Commit commit) { // simplement le constructeur
-        super(commit.id, commit.author, commit.date, commit.description);
-        this.addedLines = added;
-        this.removedLines = removed;
-        this.commit = commit;
+    public static String author;
+
+    public static Map<String, int[]> parseDiffFromCommand (Path gitPath) {
+        String[] args = {"git", "log", "--numstat"};
+        return parseDiff(ChangesDescription.processCommand(args,gitPath));
     }
 
-    public static LineChanges parseDiffFromCommand (Path gitPath, Commit commit) {
-        String[] args = {"git", "log", "--numstat", commit.id.toString(16)};
-        return parseDiff(ChangesDescription.processCommand(args , gitPath), commit);
-    }
 
-    public static LineChanges parseDiff(BufferedReader reader, Commit commit){
-        try {
-            int line_added = 0;
-            int line_deleted = 0;
-            String line = reader.readLine();
-            if (line == null) return new LineChanges(0,0,commit);
-            line = reader.readLine();
-            if (line == null) return new LineChanges(0,0,commit);
-            String[] isMerged = line.split("\\s+");
-            if (isMerged[0].equals("Merge:")) return new LineChanges(0,0,commit);
-            while (!line.isEmpty()) line = reader.readLine();
-            line = reader.readLine();
-            while (!line.isEmpty()) line = reader.readLine();
-            line = reader.readLine();
-            while (line != null) {
-                if (!line.isEmpty()) {
+    public static Map<String,int[]> parseDiff(BufferedReader reader){
+        var objects = reader.lines().toArray();
+        HashMap<String, int[]> map = new HashMap<>();
+        for (var obj : objects) {
+            if (obj instanceof String) {
+                boolean addChanged = false;
+                boolean rmChanged = false;
+                boolean nameChanged = false;
+                String line = (String) obj;
+                int addedLine = 0;
+                int removedLine = 0;
+                if (!line.isBlank()) {
                     String[] lineChanged = line.split("\\s+");
-                    if (lineChanged[0].equals("-")) line_added += 0;
-                    else line_added += Integer.valueOf(lineChanged[0]);
-                    if (lineChanged[1].equals("-")) line_deleted += 0;
-                    else line_deleted += Integer.valueOf(lineChanged[1]);
-                    line = reader.readLine();
-                }else{
-                    reader.close();
-                    break;
+                    String title = lineChanged[0];
+                    if (title.equals("Author:")) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        boolean stop = false;
+                        for(int i=1; i<lineChanged.length && !stop; i++) {
+                            if (lineChanged[i].contains("<")) stop = true;
+                            else stringBuilder.append(lineChanged[i]).append(" ");
+                        }
+                        author = stringBuilder.toString();
+                        nameChanged = true;
+                    }
+
+                    if (lineChanged[0].matches("\\d+")) {
+                        addedLine += Integer.parseInt(lineChanged[0]);
+                        addChanged = true;
+                    }
+                    if (lineChanged[1].matches("\\d+")) {
+                        removedLine += Integer.parseInt(lineChanged[1]);
+                        rmChanged = true;
+                    }
+                    if (addChanged && rmChanged || nameChanged) {
+                        int[] val = map.getOrDefault(author, new int[2]);
+                        val[0] += addedLine;
+                        val[1] += removedLine;
+                        map.put(author, val);
+                    }
                 }
             }
-            LineChanges cc = new LineChanges(line_added, line_deleted,commit);
-            return cc;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
+        return map;
     }
 
 
