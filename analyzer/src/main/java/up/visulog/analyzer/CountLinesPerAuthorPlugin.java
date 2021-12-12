@@ -2,10 +2,7 @@ package up.visulog.analyzer;
 
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.LineChanges;
-import up.visulog.gitrawdata.Commit;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CountLinesPerAuthorPlugin implements AnalyzerPlugin {
@@ -32,7 +29,6 @@ public class CountLinesPerAuthorPlugin implements AnalyzerPlugin {
         if (result == null) run();
         return result;
     }
-
 
     static class Result implements AnalyzerPlugin.Result {
         protected final Map<String, int[]> lineChangesPerAuthor = new HashMap<>();
