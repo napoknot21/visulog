@@ -6,12 +6,15 @@ import up.visulog.ui.model.Model;
 import up.visulog.ui.views.objects.SceneChild;
 import up.visulog.ui.views.scenes.VisulogScene;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 public abstract class ChartButton extends RadioButton
         implements ChartButtons, SceneChild {
 
     private final String chartName;
     private Model model;
-    private Chart chart;
+    private Collection<Chart> charts;
 
     public ChartButton(String label) {
         super(label);
@@ -19,6 +22,7 @@ public abstract class ChartButton extends RadioButton
         if (ChartButton.NAME_TO_CHART_FILTER.containsKey(label)) v = ChartButton.NAME_TO_CHART_FILTER.get(label);
         this.chartName = v;
         this.setToggleGroup(ChartButton.GROUP);
+        charts = new LinkedList<Chart>();
     }
 
     public String getChartName() {
@@ -36,15 +40,16 @@ public abstract class ChartButton extends RadioButton
         return model;
     }
 
-    public Chart getChart() {
-        return chart;
+    public Collection<Chart> getChart() {
+        return charts;
     }
 
     public void setChart(Chart chart) {
-        this.chart = chart;
+        if(charts != null)
+        this.charts.add(chart);
     }
 
     public boolean isChartSet() {
-        return chart != null;
+        return !charts.isEmpty();
     }
 }
