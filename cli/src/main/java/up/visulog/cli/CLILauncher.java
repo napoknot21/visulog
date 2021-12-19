@@ -30,7 +30,9 @@ public class CLILauncher {
         var plugins = new HashMap<String, PluginConfig>(); //cree une hashmap avec pour cles des Strings et pour valeur des "PluginConfig" (-> à definir dans PluginConfig.java)
         /*Une hashmap est une sorte de liste qui associe à chaque valeur une clé qui permet de la retrouver facilement (bien plus pratique que les listes vues en L1) */
 
+        /*On admet qu'on arrive à la fin des arguments d'une commande que lorsqu'une nouvelle commande commande*/
         ArrayList<String> input = inputFiltering(args);
+
         for (var arg : input) {
             if (arg.startsWith("--")) { //verifie que les arguments sont au format "--nomArg=valArg"
                 String[] parts = arg.split("="); //separe chaque argument en 2: le nom de l'argument (ex: "--addPlugin") et sa valeur ("ex: countCommits"), et les met dans un tableau
@@ -49,14 +51,13 @@ public class CLILauncher {
                             fixer la commande de displayHelp telle que l'argument soit '--displayHelp=help'
                             ou autre du moment qu'il y ait  deux mots non vides séparés de '='
                              */
-                            displayHelpAndExit(); break;
+                            displayHelpAndExit();
 
                         case "--addPlugin":
                             try{
                                 if (Analyzer.findClassPlugins(pValue)!=null)
                                     plugins.put(pValue, new PluginConfig());
                             }catch(ClassNotFoundException e){
-                                System.out.println("HEEERE");
                                 return Optional.empty();
                             }
                             break;
@@ -65,64 +66,20 @@ public class CLILauncher {
                             if(pValue.length()==0)
                                 displayHelpAndExit();
                             else {
-                                ArrayList<String> keyWords = new ArrayList<>();
-                                try(Scanner sc = new Scanner(pValue)) {
-                                    while (sc.hasNext()) {
-                                        keyWords.add(sc.next());
-                                    }
-                                }
-
-                                HashMap <String, ArrayList<String>> pluginConfig = new HashMap<>();
-                                pluginConfig.put("keyWords",keyWords);
-                                plugins.put("research", new PluginConfig(pluginConfig));
+                                researchConfig(plugins,pValue);
                             }
                             break;
 
                         case "--loadConfigFile":
-                                if(pValue.length()==0){
-                                    displayHelpAndExit();
-
-                                } else{
-                                    File dir = new File("./Files");
-                                    if(!dir.isDirectory()) {
-                                        System.out.println("Files: no such directory.");
-                                        displayHelpAndExit();
-                                    }
-                                    try{
-                                        File f = new File("./Files/"+pValue+".txt");
-                                        if(!f.isFile()) {
-                                            System.out.println("The configFile doesn't exist.");
-                                            displayHelpAndExit();
-                                        }
-                                        BufferedReader br = new BufferedReader(new FileReader(f));
-                                        return makeConfigFromCommandLineArgs(new String[]{br.readLine()});
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                            if(pValue.length()==0){
+                                displayHelpAndExit();
+                            } else{
+                                return loadConfigFile(pValue);
+                            }
                         case "--justSaveConfigFile":
                             if (pValue.equals("")) displayHelpAndExit();
                             else {
-                                String pName_file = "--addPlugin=";
-                                try{
-                                    if (Analyzer.findClassPlugins(pValue) !=null){
-                                        pName_file += pValue;
-                                    }
-                                }catch (ClassNotFoundException e){
-                                    System.out.println("PLugin not valid.");
-                                    displayHelpAndExit();
-                                }
-
-                                if (!pName_file.equals("")) {
-
-                                    File dir = new File("./Files");
-                                    if (!dir.isDirectory()) dir.mkdir();
-
-                                    Configuration.createModifFile(pValue,pName_file);
-
-                                } else {
-                                    displayHelpAndExit();
-                                }
+                                saveConfigFile("--addPlugin=",pValue);
                             }
                             break;
                         default:
@@ -143,6 +100,7 @@ public class CLILauncher {
         * */
         ArrayList<String> input = new ArrayList<>();
         int pos = 0 ;
+
         while (pos<args.length){
             String str = "";
             do {
@@ -159,6 +117,56 @@ public class CLILauncher {
         return input;
     }
 
+    private static void researchConfig(HashMap<String, PluginConfig> plugins, String pValue){
+        ArrayList<String> keyWords = new ArrayList<>();
+        try(Scanner sc = new Scanner(pValue)) {
+            while (sc.hasNext()) {
+                keyWords.add(sc.next());
+            }
+        }
+
+        HashMap <String, ArrayList<String>> pluginConfig = new HashMap<>();
+        pluginConfig.put("keyWords",keyWords);
+        plugins.put("research", new PluginConfig(pluginConfig));
+    }
+
+    private static Optional<Configuration> loadConfigFile(String pValue){
+        File dir = new File("./Files");
+        if(!dir.isDirectory()) {
+            System.out.println("Files: no such directory.");
+            displayHelpAndExit();
+        }
+        try{
+            File f = new File("./Files/"+pValue+".txt");
+            if(!f.isFile()) {
+                System.out.println("The configFile doesn't exist.");
+                displayHelpAndExit();
+            }
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            return makeConfigFromCommandLineArgs(new String[]{br.readLine()});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    private static void saveConfigFile(String pNameFile, String pValue){
+        try{
+            if (Analyzer.findClassPlugins(pValue) !=null){
+                pNameFile += pValue;
+            }
+        }catch (ClassNotFoundException e){
+            System.out.println("Plugin not valid.");
+            displayHelpAndExit();
+        }
+        if (!pNameFile.equals("")) {
+            File dir = new File("./Files");
+            if (!dir.isDirectory()) dir.mkdir();
+            Configuration.createModifFile(pValue,pNameFile);
+        } else {
+            displayHelpAndExit();
+        }
+    }
 
     private static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
 
