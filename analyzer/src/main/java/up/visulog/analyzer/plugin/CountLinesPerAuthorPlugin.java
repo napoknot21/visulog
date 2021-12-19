@@ -1,5 +1,6 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.LineChanges;
 import up.visulog.gitrawdata.Commit;

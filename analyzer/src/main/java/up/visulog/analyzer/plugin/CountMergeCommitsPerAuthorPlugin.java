@@ -1,5 +1,6 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.MergeCommit;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
+public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 

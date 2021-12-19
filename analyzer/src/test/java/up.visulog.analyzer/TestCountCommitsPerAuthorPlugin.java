@@ -1,6 +1,7 @@
 package up.visulog.analyzer;
 
 import org.junit.Test;
+import up.visulog.analyzer.plugin.CountCommitsPerAuthorPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.CommitBuilder;
