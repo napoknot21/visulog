@@ -1,5 +1,6 @@
 package up.visulog.analyzer;
 
+import up.visulog.analyzer.plugin.CountMergeCommitsPerAuthorPlugin;
 import up.visulog.gitrawdata.*;
 
 import java.io.BufferedReader;

@@ -1,5 +1,6 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 
@@ -7,7 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class CountCommitsPerAuthorPerDayPlugin implements  AnalyzerPlugin{
+public class CountCommitsPerAuthorPerDayPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
