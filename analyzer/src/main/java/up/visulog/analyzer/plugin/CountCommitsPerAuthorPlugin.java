@@ -16,7 +16,7 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
         this.configuration = generalConfiguration;
     }
 
-    static Result processLog(List<Commit> gitLog) {
+    public static Result processLog(List<Commit> gitLog) {
         var result = new Result();
 
 
@@ -44,9 +44,9 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
         return result;
     }
 
-    static class Result implements AnalyzerPlugin.Result {
+    public static class Result implements AnalyzerPlugin.Result {
         protected final Map<String, Integer> commitsPerAuthor = new HashMap<>();
-        Map<String, Integer> getCommitsPerAuthor() {
+        public Map<String, Integer> getCommitsPerAuthor() {
             return commitsPerAuthor;
         }
 

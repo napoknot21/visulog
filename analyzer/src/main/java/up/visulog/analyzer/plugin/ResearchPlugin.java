@@ -23,7 +23,6 @@ public class ResearchPlugin implements AnalyzerPlugin
     }
 
     /**
-     *
      * @param gitLog la liste exhaustive des commits
      * @param keyWords le/les mot(s) clé(s)
      * @return la liste des commits où figure le/les mot(s) clé(s)
@@ -36,6 +35,7 @@ public class ResearchPlugin implements AnalyzerPlugin
                 if(!findKeyWords(commit, key)) init = false;
             }
             if (init)
+            /*le commit est enregistré ssi tous les mots clés y figurent*/
                 result.commitsFound.put(commit.id,commit);
         }
         return result;
@@ -43,7 +43,7 @@ public class ResearchPlugin implements AnalyzerPlugin
 
     /**
      * Comparaison au niveau des mots clés et des caractéristiques du commits
-     * @return vrai si la totalité des mots clés se trouvent dans un commit
+     * @return vrai si le mot clé est mentionné dans au moins un des attributs d'un commit
      */
     public static boolean findKeyWords(Commit commit, String keyWord){
         if (compare(commit.author,keyWord)){

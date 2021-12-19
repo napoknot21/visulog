@@ -29,4 +29,5 @@ public class ChangesDescription { //objets qui définissent un changement apport
         InputStream is = process.getInputStream();
         return new BufferedReader(new InputStreamReader(is));
     }
+
 }

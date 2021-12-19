@@ -51,7 +51,7 @@ public class Analyzer {
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
     }
 
-    protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
+    public Optional<AnalyzerPlugin> makePlugin(String pluginName) {
         /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
         if(this.config.getPluginConfigs().containsKey(pluginName)){
             try {
