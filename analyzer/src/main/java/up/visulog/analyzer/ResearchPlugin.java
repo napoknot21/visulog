@@ -7,6 +7,9 @@ import up.visulog.gitrawdata.Commit;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Cette classe modélise la fonctionnalité de recherche de commits à partir de mots clés
+ */
 public class ResearchPlugin implements AnalyzerPlugin
 {
     private final Configuration configuration;
@@ -18,6 +21,12 @@ public class ResearchPlugin implements AnalyzerPlugin
         keywords = configuration.getPluginConfig("research").get("keyWords");
     }
 
+    /**
+     *
+     * @param gitLog la liste exhaustive des commits
+     * @param keyWords le/les mot(s) clé(s)
+     * @return la liste des commits où figure le/les mot(s) clé(s)
+     */
     static Result processLog(List<Commit> gitLog, ArrayList<String> keyWords) {
         var result = new ResearchPlugin.Result();
         for (var commit : gitLog){
@@ -31,25 +40,36 @@ public class ResearchPlugin implements AnalyzerPlugin
         return result;
     }
 
-
+    /**
+     * Comparaison au niveau des mots clés et des caractéristiques du commits
+     * @return vrai si la totalité des mots clés se trouvent dans un commit
+     */
     public static boolean findKeyWords(Commit commit, String keyWord){
-        if (commit.author.indexOf(keyWord) != -1 ){
+        if (compare(commit.author,keyWord)){
             return true;
         }
-        if (commit.id.indexOf(keyWord) != -1 ){
+        if (compare(commit.id,keyWord)){
             return true;
         }
-        if (commit.description.indexOf(keyWord) != -1 ){
+        if (compare(commit.description,keyWord)){
             return true;
         }
         String dateString = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.ENGLISH).format(commit.date);
-        if(dateString.indexOf(keyWord) != -1){
+        if(compare(dateString,keyWord)){
             return true;
         }
         for (String files : commit.files){ //FIXME : à modifier quand on ajouter la liste des fichiers modifiés dans commitBuilder
-            if(files.indexOf(keyWord) != -1) return true;
+            if(compare(files,keyWord)) return true;
         }
         return false;
+    }
+
+    /**
+     * Comparaison au niveau des String
+     * @return vrai si le String data contient le String key
+     */
+    public static boolean compare(String data, String key){
+        return (data.toLowerCase().contains(key.toLowerCase()) );
     }
 
 
