@@ -71,7 +71,7 @@ public class GraphParameter extends HBox
         return b;
     }
 
-    public CheckBox getGraphique() {
+    public CheckBox getGraphicSelector() {
         return graphique;
     }
 }
