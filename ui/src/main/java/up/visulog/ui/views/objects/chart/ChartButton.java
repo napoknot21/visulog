@@ -49,6 +49,10 @@ public abstract class ChartButton extends RadioButton
         this.charts.add(chart);
     }
 
+    public void setChartNull(){
+        this.charts = new LinkedList<Chart>();
+    }
+
     public boolean isChartSet() {
         return !charts.isEmpty();
     }

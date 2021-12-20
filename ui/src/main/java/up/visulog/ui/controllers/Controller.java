@@ -56,17 +56,17 @@ public class Controller {
         this.updateMainContainer();
     }
 
-    private void updateMainContainer() {//Met ajour les graphes du mainContainer
-        graphParameter.getGraphique().setVisible(true);
+    private void updateMainContainer() {//Met à jour les graphes du mainContainer
+        graphParameter.getGraphicSelector().setVisible(true);
         graphParameter.getChildren().forEach(node -> {
             if (node instanceof ChartButton && ((ChartButton) node).isSelected()) {
                 ChartButton button = (ChartButton) node;
-                mainContainer.getChildren().remove(button.getChart());
+                mainContainer.getChildren().removeAll(button.getChart());
+                button.setChartNull();
                 button.update(model.getCurrentPlugin());
                 Collection<Chart> charts = button.getChart();
-                if (graphParameter.getGraphique().isSelected()){
-                    for(Chart c : charts)
-                    mainContainer.getChildren().add(c);
+                if (graphParameter.getGraphicSelector().isSelected()){
+                    for(Chart c : charts) mainContainer.getChildren().add(c);
                 }
             }
         });
@@ -76,7 +76,9 @@ public class Controller {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) node.setVisible(false);
         });
-        mainContainer.getChildren().removeIf(node -> node instanceof Chart);
+        for(Object o : mainContainer.getChildren()){
+            if(o instanceof Chart) mainContainer.getChildren().remove(o);
+        }
         mainContainer.getChildren().add(mainContainer.getWeb());
     }
 
@@ -101,8 +103,10 @@ public class Controller {
                 mainContainer.getChildren().add(c);
 
         } else {
-            b.setChart(null);
-            mainContainer.getChildren().removeIf(node -> node instanceof Chart);
+            b.setChartNull();
+            for(Object o : mainContainer.getChildren()){
+                if(o instanceof Chart) mainContainer.getChildren().remove(o);
+            }
         }
     }
 
