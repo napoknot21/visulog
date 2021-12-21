@@ -19,21 +19,22 @@ public class PieChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-        ObservableList<PieChart.Data> newData = groupData();
+        ObservableList<PieChart.Data> newData = groupData(5);
 
         Chart chart = new PieChart(newData);
 
         chart.setTitle(chartName);
         setChart(chart);
+        chart.setLegendVisible(false);
 
         setTooltip(newData);
     }
 
-    public ObservableList<PieChart.Data> groupData(){
+    private ObservableList<PieChart.Data> groupData(int n){
         ObservableList<PieChart.Data> newData = FXCollections.observableArrayList();
         PieChart.Data other = new PieChart.Data("Autres", 0);
         for(PieChart.Data d : getData()){
-            if(d.getPieValue() > 5) newData.add(d);
+            if(d.getPieValue() > n) newData.add(d);
             else {
                 other.setPieValue(other.getPieValue() + d.getPieValue());
             }
@@ -47,7 +48,6 @@ public class PieChartButton extends ChartButton {
             d.getNode().setCursor(Cursor.HAND);
             Tooltip t = new Tooltip(d.getName());
             Tooltip.install(d.getNode(), t);
-
         }
     }
 

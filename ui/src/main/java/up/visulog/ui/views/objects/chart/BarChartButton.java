@@ -16,13 +16,13 @@ public class BarChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-
+        //XYChart.Series<Number, String> newdata = groupData(5);
         BarChart<Number, String> chart = new BarChart<>(getYAxis(), getXAxis());
         chart.getData().add(getData());
         this.setChart(chart);
     }
 
-    private XYChart.Series<Number, String> getData() { //Recupere les donnes du plugin pour l"utiliser dans le graphe
+    private XYChart.Series<Number, String> getData() { //Recupere les donnees du plugin pour l"utiliser dans le graphe
         Map<String, Integer> result = getModel().getResultAsMap();
         XYChart.Series<Number, String> data = new XYChart.Series<>();
         result.forEach((key, value) -> data.getData().add(new XYChart.Data<>(value, key)));
@@ -35,6 +35,20 @@ public class BarChartButton extends ChartButton {
 
     private NumberAxis getYAxis() {
         return new NumberAxis();
+    }
+
+    private XYChart.Series<Number, String> groupData(int n){
+        XYChart.Series<Number, String> newData = new XYChart.Series<>();
+        XYChart.Data other = new XYChart.Data<>(0, "Autres");
+        for(XYChart.Data d : getData().getData()){
+            if((int)d.getXValue() > n){
+                newData.getData().add(new XYChart.Data(d.getXValue(),d.getYValue()));
+            }else{
+                other.setXValue((int)other.getXValue() + (int)d.getXValue());
+            }
+            newData.getData().add(other);
+        }
+        return newData;
     }
 
     @Override
