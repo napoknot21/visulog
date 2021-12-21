@@ -10,7 +10,7 @@ public class VisulogLauncher extends Application {
     private View view;
 
     public static void main(String[] args) {
-        if (args.length != 0) return;
+        if (args.length != 0) System.exit(0);
         //Todo: A modifier si on veut ajouter l'execution de l'ui via un plugin specifique
         EventQueue.invokeLater(() -> launch(args));
     }
