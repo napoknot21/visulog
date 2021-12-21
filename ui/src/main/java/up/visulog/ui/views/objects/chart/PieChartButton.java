@@ -18,7 +18,8 @@ public class PieChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-        Chart chart = new PieChart(getData());
+        ObservableList<PieChart.Data> newData = groupData();
+        Chart chart = new PieChart(newData);
         /*for(PieChart.Data data: getData()){
             Tooltip tooltip = new Tooltip(data.getName() + ": " + data.getPieValue() +"%");
             Tooltip.install(data.getNode(), tooltip);
@@ -30,6 +31,19 @@ public class PieChartButton extends ChartButton {
         }*/
         chart.setTitle(chartName);
         setChart(chart);
+    }
+
+    public ObservableList<PieChart.Data> groupData(){
+        ObservableList<PieChart.Data> newData = FXCollections.observableArrayList();
+        PieChart.Data other = new PieChart.Data("Autres", 0);
+        for(PieChart.Data d : getData()){
+            if(d.getPieValue() > 5) newData.add(d);
+            else {
+                other.setPieValue(other.getPieValue() + d.getPieValue());
+            }
+        }
+        newData.add(other);
+        return newData;
     }
 
     protected ObservableList<PieChart.Data> getData() { //Recupere les donnees du plugin pour les utiliser dans le graphe
