@@ -2,6 +2,7 @@ package up.visulog.ui.views.objects.chart;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Cursor;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tooltip;
@@ -19,18 +20,13 @@ public class PieChartButton extends ChartButton {
     @Override
     public void update(String chartName) {
         ObservableList<PieChart.Data> newData = groupData();
-        Chart chart = new PieChart(newData);
-        /*for(PieChart.Data data: getData()){
-            Tooltip tooltip = new Tooltip(data.getName() + ": " + data.getPieValue() +"%");
-            Tooltip.install(data.getNode(), tooltip);
 
-            //respond to change in value
-            data.pieValueProperty().addListener((observable, oldPieValue, newPieValue)->{
-                tooltip.setText(data.getName() + ": " + newPieValue + "%");
-            });
-        }*/
+        Chart chart = new PieChart(newData);
+
         chart.setTitle(chartName);
         setChart(chart);
+
+        setTooltip(newData);
     }
 
     public ObservableList<PieChart.Data> groupData(){
@@ -44,6 +40,15 @@ public class PieChartButton extends ChartButton {
         }
         newData.add(other);
         return newData;
+    }
+
+    private static void setTooltip(ObservableList<PieChart.Data> dataList){
+        for(PieChart.Data d : dataList){
+            d.getNode().setCursor(Cursor.HAND);
+            Tooltip t = new Tooltip(d.getName());
+            Tooltip.install(d.getNode(), t);
+
+        }
     }
 
     protected ObservableList<PieChart.Data> getData() { //Recupere les donnees du plugin pour les utiliser dans le graphe
