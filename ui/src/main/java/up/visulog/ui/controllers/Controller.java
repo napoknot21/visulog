@@ -15,6 +15,7 @@ import up.visulog.ui.views.scenes.VisulogScene;
 import java.nio.file.FileSystems;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Controller {
 
@@ -104,9 +105,12 @@ public class Controller {
 
         } else {
             b.setChartNull();
+            LinkedList<Object> toRemove = new LinkedList<>();
             for(Object o : mainContainer.getChildren()){
-                if(o instanceof Chart) mainContainer.getChildren().remove(o);
+                if(o instanceof Chart) toRemove.add(o);
             }
+
+            mainContainer.getChildren().removeAll(toRemove);
         }
     }
 
