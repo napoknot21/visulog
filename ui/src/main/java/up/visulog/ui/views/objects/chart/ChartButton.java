@@ -1,6 +1,8 @@
 package up.visulog.ui.views.objects.chart;
 
+import javafx.collections.ObservableList;
 import javafx.scene.chart.Chart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.RadioButton;
 import up.visulog.ui.model.Model;
 import up.visulog.ui.views.objects.SceneChild;
@@ -56,4 +58,5 @@ public abstract class ChartButton extends RadioButton
     public boolean isChartSet() {
         return !charts.isEmpty();
     }
+
 }
