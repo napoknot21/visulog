@@ -6,27 +6,34 @@ import up.visulog.gitrawdata.Commit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class CountCommitsPerPeriodPlugin implements  AnalyzerPlugin{
+public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin{
     private final Configuration configuration;
     private Result result;
 
-    public CountCommitsPerPeriodPlugin(Configuration generalConfiguration) {
+    public CountCommitsPerPeriodPerAuthorPlugin(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
     static Result processLog(List<Commit> gitLog, Date beginning, Date end) {
         var result = new Result();
-        int nbCommits = 0;
         for (var commit : gitLog){
             if (commit.date.after(beginning) && commit.date.before(end)){
-                nbCommits++;
+                result.nbCommitsPerPeriod++;
+                /*Cherche dans result si "commit.author" est déjà associé à un nb de commit:
+            si c'est le cas renvoie le nb de commit
+            sinon renvoie 0 */
+                var nb = result.commitsPerPeriodPerAuthor.getOrDefault(commit.author, 0);
+
+                /* met à jour le nb de commit avec put (remplace la valeur précédente associée à la clé)
+                 * si la clé y est déjà  */
+                result.commitsPerPeriodPerAuthor.put(commit.author, nb + 1);
             }
         }
-        DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = outputFormat.format(beginning);
-        result.commitsPerPeriod.put(dateString, nbCommits);
         return result;
     }
 
@@ -34,8 +41,8 @@ public class CountCommitsPerPeriodPlugin implements  AnalyzerPlugin{
     public void run() {
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date beginning = inputFormat.parse("2021-11-10");
-            Date end = inputFormat.parse("2021-11-21");
+            Date beginning = inputFormat.parse("2021-11-10"); //inclus
+            Date end = inputFormat.parse("2021-11-21"); //non inclus
             result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, end);
         }catch(ParseException e){
             System.out.println("bug");
@@ -51,20 +58,21 @@ public class CountCommitsPerPeriodPlugin implements  AnalyzerPlugin{
     }
 
     static class Result implements AnalyzerPlugin.Result {
-        protected final Map<String , Integer> commitsPerPeriod = new HashMap<>();
+        protected final Map<String , Integer> commitsPerPeriodPerAuthor = new HashMap<>();
+        protected int nbCommitsPerPeriod = 0;
         public Map<String , Integer> getResultAsMap() {
-            return commitsPerPeriod;
+            return commitsPerPeriodPerAuthor;
         }
 
         @Override
         public String getResultAsString() {
-            return commitsPerPeriod.toString();
+            return commitsPerPeriodPerAuthor.toString();
         }
 
 
         public String getResultAsHtmlDiv() {
             StringBuilder html = new StringBuilder("<div>Commits per period : <ul>");
-            for (var item : commitsPerPeriod.entrySet()) {
+            for (var item : commitsPerPeriodPerAuthor.entrySet()) {
                 html.append("<li>")
                         .append(item.getKey())
                         .append(": ")
@@ -72,7 +80,8 @@ public class CountCommitsPerPeriodPlugin implements  AnalyzerPlugin{
                         .append("</ul>")
                         .append("</li>");
             }
-            html.append("</ul></div>");
+            html.append("Nombre total de commits sur la période : " + nbCommitsPerPeriod)
+                    .append("</ul></div>");
             return html.toString();
         }
     }
