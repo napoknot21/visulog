@@ -1,6 +1,5 @@
 package up.visulog.cli;
 
-import org.jetbrains.annotations.NotNull;
 import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
@@ -150,7 +149,7 @@ public class CLILauncher {
     }
 
 
-    private static void addPlugin(String pValue, @NotNull HashMap<String, PluginConfig> plugins) {
+    private static void addPlugin(String pValue, HashMap<String, PluginConfig> plugins) {
         try {
             Analyzer.findClassPlugins(pValue);
             plugins.put(pValue, new PluginConfig());
