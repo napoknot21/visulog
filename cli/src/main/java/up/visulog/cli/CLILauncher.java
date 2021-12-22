@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.OpenOption;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -63,10 +64,11 @@ public class CLILauncher {
                             addPlugin(pValue, plugins);
                             break;
 
+                        case "--load":
                         case "--loadConfigFile":
-                            loadConfigFile(pValue);
-                            break;
+                            return loadConfigFile(pValue);
 
+                        case "--save":
                         case "--justSaveConfigFile":
                             justSaveConfigFile(pValue);
                             break;
@@ -105,24 +107,24 @@ public class CLILauncher {
 
     private static void justSaveConfigFile(String pValue) {
         if (pValue.equals("")) displayHelpAndExit();
-        String pName_file = "--addPlugin=";
-        try {
-            Analyzer.findClassPlugins(pValue);
-            pName_file += pValue;
-        } catch (ClassNotFoundException e) {
-            System.out.println("Unknown plugin");
-            displayHelpAndExit();
+        if (pValue.equals("--allPlugin")) {
+           check_directory();
+           Configuration.createModifFile(pValue,pValue);
+           return;
         }
-
-        if (!pName_file.equals("")) {
-            check_directory();
-            Configuration.createModifFile(pValue, pName_file);
-        } else {
-            displayHelpAndExit();
-        }
+            String pName_file = "--addPlugin=";
+            try {
+                Analyzer.findClassPlugins(pValue);
+                pName_file += pValue;
+            } catch (ClassNotFoundException e) {
+                System.out.println("Unknown plugin");
+                displayHelpAndExit();
+            }
+        check_directory();
+        Configuration.createModifFile(pValue, pName_file);
     }
 
-    private static void loadConfigFile(String pValue) {
+    private static Optional<Configuration> loadConfigFile(String pValue) {
         if (pValue.length() == 0) {
             displayHelpAndExit();
 
@@ -139,11 +141,12 @@ public class CLILauncher {
                     displayHelpAndExit();
                 }
                 BufferedReader br = new BufferedReader(new FileReader(f));
-                makeConfigFromCommandLineArgs(new String[]{br.readLine()});
+                return makeConfigFromCommandLineArgs(new String[]{br.readLine()});
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return Optional.empty();
     }
 
 
