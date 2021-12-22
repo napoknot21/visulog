@@ -9,9 +9,8 @@ import java.awt.*;
 public class VisulogLauncher extends Application {
     private View view;
 
-    public static void main(String[] args) {
+    public static void run(String[] args) {
         if (args.length != 0) return;
-        //Todo: A modifier si on veut ajouter l'execution de l'ui via un plugin specifique
         EventQueue.invokeLater(() -> launch(args));
     }
 
@@ -19,7 +18,6 @@ public class VisulogLauncher extends Application {
     public void start(Stage primaryStage) {
         view = new View();
         view.show();
-
     }
 
 }
