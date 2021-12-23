@@ -47,12 +47,25 @@ public class PieChartButton extends ChartButton {
     }
 
     private static void setTooltip(ObservableList<PieChart.Data> dataList){
+        double per = 0;
+        for(PieChart.Data d : dataList) per += d.getPieValue();
         for(PieChart.Data d : dataList){
             d.getNode().setCursor(Cursor.HAND);
-            Tooltip t = new Tooltip(d.getName());
+            Tooltip t = new Tooltip(cutName(d.getName())+(int)(d.getPieValue()/per*100) + "%");
             Tooltip.install(d.getNode(), t);
         }
     }
+
+    private static String cutName(String s){
+        String res = "";
+        for(int i = 0; i < s.length()-1; i++){
+            res += s.charAt(i);
+            if(s.charAt(i+1) == '<') return  res;
+        }
+        return res + " ";
+    }
+
+
 
     protected ObservableList<PieChart.Data> getData() { //Recupere les donnees du plugin pour les utiliser dans le graphe
         Map<String, Integer> result = getModel().getResultAsMap();
