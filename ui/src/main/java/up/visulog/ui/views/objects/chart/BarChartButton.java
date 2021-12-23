@@ -17,8 +17,10 @@ public class BarChartButton extends ChartButton {
     @Override
     public void update(String chartName) {
         XYChart.Series<Number, String> newdata = groupData(5);
-        BarChart<Number, String> chart = new BarChart<>(getYAxis(), getXAxis());
-        chart.getData().add(newdata);
+        XYChart.Series<Number, String> data = getData();
+        BarChart<Number, String> chart = new BarChart<>(getYAxis(), getXAxis());;
+        if(newdata.getData().size() < 7) chart.getData().add(data); //FIXME : hardcoded
+        else chart.getData().add(newdata);
         this.setChart(chart);
     }
 

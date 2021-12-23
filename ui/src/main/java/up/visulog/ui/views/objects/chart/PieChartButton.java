@@ -20,14 +20,17 @@ public class PieChartButton extends ChartButton {
     @Override
     public void update(String chartName) {
         ObservableList<PieChart.Data> newData = groupData(5);
-
-        Chart chart = new PieChart(newData);
+        ObservableList<PieChart.Data> data = getData();
+        Chart chart;
+        if(newData.size() < 7) chart = new PieChart(data); //FIXME : 7 = nombre de personnes dans le groupe mais hardcoded
+        else chart = new PieChart(newData);
 
         chart.setTitle(chartName);
         setChart(chart);
         chart.setLegendVisible(false);
 
-        setTooltip(newData);
+        if(newData.size() < 7) setTooltip(data);
+        else setTooltip(newData);
     }
 
     private ObservableList<PieChart.Data> groupData(int n){
