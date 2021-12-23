@@ -77,9 +77,7 @@ public class Controller {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) node.setVisible(false);
         });
-        for(Object o : mainContainer.getChildren()){
-            if(o instanceof Chart) mainContainer.getChildren().remove(o);
-        }
+        mainContainer.getChildren().removeIf(n -> n instanceof Chart);
         mainContainer.getChildren().add(mainContainer.getWeb());
     }
 

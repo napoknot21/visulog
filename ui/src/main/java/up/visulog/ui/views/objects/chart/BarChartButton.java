@@ -16,14 +16,15 @@ public class BarChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-        //XYChart.Series<Number, String> newdata = groupData(5);
+        XYChart.Series<Number, String> newdata = groupData(5);
         BarChart<Number, String> chart = new BarChart<>(getYAxis(), getXAxis());
-        chart.getData().add(getData());
+        chart.getData().add(newdata);
         this.setChart(chart);
     }
 
     private XYChart.Series<Number, String> getData() { //Recupere les donnees du plugin pour l"utiliser dans le graphe
         Map<String, Integer> result = getModel().getResultAsMap();
+        //String s = getModel().getCurrentPlugin();
         XYChart.Series<Number, String> data = new XYChart.Series<>();
         result.forEach((key, value) -> data.getData().add(new XYChart.Data<>(value, key)));
         return data;
@@ -42,12 +43,13 @@ public class BarChartButton extends ChartButton {
         XYChart.Data other = new XYChart.Data<>(0, "Autres");
         for(XYChart.Data d : getData().getData()){
             if((int)d.getXValue() > n){
-                newData.getData().add(new XYChart.Data(d.getXValue(),d.getYValue()));
+                newData.getData().add(d);
             }else{
                 other.setXValue((int)other.getXValue() + (int)d.getXValue());
             }
-            newData.getData().add(other);
+
         }
+        newData.getData().add(other);
         return newData;
     }
 
