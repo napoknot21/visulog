@@ -39,7 +39,6 @@ public class ResearchPlugin implements AnalyzerPlugin
             /*le commit est enregistré ssi tous les mots clés y figurent*/
                 result.commitsFound.put(commit.id,commit);
         }
-
         return result;
     }
 
@@ -48,23 +47,31 @@ public class ResearchPlugin implements AnalyzerPlugin
      * @return vrai si le mot clé est mentionné dans au moins un des attributs d'un commit
      */
     public static boolean findKeyWords(Commit commit, String keyWord){
-        if (keyWord.equalsIgnoreCase(commit.author)){
+        if (compare(commit.author,keyWord)){
             return true;
         }
-        if (keyWord.equalsIgnoreCase(commit.id.toString())){
+        if (compare(commit.id.toString(),keyWord)){
             return true;
         }
-        if (keyWord.equalsIgnoreCase(commit.description)){
+        if (compare(commit.description,keyWord)){
             return true;
         }
         String dateString = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.ENGLISH).format(commit.date);
-        if(keyWord.equalsIgnoreCase(dateString)){
+        if(compare(dateString,keyWord)){
             return true;
         }
-        /*for (String files : commit.files){ //FIXME : à modifier quand on ajouter la liste des fichiers modifiés dans commitBuilder
+        for (String files : commit.files){ //FIXME : à modifier quand on ajouter la liste des fichiers modifiés dans commitBuilder
             if(compare(files,keyWord)) return true;
-        }*/
+        }
         return false;
+    }
+
+    /**
+     * Comparaison au niveau des String
+     * @return vrai si le String data contient le String key
+     */
+    public static boolean compare(String data, String key){
+        return (data.toLowerCase().contains(key.toLowerCase()) );
     }
 
     @Override
@@ -102,7 +109,12 @@ public class ResearchPlugin implements AnalyzerPlugin
 
         @Override
         public Map<String, Integer> getResultAsMap() {
-            return null;
+            List <Commit> commits = new ArrayList<>();
+            for(var c : commitsFound.entrySet()){
+                commits.add(c.getValue());
+            }
+            var result = CountCommitsPerAuthorPlugin.processLog(commits);
+            return result.getResultAsMap();
         }
     }
 }
