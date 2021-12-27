@@ -5,6 +5,7 @@ import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -38,6 +39,7 @@ public class ResearchPlugin implements AnalyzerPlugin
             /*le commit est enregistré ssi tous les mots clés y figurent*/
                 result.commitsFound.put(commit.id,commit);
         }
+
         return result;
     }
 
@@ -46,33 +48,24 @@ public class ResearchPlugin implements AnalyzerPlugin
      * @return vrai si le mot clé est mentionné dans au moins un des attributs d'un commit
      */
     public static boolean findKeyWords(Commit commit, String keyWord){
-        if (compare(commit.author,keyWord)){
+        if (keyWord.equalsIgnoreCase(commit.author)){
             return true;
         }
-        if (compare(commit.id,keyWord)){
+        if (keyWord.equalsIgnoreCase(commit.id.toString())){
             return true;
         }
-        if (compare(commit.description,keyWord)){
+        if (keyWord.equalsIgnoreCase(commit.description)){
             return true;
         }
         String dateString = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.ENGLISH).format(commit.date);
-        if(compare(dateString,keyWord)){
+        if(keyWord.equalsIgnoreCase(dateString)){
             return true;
         }
-        for (String files : commit.files){ //FIXME : à modifier quand on ajouter la liste des fichiers modifiés dans commitBuilder
+        /*for (String files : commit.files){ //FIXME : à modifier quand on ajouter la liste des fichiers modifiés dans commitBuilder
             if(compare(files,keyWord)) return true;
-        }
+        }*/
         return false;
     }
-
-    /**
-     * Comparaison au niveau des String
-     * @return vrai si le String data contient le String key
-     */
-    public static boolean compare(String data, String key){
-        return (data.toLowerCase().contains(key.toLowerCase()) );
-    }
-
 
     @Override
     public void run() {
@@ -87,8 +80,8 @@ public class ResearchPlugin implements AnalyzerPlugin
     }
 
     static class Result implements AnalyzerPlugin.Result {
-        protected final Map<String, Commit> commitsFound = new HashMap<>();
-        Map<String,Commit> getCommitsFound() {
+        protected final Map<BigInteger, Commit> commitsFound = new HashMap<>();
+        Map<BigInteger,Commit> getCommitsFound() {
             return  commitsFound;
         }
 
@@ -105,6 +98,11 @@ public class ResearchPlugin implements AnalyzerPlugin
             }
             html.append("</ul></div>");
             return html.toString();
+        }
+
+        @Override
+        public Map<String, Integer> getResultAsMap() {
+            return null;
         }
     }
 }

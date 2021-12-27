@@ -45,8 +45,11 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
     }
 
     public static class Result implements AnalyzerPlugin.Result {
-        protected final Map<String, Integer> commitsPerAuthor = new HashMap<>();
-        public Map<String, Integer> getCommitsPerAuthor() {
+
+        protected final Map<String, Integer> commitsPerAuthor = new HashMap<>(); //FIXME : protected ou private ?
+
+        public Map<String, Integer> getResultAsMap() {
+
             return commitsPerAuthor;
         }
 
@@ -57,7 +60,7 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
 
         @Override
         public String getResultAsHtmlDiv() {
-            StringBuilder html = new StringBuilder("<div>Commits per author: <ul>");
+            StringBuilder html = new StringBuilder("<div><h1>Commits per author:</h1> <ul>");
             for (var item : commitsPerAuthor.entrySet()) {
                 html.append("<li>").append(item.getKey()).append(": ").append(item.getValue()).append("</li>");
             }
