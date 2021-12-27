@@ -1,5 +1,5 @@
-/*package up.visulog.analyzer;
->>>>>>> 64da6f894787d64d4a373c6ce31ca7eb9bc0a581:analyzer/src/main/java/up/visulog/analyzer/CountCommitsPerAuthorPerDayPlugin.java
+/* package up.visulog.analyzer.garbage;
+//>>>>>>> 64da6f894787d64d4a373c6ce31ca7eb9bc0a581:analyzer/src/main/java/up/visulog/analyzer/CountCommitsPerAuthorPerDayPlugin.java
 
 import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CountCommitsPerAuthorPerDayPlugin implements AnalyzerPlugin {
+}
     private final Configuration configuration;
     private Result result;
 
@@ -101,5 +102,4 @@ public class CountCommitsPerAuthorPerDayPlugin implements AnalyzerPlugin {
         }
     }
 }
-
 */
