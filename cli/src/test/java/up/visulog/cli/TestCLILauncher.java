@@ -128,6 +128,7 @@ public class TestCLILauncher {
         Assert.assertTrue(config2.isPresent());
     }
 
+
     /**
      * teste si la sauvegarde de fichier donne le bon return sur makeConfigFromCommand()
      */
@@ -138,5 +139,16 @@ public class TestCLILauncher {
                 "--save=" + command
         });
         Assert.assertFalse(config.isPresent());
+    }
+    /**
+     * teste si la recherche à partir de mots clés donne le bon return sur makeConfigFromCommand()
+     */
+    @Test
+    public void testResearch(){
+        String keyWord = "--allPlugin";
+        var config = CLILauncher.makeConfigFromCommandLineArgs(new String[]{
+                "--research=" + keyWord
+        });
+        Assert.assertTrue(config.isPresent());
     }
 }
