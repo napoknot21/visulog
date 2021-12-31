@@ -13,7 +13,9 @@ import up.visulog.ui.views.objects.chart.ChartButtons;
 import up.visulog.ui.views.scenes.VisulogScene;
 
 import java.nio.file.FileSystems;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Controller {
 
@@ -55,15 +57,18 @@ public class Controller {
         this.updateMainContainer();
     }
 
-    private void updateMainContainer() {//Met ajour les graphes du mainContainer
-        graphParameter.getGraphique().setVisible(true);
+    private void updateMainContainer() {//Met à jour les graphes du mainContainer
+        graphParameter.getGraphicSelector().setVisible(true);
         graphParameter.getChildren().forEach(node -> {
             if (node instanceof ChartButton && ((ChartButton) node).isSelected()) {
                 ChartButton button = (ChartButton) node;
-                mainContainer.getChildren().remove(button.getChart());
+                mainContainer.getChildren().removeAll(button.getChart());
+                button.setChartNull();
                 button.update(model.getCurrentPlugin());
-                Chart chart = button.getChart();
-                if (graphParameter.getGraphique().isSelected()) mainContainer.getChildren().add(chart);
+                Collection<Chart> charts = button.getChart();
+                if (graphParameter.getGraphicSelector().isSelected()){
+                    for(Chart c : charts) mainContainer.getChildren().add(c);
+                }
             }
         });
     }
@@ -72,7 +77,7 @@ public class Controller {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) node.setVisible(false);
         });
-        mainContainer.getChildren().removeIf(node -> node instanceof Chart);
+        mainContainer.getChildren().removeIf(n -> n instanceof Chart);
         mainContainer.getChildren().add(mainContainer.getWeb());
     }
 
@@ -80,8 +85,11 @@ public class Controller {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) {
                 node.setVisible(true);
-                Chart chart = ((ChartButton) node).getChart();
-                if (chart != null) mainContainer.getChildren().add(chart);
+                Collection<Chart> charts = ((ChartButton) node).getChart();
+                if (charts != null && !charts.isEmpty()) {
+                    for(Chart c : charts)
+                    mainContainer.getChildren().add(c);
+                }
             }
         });
         mainContainer.getChildren().remove(mainContainer.getWeb());
@@ -90,10 +98,17 @@ public class Controller {
     public void applyFilter(ChartButton b) {    //Applique le filtre lie au bouton
         if (b.isSelected()) {
             b.update(model.getCurrentPlugin());
-            mainContainer.getChildren().add(b.getChart());
+            for(Chart c : b.getChart())
+                mainContainer.getChildren().add(c);
+
         } else {
-            b.setChart(null);
-            mainContainer.getChildren().removeIf(node -> node instanceof Chart);
+            b.setChartNull();
+            LinkedList<Object> toRemove = new LinkedList<>();
+            for(Object o : mainContainer.getChildren()){
+                if(o instanceof Chart) toRemove.add(o);
+            }
+
+            mainContainer.getChildren().removeAll(toRemove);
         }
     }
 
