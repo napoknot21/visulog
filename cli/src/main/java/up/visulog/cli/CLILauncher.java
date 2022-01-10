@@ -94,7 +94,7 @@ public class CLILauncher {
 
     private static HashMap<String, PluginConfig> getAllPlugin() {
         HashMap<String, PluginConfig> plugins = new HashMap<>();
-        Analyzer.listOfPlugins("..").forEach(s -> plugins.put(s, new PluginConfig()));
+        Analyzer.listOfPlugins().forEach(s -> plugins.put(s, new PluginConfig()));
         return plugins;
     }
 
@@ -170,7 +170,7 @@ public class CLILauncher {
                 "Will count the commits of each author in the current branch of the git repository present in the current folder (\".\")." +
                 "\n\nValid arguments: " +
                 "\n\t\t --addPlugin=");
-        for (String plugins : Analyzer.listOfPlugins("..")) {
+        for (String plugins : Analyzer.listOfPlugins()) {
             System.out.print("\n\t\t\t" + plugins);
         }
         System.out.print("\n\t\t --loadConfigFile=[pluginName*] or --load=[pluginName*]: to load an existing plugin in the configuration" +
