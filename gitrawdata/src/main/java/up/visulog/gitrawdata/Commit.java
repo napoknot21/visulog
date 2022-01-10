@@ -79,8 +79,8 @@ public class Commit extends ChangesDescription{
     @Override
     public String toString() { // la méthode pour afficher les caractéristiques d'un commit
         return "Commit{" +
-                "id='" + id + '\'' +
-                ", date='" + date + '\'' +
+                "id='" + id.toString(16) + '\'' +
+                ", date='" + date.toString() + '\'' +
                 ", author='" + author + '\'' +
                 (description != null ? (", description='" + description + '\'') : "" )+ //the other optional field
                 '}';

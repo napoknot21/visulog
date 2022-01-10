@@ -77,10 +77,10 @@ public class Analyzer {
         return c;
     }
 
-    public static ArrayList<String> listOfPlugins(String root){
+    public static ArrayList<String> listOfPlugins(){
         ArrayList<String> pluginsList = new ArrayList<>();
         try{
-            File dir = new File(root+"/analyzer/src/main/java/up/visulog/analyzer");
+            File dir = new File("../analyzer/src/main/java/up/visulog/analyzer");
             File [] files = dir.listFiles();
             for(File classes : files){
                 if (classes.getName().endsWith("Plugin.java") && !classes.getName().equals("AnalyzerPlugin.java"))
