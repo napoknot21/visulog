@@ -1,22 +1,32 @@
 package up.visulog.analyzer;
 
 import up.visulog.analyzer.plugin.CountMergeCommitsPerAuthorPlugin;
-import up.visulog.gitrawdata.*;
+
+import org.junit.Test;
+import up.visulog.gitrawdata.ChangesDescription;
+import up.visulog.gitrawdata.Commit;
+import up.visulog.gitrawdata.MergeCommit;
 
 import java.io.BufferedReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestCountMergeCommitsPerAuthorPlugin {
-    public static void main(String[] args) {
-        BufferedReader mergeCommit = ChangesDescription.processCommand("git","log", Paths.get("."));
+import static org.junit.Assert.assertNotNull;
+
+public class CountMergeCommitsPerAuthorPluginTest {
+
+    @Test
+    public void processLog() {
+        BufferedReader mergeCommit = ChangesDescription.processCommand(new String[]{"git", "log"}, Paths.get("."));
         List<Commit> commitList = Commit.parseLog(mergeCommit);
         List<Commit> mergeCommitList = new ArrayList<>();
-        for(Commit c : commitList){
+        for (Commit c : commitList) {
             if (c instanceof MergeCommit) mergeCommitList.add(c);
         }
         CountMergeCommitsPerAuthorPlugin.Result res = CountMergeCommitsPerAuthorPlugin.processLog(mergeCommitList);
+        assertNotNull(res);
         System.out.println(res.getResultAsHtmlDiv());
     }
+
 }
