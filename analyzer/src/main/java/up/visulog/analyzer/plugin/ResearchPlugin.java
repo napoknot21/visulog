@@ -60,7 +60,7 @@ public class ResearchPlugin implements AnalyzerPlugin
         if(compare(dateString,keyWord)){
             return true;
         }
-        for (String files : commit.files){ //FIXME : à modifier quand on ajouter la liste des fichiers modifiés dans commitBuilder
+        for (String files : commit.files){ //FIXME : à modifier quand on ajoutera la liste des fichiers modifiés dans commitBuilder
             if(compare(files,keyWord)) return true;
         }
         return false;

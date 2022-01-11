@@ -2,6 +2,7 @@ package up.visulog.ui.views.objects.chart;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.PieChart;
@@ -21,14 +22,14 @@ public class PieChartButton extends ChartButton {
     public void update(String chartName) {
         ObservableList<PieChart.Data> newData = groupData(5);
         ObservableList<PieChart.Data> data = getData();
-        Chart chart;
+        PieChart chart;
         if(newData.size() < 7) chart = new PieChart(data); //FIXME : 7 = nombre de personnes dans le groupe mais hardcoded
         else chart = new PieChart(newData);
 
         chart.setTitle(chartName);
         setChart(chart);
         chart.setLegendVisible(false);
-
+        chart.setLabelsVisible(false);
         if(newData.size() < 7) setTooltip(data);
         else setTooltip(newData);
     }
