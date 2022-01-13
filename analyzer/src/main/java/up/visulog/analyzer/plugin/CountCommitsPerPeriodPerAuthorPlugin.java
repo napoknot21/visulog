@@ -67,7 +67,7 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
     static class Result implements AnalyzerPlugin.Result {
         protected final Map<String , Integer> commitsPerPeriodPerAuthor = new HashMap<>();
         protected int nbCommitsPerPeriod = 0;
-        public Map<String , Integer> getResultAsMap() {
+        public Map<String, Integer> getResultAsMap() {
             return commitsPerPeriodPerAuthor;
         }
 

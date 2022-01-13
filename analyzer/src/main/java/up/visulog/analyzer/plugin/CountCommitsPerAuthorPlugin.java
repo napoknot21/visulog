@@ -48,6 +48,7 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
 
         protected final Map<String, Integer> commitsPerAuthor = new HashMap<>(); //FIXME : protected ou private ?
 
+        @Override
         public Map<String, Integer> getResultAsMap() {
 
             return commitsPerAuthor;
