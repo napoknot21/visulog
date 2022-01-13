@@ -12,11 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CountCommitsPerAuthorPerPeriodPlugin implements AnalyzerPlugin {
+public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
-    public CountCommitsPerAuthorPerPeriodPlugin(Configuration generalConfiguration) {
+    public CountCommitsPerPeriodPerAuthorPlugin(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
