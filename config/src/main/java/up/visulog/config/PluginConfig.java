@@ -1,25 +1,31 @@
 package up.visulog.config;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class PluginConfig implements Serializable { //Pour que les configurations puissent être stockées dans un fichier et réutilisées
-    public final Map<String, String> settings = new HashMap<String, String>();
+public class PluginConfig implements Serializable {
+    public final Map<String, ArrayList<String>> config = new HashMap<>();
+    public final String[] period = new String[2];
 
-
-    /*Encore à déterminer ce que value va représenter : j'hésite entre soit un path ou une commande (?) je ne sais pas à voir*/
     public PluginConfig(){}
 
-    public PluginConfig(PluginConfig p){
-        /*Fait juste une copie de p*/
-        for (Map.Entry<String,String>entry: p.settings.entrySet()){
+    public PluginConfig(HashMap<String, ArrayList<String>> pluginConfig) {
+        for (Map.Entry<String,ArrayList<String>>entry: pluginConfig.entrySet()){
             String key = entry.getKey();
-            String value = entry.getValue();
-            this.settings.put(key,value);
+            ArrayList<String> value = entry.getValue();
+            this.config.put(key,value);
         }
     }
 
+    public PluginConfig(String beginning, String end){
+        period[0] = beginning;
+        period[1] = end;
+    }
 
+    public ArrayList<String> get(String key) {
+        return config.get(key);
+    }
 }

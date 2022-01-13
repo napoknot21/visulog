@@ -1,5 +1,6 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.MergeCommit;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
+public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
@@ -16,7 +17,7 @@ public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
         this.configuration=generalConfiguration;
     }
 
-    static Result processLog(List<Commit> gitLog) {
+    public static Result processLog(List<Commit> gitLog) {
         var result = new Result();
 
 
@@ -46,9 +47,7 @@ public class CountMergeCommitsPerAuthorPlugin implements AnalyzerPlugin{
         return result;
     }
 
-
-
-    static class Result implements AnalyzerPlugin.Result {
+    public static class Result implements AnalyzerPlugin.Result {
         protected final Map<String, Integer> commitsPerAuthor = new HashMap<>();
         public Map<String, Integer> getResultAsMap() {
             return commitsPerAuthor;

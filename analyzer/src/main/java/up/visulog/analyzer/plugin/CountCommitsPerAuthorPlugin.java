@@ -1,5 +1,6 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 
@@ -15,7 +16,7 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
         this.configuration = generalConfiguration;
     }
 
-    static Result processLog(List<Commit> gitLog) {
+    public static Result processLog(List<Commit> gitLog) {
         var result = new Result();
 
 
@@ -43,13 +44,11 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
         return result;
     }
 
-    static class Result implements AnalyzerPlugin.Result {
+    public static class Result implements AnalyzerPlugin.Result {
 
         protected final Map<String, Integer> commitsPerAuthor = new HashMap<>(); //FIXME : protected ou private ?
 
-
-
-
+        @Override
         public Map<String, Integer> getResultAsMap() {
 
             return commitsPerAuthor;
