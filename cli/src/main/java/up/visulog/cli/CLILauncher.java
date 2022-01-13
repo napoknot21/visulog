@@ -200,11 +200,21 @@ public class CLILauncher {
     }
 
     private static void addPlugin(String pValue, HashMap<String, PluginConfig> plugins) {
-        try {
-            Analyzer.findClassPlugins(pValue);
-            plugins.put(pValue, new PluginConfig());
-        } catch (ClassNotFoundException e) {
-            displayHelpAndExit();
+        String[] arguments = pValue.split("-");
+        if (arguments.length == 3){
+            try {
+                Analyzer.findClassPlugins(arguments[0]);
+                plugins.put(arguments[0], new PluginConfig(arguments[1], arguments[2]));
+            } catch (ClassNotFoundException e) {
+                displayHelpAndExit();
+            }
+        }else {
+            try {
+                Analyzer.findClassPlugins(arguments[0]);
+                plugins.put(arguments[0], new PluginConfig());
+            } catch (ClassNotFoundException e) {
+                displayHelpAndExit();
+            }
         }
     }
 
@@ -219,6 +229,7 @@ public class CLILauncher {
 
         for (String plugins : Analyzer.listOfPlugins()) {
             System.out.print("\n\t\t\t" + plugins);
+            if (plugins.equals("CountCommitsPerPeriodPerAuthor")) System.out.print("-YYYY/MM/DD-YYYY/MM/DD");
         }
         System.out.print("\n\t\t --research=[keyWord] : to load all commits related to the keyWord" );
         System.out.print("\n\t\t --loadConfigFile=[pluginName*] or --load=[pluginName*]: to load an existing plugin in the configuration" +

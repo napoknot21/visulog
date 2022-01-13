@@ -40,14 +40,20 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
 
     @Override
     public void run() {
-        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date beginning, ending;
+        String[] period = configuration.getPluginConfig("countCommitsPerPeriodPerAuthor").period;
         try {
-            Date beginning = inputFormat.parse("2021-11-10"); //inclus
-            Date end = inputFormat.parse("2021-11-21"); //non inclus
-            result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, end);
+            if (period[0] == null || period[1] == null) throw new ParseException("", 0);
+            String begin = configuration.getPluginConfig("countCommitsPerPeriodPerAuthor").period[0];
+            String end = configuration.getPluginConfig("countCommitsPerPeriodPerAuthor").period[1];
+            beginning = inputFormat.parse(begin); //inclus
+            ending = inputFormat.parse(end); //non inclus
+            result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, ending);
         }catch(ParseException e){
-            System.out.println("bug");
-            result = null;
+            beginning = new Date(System.currentTimeMillis());
+            ending = new Date(System.currentTimeMillis());
+            result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, ending);
         }
     }
 
@@ -81,7 +87,7 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
                         .append("</ul>")
                         .append("</li>");
             }
-            html.append("Nombre total de commits sur la période : " + nbCommitsPerPeriod)
+            html.append("Nombre total de commits sur la periode : " + nbCommitsPerPeriod)
                     .append("</ul></div>");
             return html.toString();
         }
