@@ -1,5 +1,6 @@
 package up.visulog.ui.views.objects;
 
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -8,18 +9,20 @@ import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;
 import up.visulog.ui.views.scenes.WebEngineScene;
 
-public class MainContainer extends VBox
+public class MainContainer extends BorderPane
         implements SceneChild {
 
     Controller controller;
     Model model;
     WebEngine webEngine;
     WebView web;
+    GraphParameter parameter;
 
 
     public MainContainer() {
         super();
-        this.getChildren().add(new GraphParameter(this));
+        parameter = new GraphParameter(this);
+        web = new WebView();
 
     }
 
