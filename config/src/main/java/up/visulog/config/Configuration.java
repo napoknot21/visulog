@@ -24,23 +24,10 @@ public class Configuration implements Serializable { //Classe pour associer un c
         return plugins;
     }
 
-    public static Configuration loadConfigFile(String FilePath)  {
-        try{
-            File file = new File(FilePath);
-            /*Procède à la lecture du fichier afin de récupérer les données nécéssaire à la création de configurations à l'intérieur*/
-            /*Ce procédé est ce qu'on appelle 'Deserialization' */
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-
-            Configuration res = (Configuration)ois.readObject();
-            System.out.println("Configuration file loaded successfully.");
-            ois.close();
-            return res;
-        } catch (IOException |ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("The file couldn't be loaded.");
-            return null;
-        }
+    public PluginConfig getPluginConfig(String key){
+        return plugins.get(key);
     }
+
 
     public static void createModifFile (String pValue, String pName_file) {
         try {
@@ -60,7 +47,5 @@ public class Configuration implements Serializable { //Classe pour associer un c
             e.printStackTrace();
         }
     }
-
-
 
 }

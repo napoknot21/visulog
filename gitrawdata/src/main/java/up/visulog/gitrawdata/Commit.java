@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Commit extends ChangesDescription{
+    public List<String> files = new ArrayList<>();
 
     public Commit(BigInteger id, String author, Date date, String description) { // simplement le constructeur
         super(id, author, date, description);
@@ -79,10 +80,11 @@ public class Commit extends ChangesDescription{
     @Override
     public String toString() { // la méthode pour afficher les caractéristiques d'un commit
         return "Commit{" +
-                "id='" + id + '\'' +
-                ", date='" + date + '\'' +
+                "id='" + id.toString(16) + '\'' +
+                ", date='" + date.toString() + '\'' +
                 ", author='" + author + '\'' +
                 (description != null ? (", description='" + description + '\'') : "" )+ //the other optional field
                 '}';
     }
+
 }

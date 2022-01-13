@@ -1,5 +1,6 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.LineChanges;
 import java.util.HashMap;
@@ -53,10 +54,8 @@ public class CountLinesPerAuthorPlugin implements AnalyzerPlugin {
         }
 
         @Override
-        public Map<String, Integer> getResultAsMap() {
-            //return lineChangesPerAuthor;
-            return null;
-
+        public Map<String, int[]> getResultAsMap() {
+            return lineChangesPerAuthor;
         }
     }
 }

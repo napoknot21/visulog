@@ -54,7 +54,7 @@ public class Analyzer {
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
     }
 
-    protected Optional<AnalyzerPlugin> makePlugin(String pluginName) {
+    public Optional<AnalyzerPlugin> makePlugin(String pluginName) {
         /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
         if(this.config.getPluginConfigs().containsKey(pluginName)){
             try {
@@ -73,17 +73,17 @@ public class Analyzer {
 
     public static Class <?> findClassPlugins(String pluginName) throws ClassNotFoundException {
         String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
-        Class<?> c = Class.forName("up.visulog.analyzer."+plug+"Plugin"); // returns the Class object for the plugin
+        Class<?> c = Class.forName("up.visulog.analyzer.plugin."+plug+"Plugin");// returns the Class object for the plugin
         return c;
     }
 
-    public static ArrayList<String> listOfPlugins(String root){
+    public static ArrayList<String> listOfPlugins(){
         ArrayList<String> pluginsList = new ArrayList<>();
         try{
-            File dir = new File(root+"/analyzer/src/main/java/up/visulog/analyzer");
+            File dir = new File("../analyzer/src/main/java/up/visulog/analyzer/plugin");
             File [] files = dir.listFiles();
             for(File classes : files){
-                if (classes.getName().endsWith("Plugin.java") && !classes.getName().equals("AnalyzerPlugin.java"))
+                if(!classes.getName().equals("ResearchPlugin.java"))
                     pluginsList.add(classes.getName().replace("Plugin.java",""));
             }
         }catch (Exception e ){

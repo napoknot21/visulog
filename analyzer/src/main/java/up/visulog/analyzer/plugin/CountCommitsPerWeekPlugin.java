@@ -1,10 +1,11 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
+import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import java.util.*;
 
-public class CountCommitsPerWeekPlugin implements AnalyzerPlugin{
+public class CountCommitsPerWeekPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
@@ -59,7 +60,7 @@ public class CountCommitsPerWeekPlugin implements AnalyzerPlugin{
 
     static class Result implements AnalyzerPlugin.Result {
         protected final HashMap<String , Integer> commitsPerWeek = new HashMap<>();
-        public Map<String , Integer> getResultAsMap() {
+        public Map<String, Integer> getResultAsMap() {
             return commitsPerWeek;
         }
 

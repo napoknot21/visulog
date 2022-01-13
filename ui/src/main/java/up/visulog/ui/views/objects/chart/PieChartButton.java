@@ -3,7 +3,6 @@ package up.visulog.ui.views.objects.chart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
-import javafx.scene.chart.Chart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tooltip;
 import up.visulog.ui.views.scenes.VisulogScene;
@@ -19,24 +18,26 @@ public class PieChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-        ObservableList<PieChart.Data> newData = groupData(5);
-        ObservableList<PieChart.Data> data = getData();
-        Chart chart;
+        getModel().getResultAsMap().forEach(map -> setRegularOrOtherData(getData(map),chartName));
+    }
+
+    private void setRegularOrOtherData (ObservableList<PieChart.Data> data, String chartName) {
+        ObservableList<PieChart.Data> newData = groupData(5,data);
+        PieChart chart;
         if(newData.size() < 7) chart = new PieChart(data); //FIXME : 7 = nombre de personnes dans le groupe mais hardcoded
         else chart = new PieChart(newData);
-
         chart.setTitle(chartName);
-        setChart(chart);
+        addChart(chart);
         chart.setLegendVisible(false);
-
+        chart.setLabelsVisible(false);
         if(newData.size() < 7) setTooltip(data);
         else setTooltip(newData);
     }
 
-    private ObservableList<PieChart.Data> groupData(int n){
+    private ObservableList<PieChart.Data> groupData(int n, ObservableList<PieChart.Data> data ){
         ObservableList<PieChart.Data> newData = FXCollections.observableArrayList();
         PieChart.Data other = new PieChart.Data("Autres", 0);
-        for(PieChart.Data d : getData()){
+        for(PieChart.Data d : data){
             if(d.getPieValue() > n) newData.add(d);
             else {
                 other.setPieValue(other.getPieValue() + d.getPieValue());
@@ -67,8 +68,7 @@ public class PieChartButton extends ChartButton {
 
 
 
-    protected ObservableList<PieChart.Data> getData() { //Recupere les donnees du plugin pour les utiliser dans le graphe
-        Map<String, Integer> result = getModel().getResultAsMap();
+    protected ObservableList<PieChart.Data> getData(Map<String, Integer> result) { //Recupere les donnees du plugin pour les utiliser dans le graphe
         LinkedList<PieChart.Data> list = new LinkedList<>();
         result.forEach((key, value) -> list.add(new PieChart.Data(key, value)));
         return FXCollections.observableArrayList(list);

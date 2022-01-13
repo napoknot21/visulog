@@ -16,17 +16,18 @@ public class BarChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-        XYChart.Series<Number, String> newdata = groupData(5);
-        XYChart.Series<Number, String> data = getData();
-        BarChart<Number, String> chart = new BarChart<>(getYAxis(), getXAxis());;
-        if(newdata.getData().size() < 7) chart.getData().add(data); //FIXME : hardcoded
-        else chart.getData().add(newdata);
-        this.setChart(chart);
+        BarChart<Number, String> chart = new BarChart<>(getYAxis(), getXAxis());
+        getModel().getResultAsMap().forEach(map -> setRegularOrOtherData(getData(map),chart));
+        this.addChart(chart);
     }
 
-    private XYChart.Series<Number, String> getData() { //Recupere les donnees du plugin pour l"utiliser dans le graphe
-        Map<String, Integer> result = getModel().getResultAsMap();
-        //String s = getModel().getCurrentPlugin();
+    private void setRegularOrOtherData (XYChart.Series<Number, String> data,  BarChart<Number, String> chart) {
+        XYChart.Series<Number, String> newdata = groupData(5,data);
+        if(newdata.getData().size() < 7) chart.getData().add(data); //FIXME : hardcoded
+        else chart.getData().add(newdata);
+    }
+
+    private XYChart.Series<Number, String> getData(Map<String,Integer> result) { //Recupere les donnees du plugin pour l"utiliser dans le graphe
         XYChart.Series<Number, String> data = new XYChart.Series<>();
         result.forEach((key, value) -> data.getData().add(new XYChart.Data<>(value, key)));
         return data;
@@ -40,10 +41,10 @@ public class BarChartButton extends ChartButton {
         return new NumberAxis();
     }
 
-    private XYChart.Series<Number, String> groupData(int n){
+    private XYChart.Series<Number, String> groupData(int n, XYChart.Series<Number, String> data){
         XYChart.Series<Number, String> newData = new XYChart.Series<>();
-        XYChart.Data other = new XYChart.Data<>(0, "Autres");
-        for(XYChart.Data d : getData().getData()){
+        XYChart.Data<Number, String> other = new XYChart.Data<>(0, "Autres");
+        for(var d : data.getData()){
             if((int)d.getXValue() > n){
                 newData.getData().add(d);
             }else{
