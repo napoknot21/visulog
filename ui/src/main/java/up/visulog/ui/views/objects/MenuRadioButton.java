@@ -1,7 +1,6 @@
 package up.visulog.ui.views.objects;
 
 import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 import up.visulog.ui.controllers.Controller;
 import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;
@@ -9,16 +8,14 @@ import up.visulog.ui.views.scenes.VisulogScene;
 import java.util.ArrayList;
 
 
-public class MenuRadioButton extends HBox
+public class MenuRadioButton extends VMenu
         implements SceneChild {//Genere le menu de filtres
 
     private static double nextPosX = 0;
-    private Controller controller;
 
     public MenuRadioButton() {
         super();
         initialize();
-
     }
 
     public void initialize() {
@@ -35,8 +32,10 @@ public class MenuRadioButton extends HBox
         return buttons;
     }
 
+    @Override
     public void setup(VisulogScene scene) {
-        this.controller = scene.getController();
+        super.setup(scene);
+        this.getController().setMenuRadioButton(this);
     }
 
     public void initMenuButtonAction(String plugin) { //Initialise l'action de chaque Radio button en fonction de leur filtre
@@ -67,7 +66,4 @@ public class MenuRadioButton extends HBox
         }
     }
 
-    public Controller getController() {
-        return controller;
-    }
 }
