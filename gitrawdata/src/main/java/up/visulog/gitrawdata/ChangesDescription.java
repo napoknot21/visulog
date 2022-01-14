@@ -6,10 +6,10 @@ import java.nio.file.Path;
 import java.util.Date;
 
 public class ChangesDescription { //objets qui définissent un changement apporté à ub fichier (commits, mergecommits, ...)
-    public final BigInteger id;
-    public final Date date;
-    public final String author;
-    public final String description;
+    public final BigInteger id; // id est en hexadecimal d'après API
+    public final Date date; // le moment auquel le commit a été réalisé
+    public final String author; // le nom du collaborateur qui a commit
+    public final String description; // une brève description de la modofication qui a été faite
 
     /**
      * Constructeur de ChangesDescription
@@ -25,11 +25,6 @@ public class ChangesDescription { //objets qui définissent un changement apport
         this.description = description;
     }
 
-    /**
-     * @param args Les arguments passés en ligne de commande
-     * @param gitPath Le chemin du fichier du plugin
-     * @return Le contenu affiché par le terminal après l'exécution du plugin
-     */
     public static BufferedReader processCommand (String[] args, Path gitPath) {
         ProcessBuilder builder = new ProcessBuilder(args).directory(gitPath.toFile());
         Process process;

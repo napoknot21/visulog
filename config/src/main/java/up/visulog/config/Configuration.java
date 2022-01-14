@@ -6,7 +6,7 @@ import java.util.Map;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Configuration implements Serializable { //Classe pour associer un chemin à un (ou plusieurs) Plugin(s) configurés d'une certaine manière
+public class Configuration implements Serializable { //Classe pour associer un chemin à un (ou plusieurs) plugin(s) configurés d'une certaine manière
 
     private final Path gitPath;
     private final Map<String, PluginConfig> plugins;
@@ -21,36 +21,19 @@ public class Configuration implements Serializable { //Classe pour associer un c
         this.plugins = Map.copyOf(plugins);
     }
 
-    /**
-     * Getter pour le chemin associé du plugin
-     * @return le chemin associé au plugin de la configuration
-     */
-    public Path getGitPath() {
+    public Path getGitPath() { //Un simple getter qui permet de récupérer le chemin associé au plugin
         return gitPath;
     }
 
-    /**
-     * Getter pour la liste (map) des plugins de la Configuration
-     * @return la liste (map) des plugins de la Configuration
-     */
-    public Map<String, PluginConfig> getPluginConfigs() {
+    public Map<String, PluginConfig> getPluginConfigs() { //Pareil pour récupérer les plugins configurés
         return plugins;
     }
 
-    /**
-     * Getter pour la valeur associée à la clé passée en paramètre
-     * @param key la clé de l'objet dans la liste des plugins
-     * @return le PluginConfig associé à la clé
-     */
     public PluginConfig getPluginConfig(String key){
         return plugins.get(key);
     }
 
-    /**
-     * Crée un fichier avec son le contenu passé en paramètre, sinon il affiche un message d'erreur
-     * @param pValue Le nom du fichier créé
-     * @param pName_file Le contenu du fichier créé
-     */
+
     public static void createModifFile (String pValue, String pName_file) {
         try {
             File f = new File("./Files/"+pValue+".txt");

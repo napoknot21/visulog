@@ -36,12 +36,7 @@ public class PluginConfig implements Serializable {
         period[1] = end;
     }
 
-    /**
-     * Getter pour l
-     * @param key La clé dans la liste de config
-     * @return La liste associée à la clé passée en paramètre
-     */
-    public List<String> get(String key) {
+    public ArrayList<String> get(String key) {
         return config.get(key);
     }
 }
