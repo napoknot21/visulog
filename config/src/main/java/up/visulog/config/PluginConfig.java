@@ -6,14 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class PluginConfig implements Serializable {
+
     public final Map<String, List<String>> config = new HashMap<>();
     public final String[] period = new String[2];
 
     public PluginConfig(){
     }
 
+    /**
+     * Constructeur pour PluginConfig
+     * @param pluginConfig La liste (HashMap) de configs
+     */
     public PluginConfig(HashMap<String, List<String>> pluginConfig) {
         for (Map.Entry<String, List<String>>entry: pluginConfig.entrySet()){
             String key = entry.getKey();
@@ -22,11 +26,21 @@ public class PluginConfig implements Serializable {
         }
     }
 
+    /**
+     * Constructeur pour PluginConfig
+     * @param beginning L'argument
+     * @param end La valeur de l'argument
+     */
     public PluginConfig(String beginning, String end){
         period[0] = beginning;
         period[1] = end;
     }
 
+    /**
+     * Getter pour l
+     * @param key La clé dans la liste de config
+     * @return La liste associée à la clé passée en paramètre
+     */
     public List<String> get(String key) {
         return config.get(key);
     }

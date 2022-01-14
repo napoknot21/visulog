@@ -10,13 +10,26 @@ import java.util.List;
 import java.util.Optional;
 
 public class Commit extends ChangesDescription{
+
     public List<String> files = new ArrayList<>();
 
-    public Commit(BigInteger id, String author, Date date, String description) { // simplement le constructeur
+    /**
+     * Constructeur de Commit
+     * @param id L'identifiant en hexadecimal d'après API
+     * @param author Le nom du collaborateur qui a commit
+     * @param date Le moment auquel le commit a été réalisé
+     * @param description Une brève description de la modification qui a été faite
+     */
+    public Commit(BigInteger id, String author, Date date, String description) {
         super(id, author, date, description);
     }
 
-    public static List<Commit> parseLogFromCommand (Path gitPath) {  //renvoie la liste des commits selon le chemin git saisi en argument
+    /**
+     *
+     * @param gitPath Le chemin git
+     * @return la liste des commits selon le chemin git
+     */
+    public static List<Commit> parseLogFromCommand (Path gitPath) {
         String[] args = {"git","log"};
         return parseLog(ChangesDescription.processCommand (args ,gitPath));
     }
