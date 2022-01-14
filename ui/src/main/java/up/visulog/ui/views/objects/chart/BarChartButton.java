@@ -4,6 +4,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;
 
 import java.util.Map;
@@ -25,6 +26,12 @@ public class BarChartButton extends ChartButton {
         XYChart.Series<Number, String> newdata = groupData(5,data);
         if(newdata.getData().size() < 7) chart.getData().add(data); //FIXME : hardcoded
         else chart.getData().add(newdata);
+        chart.setLegendVisible(true);
+        //chart.setTitle();
+        int i = 0;
+        for(XYChart.Series<Number, String> s : chart.getData()){
+            s.setName(Model.LEGEND.get(getModel().getCurrentPlugin())[i++]);
+        }
     }
 
     private XYChart.Series<Number, String> getData(Map<String,Integer> result) { //Recupere les donnees du plugin pour l"utiliser dans le graphe

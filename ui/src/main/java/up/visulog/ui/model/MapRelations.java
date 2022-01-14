@@ -13,6 +13,7 @@ public interface MapRelations {
     // Map (Nom sur l'UI -> nom du plugin)
     HashMap<String, PluginConfig> PLUGINS = initializePlugins();
     //Map (Nom du plugin -> pluginConfig)
+    HashMap<String, String[]> LEGEND = initializeLegend();
 
 
     private static HashMap<String, String> initializeNameToPluginName() { //Initialise la map automatiquement en fonction
@@ -53,4 +54,14 @@ public interface MapRelations {
         }
         return PLUGINS;
     }
+
+
+    private static HashMap<String, String[]> initializeLegend(){
+        HashMap<String, String[]> LEGEND = new HashMap<>();
+        LEGEND.put("Commits", new String[]{"Nombre de commits par personne"});
+        LEGEND.put("Merge Commits", new String[]{"Nombre de merge commits par personne"});
+        LEGEND.put("Nombres de lignes", new String[]{"Nombre de lignes ajoutées par personne", "Nombre de lignes retirées par personne"});
+        return LEGEND;
+    }
+
 }
