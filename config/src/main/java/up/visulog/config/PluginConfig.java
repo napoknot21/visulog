@@ -36,7 +36,7 @@ public class PluginConfig implements Serializable {
         period[1] = end;
     }
 
-    public ArrayList<String> get(String key) {
+    public List<String> get(String key) {
         return config.get(key);
     }
 }
