@@ -15,8 +15,10 @@ import up.visulog.ui.views.objects.SceneChild;
 
 import java.io.IOException;
 
-public class WebEngineScene extends VisulogScene
-        implements WebViewModifier {
+/**
+ * Scene possedant un navigateur web
+ */
+public class WebEngineScene extends VisulogScene implements WebViewModifier {
 
     Stage view;
     WebEngine webEngine;
@@ -46,10 +48,12 @@ public class WebEngineScene extends VisulogScene
     @Override
     public void update(String s) {
         webEngine.loadContent(s);
-        //Todo add the CSS here with webEngine.setUserStyleSheetLocation(String path);
         webEngine.setUserStyleSheetLocation(String.valueOf(WebEngineScene.class.getResource("/up/visulog/ui/views/styleHTML.css")));
     }
 
+    /**
+     * Realise le setup de tous les enfants
+     */
     private void setupChildren() {
         var nodeList = getRoot().getChildrenUnmodifiable();
         if (nodeList == null) return;
@@ -59,14 +63,24 @@ public class WebEngineScene extends VisulogScene
     }
 
 
-    private void setupChildren(SplitPane parent) { //Fonction de parcours, initialise le model et le controlleur pour
-        if (parent == null) return;                //Les elements de l'ui
+    /**
+     * Fonction de parcours, realise le setup pour tous les enfants
+     *
+     * @param parent represente le parent direct
+     */
+    private void setupChildren(SplitPane parent) {
+        if (parent == null) return;
         var nodeList = parent.getItems();
         for (Node node : nodeList) {
             setupChildren(node);
         }
     }
 
+    /**
+     * Fonction de parcours, realise le setup pour tous les enfants
+     *
+     * @param parent represente le parent direct
+     */
     private void setupChildren(Parent parent) { //Fonction de parcours
         if (parent == null) return;
         var nodeList = parent.getChildrenUnmodifiable();
@@ -75,7 +89,12 @@ public class WebEngineScene extends VisulogScene
         }
     }
 
-    private void setupChildren(Node node) { //Fonction de parcours
+    /**
+     * Fonction de parcours, realise le setup pour tous les enfants
+     *
+     * @param node represente le noeud fils qui doit realiser le setup
+     */
+    private void setupChildren(Node node) {
         if (node == null) return;
         if (node instanceof SceneChild) ((SceneChild) node).setup(this);
         if (node instanceof IndependentsButtonsMenu) ((IndependentsButtonsMenu) node).initMenuButtonAction();
@@ -84,7 +103,8 @@ public class WebEngineScene extends VisulogScene
         else setupChildren((Parent) node);
     }
 
-    public void initWebEngine() { //Initialise le webEngine
+    @Override
+    public void initWebEngine() {
         var nodeList = this.getRoot().getChildrenUnmodifiable();
         if (nodeList == null) return;
         for (Node node : nodeList) {
@@ -92,7 +112,12 @@ public class WebEngineScene extends VisulogScene
         }
     }
 
-    private void initWebEngine(SplitPane parent) { //Fonction de parcours, initialise le webEngine
+    /**
+     * Fonction de parcours, initialise le webEngine
+     *
+     * @param parent represente le parent direct
+     */
+    private void initWebEngine(SplitPane parent) {
         if (parent == null) return;
         var nodeList = parent.getItems();
         for (Node node : nodeList) {
@@ -100,7 +125,12 @@ public class WebEngineScene extends VisulogScene
         }
     }
 
-    private void initWebEngine(Parent parent) { //Fonction de parcours, initialise le webEngine
+    /**
+     * Fonction de parcours, initialise le webEngine
+     *
+     * @param parent represente le parent direct
+     */
+    private void initWebEngine(Parent parent) {
         if (parent == null) return;
         var nodeList = parent.getChildrenUnmodifiable();
         for (Node node : nodeList) {
@@ -108,6 +138,11 @@ public class WebEngineScene extends VisulogScene
         }
     }
 
+    /**
+     * Fonction de parcours, initialise le webEngine
+     *
+     * @param node represente le noeud fils dont on verifie si c'est un webEngine
+     */
     private void initWebEngine(Node node) { //Fonction de parcours, initialise le webEngine
         if (node == null) return;
         if (node instanceof WebView) {

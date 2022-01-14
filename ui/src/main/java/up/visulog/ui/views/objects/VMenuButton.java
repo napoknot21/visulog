@@ -7,12 +7,14 @@ import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;
 
 import java.util.ArrayList;
+import java.util.List;
 
-//Genre le menu de boutons lateral
+/**
+ * Menu de boutons lateral
+ */
 public class VMenuButton extends VBox implements SceneChild, IndependentsButtonsMenu {
     private static double nextPosY = 0;
     private static Controller controller;
-    private Model model;
 
 
     public VMenuButton() {
@@ -22,7 +24,12 @@ public class VMenuButton extends VBox implements SceneChild, IndependentsButtons
 
     }
 
-    private ArrayList<MenuButtonItem> initializeMenuButtonItem() { //Initialise les boutons automatiquement
+    /**
+     * Initialise les boutons automatiquement
+     *
+     * @return la liste de boutons generes
+     */
+    private List<MenuButtonItem> initializeMenuButtonItem() { //
         ArrayList<MenuButtonItem> buttons = new ArrayList<>();
         for (String key : Model.BUTTON_NAME_TO_PLUGIN_NAME.keySet()) {
             MenuButtonItem b = new MenuButtonItem(key);
@@ -31,7 +38,10 @@ public class VMenuButton extends VBox implements SceneChild, IndependentsButtons
         return buttons;
     }
 
-    public void initMenuButtonAction() { //Initialise l'action des boutons
+    /**
+     * Initialise l'action des boutons
+     */
+    public void initMenuButtonAction() {
         Controller controller = getController();
         for (Node node : this.getChildren()) {
             if (node instanceof MenuButtonItem) {
@@ -43,7 +53,6 @@ public class VMenuButton extends VBox implements SceneChild, IndependentsButtons
 
     @Override
     public void setup(VisulogScene scene) {
-        this.model = scene.getModel();
         controller = scene.getController();
     }
 
@@ -51,7 +60,10 @@ public class VMenuButton extends VBox implements SceneChild, IndependentsButtons
         return controller;
     }
 
-    static class MenuButtonItem extends MethodButton implements PluginButtons { // Represente les boutons du menu
+    /**
+     * Represente les boutons du menu
+     */
+    static class MenuButtonItem extends MethodButton implements PluginButtons {
 
         public MenuButtonItem(String label) {
             super(label);
