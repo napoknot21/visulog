@@ -1,5 +1,6 @@
 package up.visulog.analyzer;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public interface AnalyzerPlugin extends Runnable {
@@ -18,8 +19,6 @@ public interface AnalyzerPlugin extends Runnable {
 
         String getResultAsHtmlDiv();
 
-        @SuppressWarnings("all")
-        <C> Map<String, C> getResultAsMap();
-
+        Map<String, Object> getResultAsMap();
     }
 }

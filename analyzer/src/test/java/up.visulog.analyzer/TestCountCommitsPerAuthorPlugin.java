@@ -38,8 +38,8 @@ public class TestCountCommitsPerAuthorPlugin {
         var res = CountCommitsPerAuthor.processLog(log);
         assertEquals(authors.length, res.getResultAsMap().size());
         var sum = res.getResultAsMap().values()
-                .stream().reduce(0, Integer::sum);
-        assertEquals(entries, sum.longValue());
+                .stream().reduce(0, (a,b) -> Integer.sum((int)a,(int)b));
+        assertEquals(entries, ((Integer)sum).longValue());
         System.out.print(res.getResultAsHtmlDiv());
     }
 }

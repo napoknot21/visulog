@@ -4,6 +4,7 @@ import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 
+import javax.swing.text.html.ObjectView;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,9 +65,8 @@ public class CountCommitsPerAuthorPerPeriod implements AnalyzerPlugin {
     static class Result implements AnalyzerPlugin.Result {
         protected final Map<String , Integer> commitsPerPeriodPerAuthor = new HashMap<>();
         protected int nbCommitsPerPeriod = 0;
-        @SuppressWarnings("all")
-        public Map<String, Integer> getResultAsMap() {
-            return commitsPerPeriodPerAuthor;
+        public Map<String, Object> getResultAsMap() {
+            return new HashMap<>(commitsPerPeriodPerAuthor);
         }
 
         @Override

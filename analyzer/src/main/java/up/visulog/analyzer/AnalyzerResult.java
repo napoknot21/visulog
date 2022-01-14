@@ -16,9 +16,8 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
         return subResults;
     } //renvoie la liste des resultats
 
-    @SuppressWarnings("all")
-    public <C> Map<String, C> toMap() { //Renvoi les resultats en tant que map
-        return (Map<String, C>) subResults.stream().map(AnalyzerPlugin.Result::getResultAsMap).reduce(new HashMap<>(), (map1, map2) -> {
+    public Map<String, Object> toMap() { //Renvoi les resultats en tant que map
+        return subResults.stream().map(AnalyzerPlugin.Result::getResultAsMap).reduce(new HashMap<>(), (map1, map2) -> {
             if (map2 != null) {
                 map2.forEach((key, obj) -> selector(obj, key, map1));
             }
@@ -32,14 +31,13 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
      * @param obj  Represente l'objet a travailler
      * @param key  Represente la cle de l'objet dans la map
      * @param map1 est l'accumulateur de la fonction toMap()
-     * @param <C>  represente le type quelconque de la classe des valeurs a traiter
      */
-    private <C> void selector(C obj, String key, Map<String, C> map1) {
+    private void selector(Object obj, String key, Map<String, Object> map1) {
         if (obj instanceof Integer) {
-            numberTreatment(obj, key, map1);
+            treatment((Integer) obj, key, map1);
         }
         if (obj instanceof int[]) {
-            numberArrayTreatment(obj, key, map1);
+            treatment((int[]) obj, key, map1);
         }
     }
 
@@ -51,14 +49,12 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
      * @param obj  Represente l'objet a travailler
      * @param key  Represente la cle de l'objet dans la map
      * @param map1 est l'accumulateur de la fonction toMap()
-     * @param <C>  represente le type quelconque de la classe des valeurs a traiter
      */
-    private <C> void numberArrayTreatment(C obj, String key, Map<String, C> map1) {
-        if (!(obj instanceof int[])) return;
+    private void treatment(int[] obj, String key, Map<String, Object> map1) {
         int[] n1 = (int[]) map1.getOrDefault(key, null);
         if (n1 != null) {
             for (int i = 0; i < n1.length; i++) {
-                ((int[]) obj)[i] += n1[i];
+                obj[i] += n1[i];
             }
         }
         map1.put(key, obj);
@@ -71,18 +67,11 @@ public class AnalyzerResult { //classe qui contient les resultats obtenus via An
      * @param obj  Represente l'objet a travailler
      * @param key  Represente la cle de l'objet dans la map
      * @param map1 est l'accumulateur de la fonction toMap()
-     * @param <C>  represente le type quelconque de la classe des valeurs a traiter
      */
-    @SuppressWarnings("all")
-    private <C> void numberTreatment(C obj, String key, Map<String, C> map1) {
-        if (!(obj instanceof Integer)) return;
-        C n1 = map1.getOrDefault(key, null);
-        if (n1 == null) {
-            map1.put(key, obj);
-            return;
-        }
-        int val = (int) obj + (int) n1;
-        ((Map<String, Integer>) map1).put(key, val);
+    private void treatment(int obj, String key, Map<String, Object> map1) {
+        int n1 = (int) map1.getOrDefault(key, 0);
+        int val = obj + n1;
+        map1.put(key,val);
     }
 
     @Override

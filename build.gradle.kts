@@ -20,6 +20,7 @@ allprojects {
     }
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
+        options.compilerArgs.add("-Xlint:unchecked")
     }
 
     java.sourceCompatibility = JavaVersion.VERSION_11

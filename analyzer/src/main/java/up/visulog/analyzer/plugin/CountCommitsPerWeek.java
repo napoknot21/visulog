@@ -60,8 +60,8 @@ public class CountCommitsPerWeek implements AnalyzerPlugin {
 
     static class Result implements AnalyzerPlugin.Result {
         protected final HashMap<String , Integer> commitsPerWeek = new HashMap<>();
-        public Map<String, Integer> getResultAsMap() {
-            return commitsPerWeek;
+        public Map<String, Object> getResultAsMap() {
+            return new HashMap<>(commitsPerWeek);
         }
 
         @Override
