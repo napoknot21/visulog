@@ -10,16 +10,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileSystems;
-import java.util.ArrayList;
-import java.nio.file.OpenOption;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLILauncher {
 
     public static void main(String[] args) {
-        if (args.length == 0 ) {
+        if (args.length == 0) {
             VisulogLauncher.run(args);
             return;
         }
@@ -73,7 +69,7 @@ public class CLILauncher {
                             break;
 
                         case "--research":
-                                researchConfig(plugins,pValue);
+                            researchConfig(plugins, pValue);
                             break;
 
                         case "--addPlugin":
@@ -106,40 +102,39 @@ public class CLILauncher {
     }
 
 
-    public static ArrayList<String> inputFiltering(String[]args){
+    public static ArrayList<String> inputFiltering(String[] args) {
         /*Pour traiter le cas où l'utilisateur pourra insèrer plusieures commandes à la fois
-        * cas limite : l'argument pValue peut contenir des espaces donc on traite ce cas ici
-        * pour que chaque argument soit délimiter par '--' qui se trouve au début de chaque commande
-        * */
+         * cas limite : l'argument pValue peut contenir des espaces donc on traite ce cas ici
+         * pour que chaque argument soit délimiter par '--' qui se trouve au début de chaque commande
+         * */
         ArrayList<String> input = new ArrayList<>();
-        int pos = 0 ;
+        int pos = 0;
 
-        while (pos<args.length){
+        while (pos < args.length) {
             String str = "";
             do {
-                if (pos==0 || args[pos].startsWith("--") && !args[pos].startsWith("--research")){
+                if (pos == 0 || args[pos].startsWith("--") && !args[pos].startsWith("--research")) {
                     str += args[pos++];
+                } else {
+                    str += args[pos++] + " ";
                 }
-                else{
-                    str +=args[pos++]+" ";
-                }
-            }while (pos < args.length && !args[pos].startsWith("--"));
+            } while (pos < args.length && !args[pos].startsWith("--"));
 
             input.add(str);
         }
         return input;
     }
 
-    private static void researchConfig(HashMap<String, PluginConfig> plugins, String pValue){
-        if(pValue.length()==0)  displayHelpAndExit();
+    private static void researchConfig(HashMap<String, PluginConfig> plugins, String pValue) {
+        if (pValue.length() == 0) displayHelpAndExit();
         ArrayList<String> keyWords = new ArrayList<>();
-        try(Scanner sc = new Scanner(pValue)) {
+        try (Scanner sc = new Scanner(pValue)) {
             while (sc.hasNext()) {
                 keyWords.add(sc.next());
             }
         }
-        HashMap <String, ArrayList<String>> pluginConfig = new HashMap<>();
-        pluginConfig.put("keyWords",keyWords);
+        HashMap<String, List<String>> pluginConfig = new HashMap<>();
+        pluginConfig.put("keyWords", keyWords);
         plugins.put("research", new PluginConfig(pluginConfig));
     }
 
@@ -162,18 +157,18 @@ public class CLILauncher {
     private static void justSaveConfigFile(String pValue) {
         if (pValue.equals("")) displayHelpAndExit();
         if (pValue.equals("--allPlugin")) {
-           check_directory();
-           Configuration.createModifFile(pValue,pValue);
-           return;
+            check_directory();
+            Configuration.createModifFile(pValue, pValue);
+            return;
         }
-            String pName_file = "--addPlugin=";
-            try {
-                Analyzer.findClassPlugins(pValue);
-                pName_file += pValue;
-            } catch (ClassNotFoundException e) {
-                System.out.println("Unknown plugin");
-                displayHelpAndExit();
-            }
+        String pName_file = "--addPlugin=";
+        try {
+            Analyzer.findClassPlugins(pValue);
+            pName_file += pValue;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Unknown plugin");
+            displayHelpAndExit();
+        }
         check_directory();
         Configuration.createModifFile(pValue, pName_file);
     }
@@ -205,14 +200,14 @@ public class CLILauncher {
 
     private static void addPlugin(String pValue, HashMap<String, PluginConfig> plugins) {
         String[] arguments = pValue.split("-");
-        if (arguments.length == 3){
+        if (arguments.length == 3) {
             try {
                 Analyzer.findClassPlugins(arguments[0]);
                 plugins.put(arguments[0], new PluginConfig(arguments[1], arguments[2]));
             } catch (ClassNotFoundException e) {
                 displayHelpAndExit();
             }
-        }else {
+        } else {
             try {
                 Analyzer.findClassPlugins(arguments[0]);
                 plugins.put(arguments[0], new PluginConfig());
@@ -235,7 +230,7 @@ public class CLILauncher {
             System.out.print("\n\t\t\t" + plugins);
             if (plugins.equals("CountCommitsPerPeriodPerAuthor")) System.out.print("-YYYY/MM/DD-YYYY/MM/DD");
         }
-        System.out.print("\n\t\t --research=[keyWord] : to load all commits related to the keyWord" );
+        System.out.print("\n\t\t --research=[keyWord] : to load all commits related to the keyWord");
         System.out.print("\n\t\t --loadConfigFile=[pluginName*] or --load=[pluginName*]: to load an existing plugin in the configuration" +
                 "\n\t\t --justSaveConfigFile=[pluginName*] or --save=[pluginName*]: to save a plugin in the configuration" +
                 "\n\n *from the list of plugins above");

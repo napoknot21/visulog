@@ -15,7 +15,7 @@ import java.util.*;
 public class Research implements AnalyzerPlugin
 {
     private final Configuration configuration;
-    private ArrayList<String> keywords;
+    private List<String> keywords;
     private Result result;
 
     public Research(Configuration generalConfiguration){
@@ -28,7 +28,7 @@ public class Research implements AnalyzerPlugin
      * @param keyWords le/les mot(s) clé(s)
      * @return la liste des commits où figure le/les mot(s) clé(s)
      */
-    static Result processLog(List<Commit> gitLog, ArrayList<String> keyWords) {
+    static Result processLog(List<Commit> gitLog, List<String> keyWords) {
         var result = new Research.Result();
         for (var commit : gitLog){
             boolean init = true;
@@ -108,6 +108,7 @@ public class Research implements AnalyzerPlugin
         }
 
         @Override
+        @SuppressWarnings("all")
         public Map<String, Integer> getResultAsMap() {
             List <Commit> commits = new ArrayList<>();
             for(var c : commitsFound.entrySet()){
