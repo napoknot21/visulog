@@ -14,6 +14,11 @@ public class LineChanges {
         return parseDiff(ChangesDescription.processCommand(args, gitPath));
     }
 
+    /**
+     * Calcule le nombre de lignes qui ont été ajoutées/retirées par auteur
+     * @param reader représente le contenu dans le log de git
+     * @return une map qui montre les différences de lignes ajoutées/retirées par auteur
+     */
     public static Map<String, int[]> parseDiff(BufferedReader reader) {
         var objects = reader.lines().toArray();
         HashMap<String, int[]> map = new HashMap<>();
