@@ -1,9 +1,9 @@
 package up.visulog.analyzer;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public interface AnalyzerPlugin extends Runnable {
+
     /**
      * run this analyzer plugin
      */
