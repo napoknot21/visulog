@@ -68,6 +68,7 @@ public interface MapRelations {
         BUTTON_NAME_TO_PLUGIN_NAME.put("Commits", "CountCommitsPerAuthor");
         BUTTON_NAME_TO_PLUGIN_NAME.put("Merge Commits", "CountMergeCommitsPerAuthor");
         BUTTON_NAME_TO_PLUGIN_NAME.put("Nombres de lignes", "CountLinesPerAuthor");
+        BUTTON_NAME_TO_PLUGIN_NAME.put("Commits par semaine", "CountCommitsPerWeek");
         //Todo: a remplir selon les plugins
 
         return BUTTON_NAME_TO_PLUGIN_NAME;
@@ -92,6 +93,7 @@ public interface MapRelations {
     private static HashMap<String, String[]> initializeLegend(){
         HashMap<String, String[]> LEGEND = new HashMap<>();
         LEGEND.put("Commits", new String[]{"Nombre de commits par personne"});
+        LEGEND.put("Commits par semaine", new String[]{"Nombre de commits par semaine"});
         LEGEND.put("Merge Commits", new String[]{"Nombre de merge commits par personne"});
         LEGEND.put("Nombres de lignes", new String[]{"Nombre de lignes ajoutées par personne", "Nombre de lignes retirées par personne"});
         LEGEND.put("research",new String[]{"Statistique de la recherche"});

@@ -86,9 +86,9 @@ public class CountCommitsPerWeek implements AnalyzerPlugin {
                 for (var item : annee.getValue().entrySet()) {
                     html.append("<li>")
                             .append(item.getKey())
-                            .append(": ")
+                            .append("eme semaine : ")
                             .append(item.getValue())
-                            .append("</ul>")
+                            .append(" commits</ul>")
                             .append("</li>");
                 }
             }
