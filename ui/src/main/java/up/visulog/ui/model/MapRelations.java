@@ -45,6 +45,9 @@ public interface MapRelations {
         calendar = (GregorianCalendar) GREGORIAN_CALENDAR.clone();
         calendar.add(Calendar.MONTH,-1);
         RADIO_BUTTON_NAME.put("Sur le dernier mois",createDate(calendar));
+        calendar = (GregorianCalendar) GREGORIAN_CALENDAR.clone();
+        calendar.add(Calendar.MONTH,-3);
+        RADIO_BUTTON_NAME.put("Sur le dernier trimestre",createDate(calendar));
         //Todo: a remplir selon les filtres
 
         return RADIO_BUTTON_NAME;
