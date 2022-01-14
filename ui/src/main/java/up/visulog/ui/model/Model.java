@@ -2,10 +2,7 @@ package up.visulog.ui.model;
 
 import up.visulog.analyzer.AnalyzerResult;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Model implements MapRelations {
 
@@ -38,7 +35,8 @@ public class Model implements MapRelations {
      * @return la liste de tous les resultats sous forme de map simple '\<'String, Integer'\>'
      */
     public List<Map<String, Integer>> getResultAsMap() {
-        return selector(result.toMap());
+        var list = selector(result.toMap());
+        return (list == null) ? new ArrayList<>(): list;
     }
 
     private <C> List<Map<String, Integer>> selector(Map<String, C> data) {
