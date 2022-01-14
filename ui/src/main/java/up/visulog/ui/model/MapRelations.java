@@ -65,9 +65,9 @@ public interface MapRelations {
 
     private static HashMap<String, String> initButtonNameToPluginName() { //Initialise la map
         HashMap<String, String> BUTTON_NAME_TO_PLUGIN_NAME = new HashMap<>();
-        BUTTON_NAME_TO_PLUGIN_NAME.put("Commits", "countCommitsPerAuthor");
-        BUTTON_NAME_TO_PLUGIN_NAME.put("Merge Commits", "countMergeCommitsPerAuthor");
-        BUTTON_NAME_TO_PLUGIN_NAME.put("Nombres de lignes", "countLinesPerAuthor");
+        BUTTON_NAME_TO_PLUGIN_NAME.put("Commits", "CountCommitsPerAuthor");
+        BUTTON_NAME_TO_PLUGIN_NAME.put("Merge Commits", "CountMergeCommitsPerAuthor");
+        BUTTON_NAME_TO_PLUGIN_NAME.put("Nombres de lignes", "CountLinesPerAuthor");
         //Todo: a remplir selon les plugins
 
         return BUTTON_NAME_TO_PLUGIN_NAME;

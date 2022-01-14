@@ -10,7 +10,8 @@ public class PluginConfig implements Serializable {
     public final Map<String, ArrayList<String>> config = new HashMap<>();
     public final String[] period = new String[2];
 
-    public PluginConfig(){}
+    public PluginConfig(){
+    }
 
     public PluginConfig(HashMap<String, ArrayList<String>> pluginConfig) {
         for (Map.Entry<String,ArrayList<String>>entry: pluginConfig.entrySet()){
