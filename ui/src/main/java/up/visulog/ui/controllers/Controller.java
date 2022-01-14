@@ -15,27 +15,59 @@ import up.visulog.ui.views.scenes.VisulogScene;
 import java.nio.file.FileSystems;
 import java.util.*;
 
+/**
+ * Controller de l'interface graphique
+ */
 public class Controller {
 
+    /**
+     * Represenete la vue de la gui
+     */
     protected View view;
+    /**
+     * Represente le modele de la gui.
+     */
     protected Model model;
+    /**
+     * Represente la scene principale de la gui
+     */
     protected VisulogScene scene;
+    /**
+     * Pannel contenant les selecteurs de graphique
+     */
     GraphParameter graphParameter;
+    /**
+     * Represente le panel central avec le webView ou les graphiques
+     */
     MainContainer mainContainer;
+    /**
+     * Represente le panel contenant les boutons des fiultres de plugins
+     */
     MenuRadioButton menuRadioButton;
+
     public Controller(View view, Model model, VisulogScene scene) {
         this.view = view;
         this.model = model;
         this.scene = scene;
     }
 
-    public void executeAction(PluginButtons b) {// Execute le plugin lie au bouton
+    /**
+     * Execute le plugin lie au bouton
+     *
+     * @param b represente le bouton active
+     */
+    public void executeAction(PluginButtons b) {
         if (b == null) return;
         runPlugin(b);
         this.scene.update(model.toHtml());
     }
 
-    public void executeAction(MethodButton b) {// Execute le plugin lie au bouton
+    /**
+     * Execute le plugin lie au bouton
+     *
+     * @param b represente le bouton active
+     */
+    public void executeAction(MethodButton b) {
         if (b == null) return;
         executeAction((PluginButtons) b);
         if (menuRadioButton != null) {
@@ -44,7 +76,12 @@ public class Controller {
 
     }
 
-    protected void runPlugin(PluginButtons b) {  //Execute le plugin Todo: amelioration de cette partie
+    /**
+     * Execute le plugin
+     *
+     * @param b represente le bouton active
+     */
+    protected void runPlugin(PluginButtons b) {
         var PLUGINS = Model.PLUGINS;
         if (!PLUGINS.containsKey(b.getValue())) return;
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
@@ -55,7 +92,10 @@ public class Controller {
         this.updateMainContainer();
     }
 
-    private void updateMainContainer() {//Met à jour les graphes du mainContainer
+    /**
+     * Met à jour les graphes du mainContainer
+     */
+    private void updateMainContainer() {
         graphParameter.getGraphicSelector().setVisible(true);
         graphParameter.getChildren().forEach(node -> {
             if (node instanceof ChartButton && ((ChartButton) node).isSelected()) {
@@ -64,14 +104,19 @@ public class Controller {
                 button.setChartNull();
                 button.update(model.getCurrentPlugin());
                 Collection<Chart> charts = button.getChart();
-                if (graphParameter.getGraphicSelector().isSelected()){
-                    for(Chart c : charts) mainContainer.getChildren().add(c);
+                if (graphParameter.getGraphicSelector().isSelected()) {
+                    for (Chart c : charts) mainContainer.getChildren().add(c);
                 }
             }
         });
     }
 
-    public void switchWebMode(GraphParameter container) { //Passe l'application en affichage web
+    /**
+     * Passe l'application en affichage web
+     *
+     * @param container represente le panel contenant les boutons de selection de graphique
+     */
+    public void switchWebMode(GraphParameter container) {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) node.setVisible(false);
         });
@@ -79,31 +124,41 @@ public class Controller {
         mainContainer.getChildren().add(mainContainer.getWeb());
     }
 
-    public void switchGraphMode(HBox container) {   ////Passe l'application en affichage graphe
+    /**
+     * Passe l'application en affichage graphe
+     *
+     * @param container represente le panel contenant les boutons de selection de graphique
+     */
+    public void switchGraphMode(HBox container) {
         container.getChildren().forEach(node -> {
             if (node instanceof ChartButtons) {
                 node.setVisible(true);
                 Collection<Chart> charts = ((ChartButton) node).getChart();
                 if (charts != null && !charts.isEmpty()) {
-                    for(Chart c : charts)
-                    mainContainer.getChildren().add(c);
+                    for (Chart c : charts)
+                        mainContainer.getChildren().add(c);
                 }
             }
         });
         mainContainer.getChildren().remove(mainContainer.getWeb());
     }
 
-    public void applyFilter(ChartButton b) {    //Applique le filtre lie au bouton
+    /**
+     * Applique le filtre lie au bouton
+     *
+     * @param b est le bouton active
+     */
+    public void applyFilter(ChartButton b) {
         if (b.isSelected()) {
             b.update(model.getCurrentPlugin());
-            for(Chart c : b.getChart())
+            for (Chart c : b.getChart())
                 mainContainer.getChildren().add(c);
 
         } else {
             b.setChartNull();
             LinkedList<Object> toRemove = new LinkedList<>();
-            for(Object o : mainContainer.getChildren()){
-                if(o instanceof Chart) toRemove.add(o);
+            for (Object o : mainContainer.getChildren()) {
+                if (o instanceof Chart) toRemove.add(o);
             }
 
             mainContainer.getChildren().removeAll(toRemove);
@@ -122,12 +177,17 @@ public class Controller {
         this.mainContainer = mainContainer;
     }
 
+    /**
+     * lance le plugin --reserach avec les mots-clé donne en arguments
+     *
+     * @param text represente les mots cles
+     */
     public void search(String text) {
         graphParameter.getGraphicSelector().setVisible(true);
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
         var plugin = new HashMap<String, PluginConfig>();
-        HashMap <String, List<String>> pluginConfig = new HashMap<>();
-        pluginConfig.put("keyWords",getKeyWord(text));
+        HashMap<String, List<String>> pluginConfig = new HashMap<>();
+        pluginConfig.put("keyWords", getKeyWord(text));
         plugin.put("research", new PluginConfig(pluginConfig));
         var config = new Configuration(gitPath, plugin);
         model.update(new Analyzer(config).computeResults(), "research");
@@ -137,7 +197,7 @@ public class Controller {
 
     private List<String> getKeyWord(String text) {
         List<String> keyWords = new ArrayList<>();
-        try(Scanner sc = new Scanner(text)) {
+        try (Scanner sc = new Scanner(text)) {
             while (sc.hasNext()) {
                 keyWords.add(sc.next());
             }
