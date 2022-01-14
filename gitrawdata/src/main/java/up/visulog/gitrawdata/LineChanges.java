@@ -9,6 +9,11 @@ public class LineChanges {
 
     public static String author;
 
+    /**
+     * Associe les valeurs des la commande git à une liste (Map)
+     * @param gitPath Chemin du git
+     * @return Liste qui résulte de la commande git
+     */
     public static Map<String, int[]> parseDiffFromCommand(Path gitPath) {
         String[] args = {"git", "log", "--numstat"};
         return parseDiff(ChangesDescription.processCommand(args, gitPath));

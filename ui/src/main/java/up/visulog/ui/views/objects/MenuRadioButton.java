@@ -9,13 +9,13 @@ import up.visulog.ui.views.scenes.VisulogScene;
 
 import java.util.ArrayList;
 
-
-public class MenuRadioButton extends HBox
-        implements SceneChild {//Genere le menu de filtres
+/**
+ * Menu des filtres
+ */
+public class MenuRadioButton extends HBox implements SceneChild {//
 
     private static double nextPosX = 0;
     private Controller controller;
-    private Model model;
 
     public MenuRadioButton() {
         super();
@@ -26,11 +26,16 @@ public class MenuRadioButton extends HBox
         this.getChildren().addAll(initializeMenuRadioButtonItem());
     }
 
-    public ArrayList<MenuRadioButtonItem> initializeMenuRadioButtonItem() { //Cree tous les filtres automatiquement
+    /**
+     * Cree tous les filtres automatiquement
+     *
+     * @return la lise de tous les filtres
+     */
+    public ArrayList<MenuRadioButtonItem> initializeMenuRadioButtonItem() {
         ArrayList<MenuRadioButtonItem> buttons = new ArrayList<>();
         for (String key : Model.RADIO_BUTTON_NAME.keySet()) {
             MenuRadioButtonItem b = new MenuRadioButtonItem(key);
-            setMargin(b,new Insets(10));
+            setMargin(b, new Insets(10));
             buttons.add(b);
             b.setVisible(false);
         }
@@ -40,11 +45,15 @@ public class MenuRadioButton extends HBox
     @Override
     public void setup(VisulogScene scene) {
         this.controller = scene.getController();
-        this.model = scene.getModel();
         this.getController().setMenuRadioButton(this);
     }
 
-    public void initMenuButtonAction(String plugin) { //Initialise l'action de chaque Radio button en fonction de leur filtre
+    /**
+     * Initialise l'action de chaque Radio button en fonction de leur filtre
+     *
+     * @param plugin represente le nom de l'action
+     */
+    public void initMenuButtonAction(String plugin) {
         Controller controller = getController();
         for (Node node : this.getChildren()) {
             MenuRadioButtonItem b = (MenuRadioButtonItem) node;
@@ -56,9 +65,14 @@ public class MenuRadioButton extends HBox
         }
     }
 
+    public Controller getController() {
+        return controller;
+    }
 
-    static class MenuRadioButtonItem extends MethodRadioButton
-            implements PluginButtons { // Correspond a un radio button
+    /**
+     * RadioButton du menu
+     */
+    static class MenuRadioButtonItem extends MethodRadioButton implements PluginButtons {
         public MenuRadioButtonItem(String label) {
             super(label);
             this.setLayoutX(nextPosX);
@@ -70,9 +84,5 @@ public class MenuRadioButton extends HBox
         public String getPlugin() {
             return null;
         }
-    }
-
-    public Controller getController() {
-        return controller;
     }
 }
