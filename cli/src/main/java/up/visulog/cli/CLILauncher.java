@@ -23,19 +23,14 @@ public class CLILauncher {
             VisulogLauncher.run(args);
             return;
         }
-        try {
             var config = makeConfigFromCommandLineArgs(args);  //creation de la configuration en fonction des arguments choisis (voir fonction ci dessous)
             if (config.isPresent()) { //verifie qu'une configuration a bien ete cree
                 var analyzer = new Analyzer(config.get()); //cree une variable analyzer qui contient un Analyzer cree à partir de la config reçue
                 var results = analyzer.computeResults(); //recupere les resultats de l'analyzer (voir Analyzer.java)
                 System.out.println(results.toHTML()); //affiche ces resultats au format HTML
             } else {
-                System.out.println("[UNKNOWN ARGUMENTS]");
                 displayHelpAndExit(); //voir fonction ci dessous
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -72,7 +67,6 @@ public class CLILauncher {
                         case "--Help":
                         case "--help":
                         case "--displayHelp":
-
                             displayHelpAndExit();
                             break;
 
@@ -266,6 +260,7 @@ public class CLILauncher {
             System.out.print("\n\t\t\t" + plugins);
             if (plugins.equals("CountCommitsPerPeriodPerAuthor")) System.out.print("-YYYY/MM/DD-YYYY/MM/DD");
         }
+        System.out.print("\n\t\t --allPlugin : to run all the plugins above");
         System.out.print("\n\t\t --research=[keyWord] : to load all commits related to the keyWord");
         System.out.print("\n\t\t --loadConfigFile=[pluginName*] or --load=[pluginName*]: to load an existing plugin in the configuration" +
                 "\n\t\t --justSaveConfigFile=[pluginName*] or --save=[pluginName*]: to save a plugin in the configuration" +
