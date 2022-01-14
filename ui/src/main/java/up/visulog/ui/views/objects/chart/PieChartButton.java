@@ -35,7 +35,9 @@ public class PieChartButton extends ChartButton {
         PieChart chart;
         if(newData.size() < 7) chart = new PieChart(data); //FIXME : 7 = nombre de personnes dans le groupe mais hardcoded
         else chart = new PieChart(newData);
-        chart.setTitle(Model.LEGEND.get(chartName)[i]);
+        if (Model.LEGEND.containsKey(chartName)) {
+            chart.setTitle(Model.LEGEND.get(chartName)[i]);
+        }
         addChart(chart);
         chart.setLegendVisible(false);
         chart.setLabelsVisible(true);

@@ -30,7 +30,9 @@ public class BarChartButton extends ChartButton {
         //chart.setTitle();
         int i = 0;
         for(XYChart.Series<Number, String> s : chart.getData()){
-            s.setName(Model.LEGEND.get(getModel().getCurrentPlugin())[i++]);
+            if (Model.LEGEND.containsKey(getModel().getCurrentPlugin())) {
+                s.setName(Model.LEGEND.get(getModel().getCurrentPlugin())[i++]);
+            }
         }
     }
 
