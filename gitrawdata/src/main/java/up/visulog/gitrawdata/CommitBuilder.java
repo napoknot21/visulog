@@ -131,7 +131,7 @@ public class CommitBuilder {
      * Crée une copie du commit
      * @return le nouveau commit crée
      */
-    public Commit createCommit() { 
+    public Commit createCommit() {
         return new Commit(getId(), getAuthor(), getDate(), getDescription());
     }
 

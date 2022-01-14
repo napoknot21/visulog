@@ -45,7 +45,7 @@ public class MergeCommitBuilder extends CommitBuilder {
     }
 
     /**
-     * Cree un commit à l'aide du builde du commit
+     * Cree un commit à l'aide du build du commit
      * @see CommitBuilder
      */
     public MergeCommit createCommit() {
