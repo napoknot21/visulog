@@ -10,32 +10,35 @@
  * Configuration/M/getGitPath/?::Path
  * */
 
-
 package up.visulog.analyzer;
 
 import up.visulog.config.Configuration;
-import up.visulog.config.PluginConfig;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Analyzer {
-    private final Configuration config;         /**un objet Analyzer a un attribut config qui est une Configuration (représentée par : Configuration/A/gitPath/Path et Configuration/A/plugins/Map<String, PluginConfig> )*/
 
-    private AnalyzerResult result;              /**il a aussi un attribut result qui est un AnalyzerResult (représenté par une liste d'analyzerPlugin.result : AnalyzerResult/A/subResults/List<AnalyzerPlugin.Result>)*/
+    private final Configuration config;
+    private AnalyzerResult result;              /**attribut result qui est un AnalyzerResult (représenté par une liste d'analyzerPlugin.result : AnalyzerResult/A/subResults/List<AnalyzerPlugin.Result>)*/
 
-    public Analyzer(Configuration config) {     /**Constructeur à partir d'une Configuration*/
+    /**
+     * Constructeur pour Analyser à partir d'une configuration
+     * @param config La Configuration
+     */
+    public Analyzer(Configuration config) {
         this.config = config;
     }
 
-    public AnalyzerResult computeResults() {    /**méthode d'objet computeResult() qui créé des plugins d'après Analyzer/A/config et les mets dans une liste de plugin $plugins, puis les fait tourner.*/
+    /**
+     * Créé des plugins d'après Analyzer/A/config et les mets dans une liste de plugin $plugins, puis les fait tourner.
+     * @return l'objet Analyzer ou les résultats sont stockés
+     */
+    public AnalyzerResult computeResults() {
         List<AnalyzerPlugin> plugins = new ArrayList<>();
         for (var pluginConfigEntry: config.getPluginConfigs().entrySet()) {  
             var pluginName = pluginConfigEntry.getKey();
@@ -47,21 +50,24 @@ public class Analyzer {
         ThreadGroup group = new ThreadGroup("plugins");
         for (var plugin : plugins) {
             new Thread(group, plugin).start();
-        } /**ensuite on fait tourner tous les plugins qui sont dans la liste plugins.*/
+        }
+        /**ensuite on fait tourner tous les plugins qui sont dans la liste plugins.*/
         while (group.activeCount()>0) Thread.onSpinWait();
-
         // store the results together in an AnalyzerResult instance and return it
         return new AnalyzerResult(plugins.stream().map(AnalyzerPlugin::getResult).collect(Collectors.toList())); /**On créé une liste correspondant à l'image de plugins par CountCommitPerAuthorPlugin/M/getResult/?::Result, les Result contenant le resultat de l'analyse*/
     }
 
+    /**
+     * Crée un plugin
+     * @param pluginName Nom du plugin
+     * @return Le plugin, sinon un message d'erreur et une valeur vide
+     */
     public Optional<AnalyzerPlugin> makePlugin(String pluginName) {
         /*Check if there's a plugin identified by the name given in the Configuration HashMap*/
         if(this.config.getPluginConfigs().containsKey(pluginName)){
             try {
                 Constructor<?> classConstruct = findClassPlugins(pluginName).getConstructor(Configuration.class); // Get the constructor of the pluginClass using getConstructor() method
-
                 return Optional.of((AnalyzerPlugin)classConstruct.newInstance(this.config));
-
             } catch (ReflectiveOperationException e){
                 e.printStackTrace();
                 System.out.println("Plugin not found.");
@@ -71,12 +77,22 @@ public class Analyzer {
         return Optional.empty();
     }
 
+    /**
+     * Trouve la classe du plugin
+     * @param pluginName
+     * @return la classe Object pour le plugin
+     * @throws ClassNotFoundException
+     */
     public static Class <?> findClassPlugins(String pluginName) throws ClassNotFoundException {
         String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
-        Class<?> c = Class.forName("up.visulog.analyzer.plugin."+plug);// returns the Class object for the plugin
+        Class<?> c = Class.forName("up.visulog.analyzer.plugin."+plug);
         return c;
     }
 
+    /**
+     * Met dans une liste tous les plugins
+     * @return La liste de plugins
+     */
     public static ArrayList<String> listOfPlugins(){
         ArrayList<String> pluginsList = new ArrayList<>();
         try{
@@ -86,7 +102,7 @@ public class Analyzer {
                 if(!classes.getName().equals("Research.java"))
                     pluginsList.add(classes.getName().replace(".java",""));
             }
-        }catch (Exception e ){
+        }catch (Exception e){
             e.printStackTrace();
         }
         return pluginsList;

@@ -3,8 +3,10 @@ package up.visulog.ui.views.objects;
 import javafx.scene.control.Button;
 import up.visulog.ui.model.Model;
 
-public class MethodButton extends Button
-        implements PluginButtons { //Classe Button permettant de lancer les plugins a partir des boutons
+/**
+ * Classe Button permettant de lancer les plugins a partir des boutons
+ */
+public class MethodButton extends Button implements PluginButtons {
 
     static int posX = 0;
 
