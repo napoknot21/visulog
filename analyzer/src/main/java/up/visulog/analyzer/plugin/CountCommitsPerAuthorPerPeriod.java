@@ -7,16 +7,13 @@ import up.visulog.gitrawdata.Commit;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
+public class CountCommitsPerAuthorPerPeriod implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
-    public CountCommitsPerPeriodPerAuthorPlugin(Configuration generalConfiguration) {
+    public CountCommitsPerAuthorPerPeriod(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
@@ -42,11 +39,11 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
     public void run() {
         DateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date beginning, ending;
-        String[] period = configuration.getPluginConfig("countCommitsPerPeriodPerAuthor").period;
+        String[] period = configuration.getPluginConfig(getClassConventionName()).period;
         try {
             if (period[0] == null || period[1] == null) throw new ParseException("", 0);
-            String begin = configuration.getPluginConfig("countCommitsPerPeriodPerAuthor").period[0];
-            String end = configuration.getPluginConfig("countCommitsPerPeriodPerAuthor").period[1];
+            String begin = configuration.getPluginConfig(getClassConventionName()).period[0];
+            String end = configuration.getPluginConfig(getClassConventionName()).period[1];
             beginning = inputFormat.parse(begin); //inclus
             ending = inputFormat.parse(end); //non inclus
             result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, ending);
@@ -55,6 +52,11 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
             ending = new Date(System.currentTimeMillis());
             result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, ending);
         }
+    }
+
+    private String getClassConventionName() {
+        String s = getClass().getSimpleName();
+        return s.substring(0,1).toLowerCase() + s.substring(1);
     }
 
 
@@ -67,6 +69,7 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
     static class Result implements AnalyzerPlugin.Result {
         protected final Map<String , Integer> commitsPerPeriodPerAuthor = new HashMap<>();
         protected int nbCommitsPerPeriod = 0;
+        @SuppressWarnings("all")
         public Map<String, Integer> getResultAsMap() {
             return commitsPerPeriodPerAuthor;
         }
@@ -87,7 +90,7 @@ public class CountCommitsPerPeriodPerAuthorPlugin implements AnalyzerPlugin {
                         .append("</ul>")
                         .append("</li>");
             }
-            html.append("Nombre total de commits sur la periode : " + nbCommitsPerPeriod)
+            html.append("Nombre total de commits sur la periode : ").append(nbCommitsPerPeriod)
                     .append("</ul></div>");
             return html.toString();
         }

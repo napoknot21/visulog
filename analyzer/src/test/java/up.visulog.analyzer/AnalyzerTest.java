@@ -2,11 +2,9 @@ package up.visulog.analyzer;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
-import up.visulog.analyzer.plugin.CountCommitsPerAuthorPlugin;
+import up.visulog.analyzer.plugin.CountCommitsPerAuthor;
 import up.visulog.config.Configuration;
 
-import java.lang.reflect.Executable;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Optional;
@@ -47,7 +45,7 @@ public class AnalyzerTest {
         public void findClassPlugins() {
             try {
                 var c = Analyzer.findClassPlugins("CountCommitsPerAuthor");
-                Assert.assertEquals(CountCommitsPerAuthorPlugin.class,c);
+                Assert.assertEquals(CountCommitsPerAuthor.class,c);
             } catch (ClassNotFoundException e) {
                 fail();
             }

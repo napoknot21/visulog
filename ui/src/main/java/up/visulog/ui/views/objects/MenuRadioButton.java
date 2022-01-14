@@ -51,7 +51,7 @@ public class MenuRadioButton extends HBox
             if (b != null) {
                 b.setValue(plugin);
                 b.setOnAction((event) -> controller.executeAction(b));
-                b.setVisible(true);
+                b.setVisible(Model.PLUGINS.containsKey(b.getValue()));
             }
         }
     }
