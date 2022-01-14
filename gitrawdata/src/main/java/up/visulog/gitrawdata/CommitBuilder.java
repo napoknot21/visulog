@@ -24,26 +24,44 @@ public class CommitBuilder {
         this.id = n;
     }   //Constructeur à partir de l'id
 
+
+    /**
+     * @return id du commit
+     */
     public BigInteger getId() {
         return id;
     }
 
+    /**
+     * @return l'auteur du commit
+     */
     public String getAuthor() {
         return author;
     }
 
+    /**
+     * Modifie l'auteur du commit
+     * @param author représente le nom de l'auteur du commit
+     * @return le commit
+     */
     public CommitBuilder setAuthor(String author) { //setter
         this.author = author;
         return this;
     }
 
+    /**
+     * @return la date du commit
+     */
     public Date getDate() {
         return date;
     }
 
-    public void setId(String idS) {
-    }
 
+    /**
+     * Convertie un nombre base 16 en un nombre en base 10
+     * @param c représente un nombre en base 16
+     * @return la liste de tous les plugins.
+     */
     public BigInteger hexToTen(char c) {
         if (c < 10) {
             return BigInteger.valueOf(c);
@@ -64,13 +82,22 @@ public class CommitBuilder {
         }
     }
 
-
+    /**
+     * Modifie la date du commit
+     * @param date représente la nouvelle date de type Date
+     * @return le nouveau commit
+     */
     public CommitBuilder setDate(Date date) {//setter
         this.date = date;
         return this;
     }
 
-    public CommitBuilder setDate(String dateSt) { //convertit un String en Sate, setter
+    /**
+     * Modifie la date du commit en convertisant une date en chaine de caractère en une date de type Date
+     * @param dateSt représente la nouvelle date de type String
+     * @return le nouveau commit
+     */
+    public CommitBuilder setDate(String dateSt) { //setter
         Date date = null;
         try {
             date = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.ENGLISH).parse(dateSt);
@@ -82,20 +109,38 @@ public class CommitBuilder {
     }
 
 
-
+    /**
+     * @return la description du commit
+     */
     public String getDescription() {
         return description;
     }
 
+
+    /**
+     * Modifie la description du commit
+     * @param description représente la nouvelle description
+     * @return le nouveau commit
+     */
     public CommitBuilder setDescription(String description) {//setter
         this.description = description;
         return this;
     }
 
-    public Commit createCommit() { //Cree un commit avec le build du commit
+    /**
+     * Crée une copie du commit
+     * @return le nouveau commit crée
+     */
+    public Commit createCommit() {
         return new Commit(getId(), getAuthor(), getDate(), getDescription());
     }
 
+
+    /**
+     * Modifie soit le date soit l'auteur d'un commit (ou ne fait rien)
+     * @param fieldName représente l'attribut à modifier
+     * @param fieldContent représente nouvelle valeur de cet attribut
+     */
     public void CommitConfig(String fieldName, String fieldContent){
         switch (fieldName) {
             case "Author":
