@@ -5,16 +5,17 @@ import javafx.scene.Scene;
 import up.visulog.ui.controllers.Controller;
 import up.visulog.ui.model.Model;
 
+/**
+ * Scene de l'application
+ */
 public abstract class VisulogScene extends Scene {
 
     private final Model model;
-    private final Parent root;
     private Controller controller;
 
     public VisulogScene(Parent root) {
         super(root);
         model = new Model();
-        this.root = root;
     }
 
     public Model getModel() {
@@ -29,8 +30,16 @@ public abstract class VisulogScene extends Scene {
         this.controller = controller;
     }
 
+    /**
+     * Met a jour la scene
+     */
     public abstract void update();
 
-    public abstract void update(String s);
+    /**
+     * Met a jour la scene
+     *
+     * @param html represente le code html a introduire dans le webEngine
+     */
+    public abstract void update(String html);
 
 }
