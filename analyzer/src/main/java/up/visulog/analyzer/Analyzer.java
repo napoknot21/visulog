@@ -84,7 +84,7 @@ public class Analyzer {
             File [] files = dir.listFiles();
             for(File classes : files){
                 if(!classes.getName().equals("Research.java"))
-                    pluginsList.add(classes.getName().replace("Plugin.java",""));
+                    pluginsList.add(classes.getName().replace(".java",""));
             }
         }catch (Exception e ){
             e.printStackTrace();

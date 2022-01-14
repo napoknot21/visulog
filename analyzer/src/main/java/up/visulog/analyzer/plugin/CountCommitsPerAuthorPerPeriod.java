@@ -39,11 +39,11 @@ public class CountCommitsPerAuthorPerPeriod implements AnalyzerPlugin {
     public void run() {
         DateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date beginning, ending;
-        String[] period = configuration.getPluginConfig(getClassConventionName()).period;
+        String[] period = configuration.getPluginConfig(getClass().getSimpleName()).period;
         try {
             if (period[0] == null || period[1] == null) throw new ParseException("", 0);
-            String begin = configuration.getPluginConfig(getClassConventionName()).period[0];
-            String end = configuration.getPluginConfig(getClassConventionName()).period[1];
+            String begin = configuration.getPluginConfig(getClass().getSimpleName()).period[0];
+            String end = configuration.getPluginConfig(getClass().getSimpleName()).period[1];
             beginning = inputFormat.parse(begin); //inclus
             ending = inputFormat.parse(end); //non inclus
             result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, ending);
@@ -52,11 +52,6 @@ public class CountCommitsPerAuthorPerPeriod implements AnalyzerPlugin {
             ending = new Date(System.currentTimeMillis());
             result = processLog(Commit.parseLogFromCommand(configuration.getGitPath()), beginning, ending);
         }
-    }
-
-    private String getClassConventionName() {
-        String s = getClass().getSimpleName();
-        return s.substring(0,1).toLowerCase() + s.substring(1);
     }
 
 
