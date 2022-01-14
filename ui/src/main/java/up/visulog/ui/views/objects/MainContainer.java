@@ -8,8 +8,10 @@ import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;
 import up.visulog.ui.views.scenes.WebEngineScene;
 
-public class MainContainer extends VBox
-        implements SceneChild {
+/**
+ * Panel central de la gui
+ */
+public class MainContainer extends VBox implements SceneChild {
 
     Controller controller;
     Model model;
@@ -29,8 +31,7 @@ public class MainContainer extends VBox
         this.controller = scene.getController();
         this.model = scene.getModel();
         controller.setMainContainer(this);
-        if (scene instanceof WebEngineScene)
-            this.web = ((WebEngineScene) scene).getWeb();
+        if (scene instanceof WebEngineScene) this.web = ((WebEngineScene) scene).getWeb();
         this.webEngine = web.getEngine();
     }
 
