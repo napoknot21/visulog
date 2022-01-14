@@ -34,7 +34,12 @@ public class CLILauncher {
         }
     }
 
-    static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) { //reçoit les arguments passés en ligne de commande
+    /** Verifie si les arguments sont dans le bon format "--nomArg=valArg" puis crée une configuration vide ou non en fonction du nom de l'argument donnée en paramètre
+     *
+     * @param args Represente les arguments passés en ligne de commande.
+     * @return une configuration si le plugin donné par le nom de l'argument existe, sinon une valeur vide.
+     */
+    static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
 
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
         var plugins = new HashMap<String, PluginConfig>(); //cree une hashmap avec pour cles des Strings et pour valeur des "PluginConfig" (-> à definir dans PluginConfig.java)
@@ -101,12 +106,12 @@ public class CLILauncher {
         return Optional.of(new Configuration(gitPath, plugins)); //renvoie une configuration si c'est possible (si un plugin a bien ete defini)
     }
 
-
+    /**
+     * Filtre le cas où l'utilisateur insère plusieurs commandes à la fois, chaque argument doit être délimité par '--' qui se trouve au début de chaque plugin
+     * @param args represente les arguments passés en ligne de commande.
+     * @return la liste filtré des plugins
+     */
     public static ArrayList<String> inputFiltering(String[]args){
-        /*Pour traiter le cas où l'utilisateur pourra insèrer plusieures commandes à la fois
-        * cas limite : l'argument pValue peut contenir des espaces donc on traite ce cas ici
-        * pour que chaque argument soit délimiter par '--' qui se trouve au début de chaque commande
-        * */
         ArrayList<String> input = new ArrayList<>();
         int pos = 0 ;
 
@@ -117,7 +122,7 @@ public class CLILauncher {
                     str += args[pos++];
                 }
                 else{
-                    str +=args[pos++]+" ";
+                    str += args[pos++] + " ";
                 }
             }while (pos < args.length && !args[pos].startsWith("--"));
 
@@ -126,6 +131,12 @@ public class CLILauncher {
         return input;
     }
 
+    /**
+     * Recherche une configuration parmi celle existante
+     *
+     * @param plugins represente la map des plugins
+     * @param pValue represente les arguments passés en ligne de commande.
+     */
     private static void researchConfig(HashMap<String, PluginConfig> plugins, String pValue){
         if(pValue.length()==0)  displayHelpAndExit();
         ArrayList<String> keyWords = new ArrayList<>();
@@ -139,12 +150,18 @@ public class CLILauncher {
         plugins.put("research", new PluginConfig(pluginConfig));
     }
 
+    /**
+     * @return la liste de tous les plugins.
+     */
     private static HashMap<String, PluginConfig> getAllPlugin() {
         HashMap<String, PluginConfig> plugins = new HashMap<>();
         Analyzer.listOfPlugins().forEach(s -> plugins.put(s, new PluginConfig()));
         return plugins;
     }
 
+    /**
+     * Crée un répertoire Files si possible sinon affiche l'aide et un message d'erreur
+     */
     private static void check_directory() {
         File directory = new File("./Files");
         if (!directory.isDirectory()) {
@@ -155,6 +172,10 @@ public class CLILauncher {
         }
     }
 
+    /**
+     * Enregiste le fichier de configuration
+     * @param pValue représente les arguments passés en ligne de commande
+     */
     private static void justSaveConfigFile(String pValue) {
         if (pValue.equals("")) displayHelpAndExit();
         if (pValue.equals("--allPlugin")) {
@@ -174,6 +195,12 @@ public class CLILauncher {
         Configuration.createModifFile(pValue, pName_file);
     }
 
+    /**
+     * Charge un fichier de configuration. Si le fichier de configuration n'existe pas cela va afficher l'aide et/ou l'erreur associée.
+     *
+     * @param pValue Represente le nom du fichier qu'on va charger.
+     * @return une configuration si le fichier de configuration exite, sinon une valeur vide.
+     */
     private static Optional<Configuration> loadConfigFile(String pValue) {
         if (pValue.length() == 0) {
             displayHelpAndExit();
@@ -199,6 +226,12 @@ public class CLILauncher {
         return Optional.empty();
     }
 
+    /**
+     * Ajoute un nouveau plugin, si le plugin n'existe pas cela va afficher la liste des noms d'arguments qui sont valable puis arrête le programme.
+     *
+     * @param pValue represente le nom du fichier.
+     * @param plugins represente la liste des plugins.
+     */
     private static void addPlugin(String pValue, HashMap<String, PluginConfig> plugins) {
         String[] arguments = pValue.split("-");
         if (arguments.length == 3){
@@ -218,8 +251,10 @@ public class CLILauncher {
         }
     }
 
-    public static void displayHelpAndExit() { //liste les noms d'arguments valables (et leurs valeurs?) et arrête le programme
-
+    /**
+     * Affiche la liste des noms d'arguments qui sont valable puis arrête le programme.
+     */
+    public static void displayHelpAndExit() {
         System.out.print("---Manual---" +
                 "\nTo run the software through gradle, you need to pass the program arguments behind '--args=' ." +
                 "\nFor instance: ./gradlew run --args='. --addPlugin=CountCommits' : " +
@@ -237,6 +272,5 @@ public class CLILauncher {
                 "\n\n *from the list of plugins above");
         System.exit(0);
     }
-
-
+    
 }

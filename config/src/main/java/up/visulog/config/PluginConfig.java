@@ -25,6 +25,10 @@ public class PluginConfig implements Serializable {
         period[1] = end;
     }
 
+    /**
+     * @param key représente la cle de l'objet dans la liste
+     * @return la liste des plugins qui correspond à key
+     */
     public ArrayList<String> get(String key) {
         return config.get(key);
     }

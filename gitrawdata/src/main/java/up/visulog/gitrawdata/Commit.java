@@ -16,12 +16,20 @@ public class Commit extends ChangesDescription{
         super(id, author, date, description);
     }
 
-    public static List<Commit> parseLogFromCommand (Path gitPath) {  //renvoie la liste des commits selon le chemin git saisi en argument
+    /**
+     * @return la liste des commits selon le chemin git saisi en argument
+     */
+    public static List<Commit> parseLogFromCommand (Path gitPath) {
         String[] args = {"git","log"};
         return parseLog(ChangesDescription.processCommand (args ,gitPath));
     }
 
-    public static List<Commit> parseLog(BufferedReader reader) { //analyse le log de git et renvoie la liste des commits contenus
+    /**
+     * Analyse le log de git
+     * @param reader représente le contenu dans le log de git
+     * @return la liste des commits contenus dans le log
+     */
+    public static List<Commit> parseLog(BufferedReader reader) {
         var result = new ArrayList<Commit>();
         Optional<Commit> commit = parseCommit(reader);
         while (commit.isPresent()) {
@@ -70,7 +78,7 @@ public class Commit extends ChangesDescription{
             parseError();
         }
         return Optional.empty(); // this is supposed to be unreachable, as parseError should never return
-    } // jusque là environ je n'y comprends RIEN
+    }
 
     // Helper function for generating parsing exceptions. This function *always* quits on an exception. It *never* returns.
     private static void parseError() { // Une fonction à utiliser quand on a une erreur

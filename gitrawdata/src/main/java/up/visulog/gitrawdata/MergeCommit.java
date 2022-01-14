@@ -11,8 +11,11 @@ public class MergeCommit extends Commit{
         this.mergedFrom = mergedFrom;
     }
 
+    /**
+     * @return la chaine de caratères des caractéristiques du commit
+     */
     @Override
-    public String toString() { // la méthode pour afficher les caractéristiques d'un commit
+    public String toString() {
         return "Commit{" +
                 "id='" + id + '\'' +
                 "mergedFrom...='" + mergedFrom + '\''+
