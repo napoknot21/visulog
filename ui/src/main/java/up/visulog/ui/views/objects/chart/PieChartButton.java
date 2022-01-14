@@ -5,8 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tooltip;
+import up.visulog.ui.model.Model;
 import up.visulog.ui.views.scenes.VisulogScene;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -18,18 +20,25 @@ public class PieChartButton extends ChartButton {
 
     @Override
     public void update(String chartName) {
-        getModel().getResultAsMap().forEach(map -> setRegularOrOtherData(getData(map),chartName));
+        /*getModel().getResultAsMap().forEach(map -> {
+            setRegularOrOtherData(getData(map),getModel().getCurrentPlugin(), i++);
+        });*/
+
+        for(int i = 0; i < getModel().getResultAsMap().size(); i++){
+            Map<String, Integer> map = getModel().getResultAsMap().get(i);
+            setRegularOrOtherData(getData(map),getModel().getCurrentPlugin(), i);
+        }
     }
 
-    private void setRegularOrOtherData (ObservableList<PieChart.Data> data, String chartName) {
+    private void setRegularOrOtherData (ObservableList<PieChart.Data> data, String chartName, int i) {
         ObservableList<PieChart.Data> newData = groupData(5,data);
         PieChart chart;
         if(newData.size() < 7) chart = new PieChart(data); //FIXME : 7 = nombre de personnes dans le groupe mais hardcoded
         else chart = new PieChart(newData);
-        chart.setTitle(chartName);
+        chart.setTitle(Model.LEGEND.get(chartName)[i]);
         addChart(chart);
         chart.setLegendVisible(false);
-        chart.setLabelsVisible(false);
+        chart.setLabelsVisible(true);
         if(newData.size() < 7) setTooltip(data);
         else setTooltip(newData);
     }
