@@ -95,6 +95,12 @@ public interface MapRelations {
         LEGEND.put("Merge Commits", new String[]{"Nombre de merge commits par personne"});
         LEGEND.put("Nombres de lignes", new String[]{"Nombre de lignes ajoutées par personne", "Nombre de lignes retirées par personne"});
         LEGEND.put("research",new String[]{"Statistique de la recherche"});
+        LEGEND.put("Par defaut", new String[]{"Commits par auteur"});
+        LEGEND.put("Sur le dernier jour", new String[]{"Commits par auteur sur le dernier jour"});
+        LEGEND.put("Sur la derniere semaine", new String[]{"Commits par auteur sur la derniere semaine"});
+        LEGEND.put("Sur les 14 derniers jours", new String[]{"Commits par auteur sur les 14 derniers jours"});
+        LEGEND.put("Sur le dernier mois", new String[]{"Commits par auteur sur le dernier mois"});
+        LEGEND.put("Sur le dernier trimestre", new String[]{"Commits par auteur sur le dernier trimestre"});
         return LEGEND;
     }
 
