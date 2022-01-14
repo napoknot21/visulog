@@ -6,16 +6,16 @@ import up.visulog.gitrawdata.LineChanges;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CountLinesPerAuthorPlugin implements AnalyzerPlugin {
+public class CountLinesPerAuthor implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
-    public CountLinesPerAuthorPlugin(Configuration generalConfiguration) {
+    public CountLinesPerAuthor(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
     static Result process(Configuration config) {
-        var result = new CountLinesPerAuthorPlugin.Result(); /* Crée un HashMap qui va associer commit(key) à nb de lignes changées(value) */
+        var result = new CountLinesPerAuthor.Result(); /* Crée un HashMap qui va associer commit(key) à nb de lignes changées(value) */
         result.getLineChangesPerAuthor().putAll(LineChanges.parseDiffFromCommand(config.getGitPath()));
         return result;
     }

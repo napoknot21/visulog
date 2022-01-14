@@ -12,13 +12,13 @@ import java.util.*;
 /**
  * Cette classe modélise la fonctionnalité de recherche de commits à partir de mots clés
  */
-public class ResearchPlugin implements AnalyzerPlugin
+public class Research implements AnalyzerPlugin
 {
     private final Configuration configuration;
     private ArrayList<String> keywords;
     private Result result;
 
-    public ResearchPlugin(Configuration generalConfiguration){
+    public Research(Configuration generalConfiguration){
         this.configuration = generalConfiguration;
         keywords = configuration.getPluginConfig("research").get("keyWords");
     }
@@ -29,7 +29,7 @@ public class ResearchPlugin implements AnalyzerPlugin
      * @return la liste des commits où figure le/les mot(s) clé(s)
      */
     static Result processLog(List<Commit> gitLog, ArrayList<String> keyWords) {
-        var result = new ResearchPlugin.Result();
+        var result = new Research.Result();
         for (var commit : gitLog){
             boolean init = true;
             for (String key : keyWords){
@@ -113,7 +113,7 @@ public class ResearchPlugin implements AnalyzerPlugin
             for(var c : commitsFound.entrySet()){
                 commits.add(c.getValue());
             }
-            var result = CountCommitsPerAuthorPlugin.processLog(commits);
+            var result = CountCommitsPerAuthor.processLog(commits);
             return result.getResultAsMap();
         }
     }

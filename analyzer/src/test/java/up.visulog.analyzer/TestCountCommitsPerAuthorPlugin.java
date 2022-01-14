@@ -3,7 +3,7 @@ package up.visulog.analyzer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import up.visulog.analyzer.plugin.CountCommitsPerAuthorPlugin;
+import up.visulog.analyzer.plugin.CountCommitsPerAuthor;
 
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.CommitBuilder;
@@ -20,7 +20,7 @@ public class TestCountCommitsPerAuthorPlugin {
     public void processLog() {
         var list = Commit.parseLogFromCommand(Path.of("."));
         Assert.assertFalse(list.isEmpty());
-        var result = CountCommitsPerAuthorPlugin.processLog(list);
+        var result = CountCommitsPerAuthor.processLog(list);
         Assert.assertNotNull(result);
         Assert.assertFalse(result.getResultAsMap().isEmpty());
         Assert.assertFalse(result.getResultAsString().isBlank());
@@ -35,7 +35,7 @@ public class TestCountCommitsPerAuthorPlugin {
         for (int i = 0; i < entries; i++) {
             log.add(new CommitBuilder("11111111111111124241535").setAuthor(authors[i % 3]).createCommit());
         }
-        var res = CountCommitsPerAuthorPlugin.processLog(log);
+        var res = CountCommitsPerAuthor.processLog(log);
         assertEquals(authors.length, res.getResultAsMap().size());
         var sum = res.getResultAsMap().values()
                 .stream().reduce(0, Integer::sum);

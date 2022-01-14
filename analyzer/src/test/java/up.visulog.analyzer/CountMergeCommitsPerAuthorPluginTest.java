@@ -1,6 +1,6 @@
 package up.visulog.analyzer;
 
-import up.visulog.analyzer.plugin.CountMergeCommitsPerAuthorPlugin;
+import up.visulog.analyzer.plugin.CountMergeCommitsPerAuthor;
 
 import org.junit.Test;
 import up.visulog.gitrawdata.ChangesDescription;
@@ -24,7 +24,7 @@ public class CountMergeCommitsPerAuthorPluginTest {
         for (Commit c : commitList) {
             if (c instanceof MergeCommit) mergeCommitList.add(c);
         }
-        CountMergeCommitsPerAuthorPlugin.Result res = CountMergeCommitsPerAuthorPlugin.processLog(mergeCommitList);
+        CountMergeCommitsPerAuthor.Result res = CountMergeCommitsPerAuthor.processLog(mergeCommitList);
         assertNotNull(res);
         System.out.println(res.getResultAsHtmlDiv());
     }

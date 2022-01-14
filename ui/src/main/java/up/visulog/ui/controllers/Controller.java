@@ -51,7 +51,7 @@ public class Controller {
         if (!PLUGINS.containsKey(b.getValue())) return;
         var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
         var plugin = new HashMap<String, PluginConfig>();
-        plugin.put(b.getValue(), PLUGINS.get(b.getValue()));
+        plugin.put(b.getValue().split("-")[0], PLUGINS.get(b.getValue()));
         var config = new Configuration(gitPath, plugin);
         model.update(new Analyzer(config).computeResults(), b.getText());
         this.updateMainContainer();
