@@ -25,7 +25,6 @@ public class Commit extends ChangesDescription{
     }
 
     /**
-     *
      * @param gitPath Le chemin git
      * @return la liste des commits selon le chemin git
      */
@@ -34,7 +33,12 @@ public class Commit extends ChangesDescription{
         return parseLog(ChangesDescription.processCommand (args ,gitPath));
     }
 
-    public static List<Commit> parseLog(BufferedReader reader) { //analyse le log de git et renvoie la liste des commits contenus
+    /**
+     * Analyse le log de git
+     * @param reader Le reader de la commande git (log)
+     * @return La liste de commits contenus
+     */
+    public static List<Commit> parseLog(BufferedReader reader) {
         var result = new ArrayList<Commit>();
         Optional<Commit> commit = parseCommit(reader);
         while (commit.isPresent()) {
@@ -44,13 +48,14 @@ public class Commit extends ChangesDescription{
         return result;
     }
 
+
     /**
      * Parses a log item and outputs a commit object. Exceptions will be thrown in case the input does not have the proper format.
-     * Returns an empty optional if there is nothing to parse anymore.
+     * @param input Le
+     * @return an empty optional if there is nothing to parse anymore.
      */
-    public static Optional<Commit> parseCommit(BufferedReader input) { //analyse une partie du log de git et crée le commit associé puis le renvoie
+    public static Optional<Commit> parseCommit(BufferedReader input) {
         try {
-
             var line = input.readLine(); //lis la premiere ligne du log pour verifier qu'on est bien face à un commit (ou MergeCommit)
             if (line == null) return Optional.empty(); // if no line can be read, we are done reading the buffer
             var idChunks = line.split(" ");
@@ -70,7 +75,6 @@ public class Commit extends ChangesDescription{
                 line = input.readLine(); //prepare next iteration
                 if (line == null) parseError(); // end of stream is not supposed to happen now (commit data incomplete)
             }
-
             // now read the commit message per se
             var description = input
                     .lines() // get a stream of lines to work with
@@ -83,15 +87,21 @@ public class Commit extends ChangesDescription{
             parseError();
         }
         return Optional.empty(); // this is supposed to be unreachable, as parseError should never return
-    } // jusque là environ je n'y comprends RIEN
+    }
 
-    // Helper function for generating parsing exceptions. This function *always* quits on an exception. It *never* returns.
-    private static void parseError() { // Une fonction à utiliser quand on a une erreur
+    /**
+     * Helper function for generating parsing exceptions. This function *always* quits on an exception. It *never* returns.
+     */
+    private static void parseError() {
         throw new RuntimeException("Wrong commit format.");
     }
 
+    /**
+     * Méthode pour afficher les caractéristiques d'un commit
+     * @return Un String des attributs de Commit
+     */
     @Override
-    public String toString() { // la méthode pour afficher les caractéristiques d'un commit
+    public String toString() {
         return "Commit{" +
                 "id='" + id.toString(16) + '\'' +
                 ", date='" + date.toString() + '\'' +

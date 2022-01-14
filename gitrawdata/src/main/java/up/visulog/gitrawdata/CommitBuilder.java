@@ -13,37 +13,65 @@ public class CommitBuilder {
     private final BigInteger id;    //identifiant du commit
     private String author;      //auteur du commit
     private Date date;        //date de publication du commit
-    private String description; //Description du commit
-    // dont provient le commit
+    private String description; //Description du commit dont provient le commit
 
     private List<String> files = new ArrayList<String>();
 
-
+    /**
+     * Constructeur CommitBuilder à partir de l'id
+     * @param idS L'identifiant du commit en format String
+     */
     public CommitBuilder(String idS) {
         BigInteger n = new BigInteger(idS, 16);
         this.id = n;
-    }   //Constructeur à partir de l'id
+    }
 
+    /**
+     * Getter pour l'id du CommitBuilder
+     * @return L'identifiant du commit
+     */
     public BigInteger getId() {
         return id;
     }
 
+    /**
+     * Getter pour l'auteur du CommitBuilder
+     * @return L'auteur du commit
+     */
     public String getAuthor() {
         return author;
     }
 
-    public CommitBuilder setAuthor(String author) { //setter
+    /**
+     * Setter pour l'auteur du commit
+     * @param author Le nom de l'auteur
+     * @return le commit changé
+     */
+    public CommitBuilder setAuthor(String author) {
         this.author = author;
         return this;
     }
 
+    /**
+     * Getter pour la date de CommitBuilder
+     * @return La date du commit
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * Setter pour l'identifiant du CommitBuilder
+     * @param idS L'identifiant
+     */
     public void setId(String idS) {
     }
 
+    /**
+     * Transforme un caractère (base 16) en base 10
+     * @param c le caractère en base 16
+     * @return la valeur en base 10
+     */
     public BigInteger hexToTen(char c) {
         if (c < 10) {
             return BigInteger.valueOf(c);
@@ -64,12 +92,21 @@ public class CommitBuilder {
         }
     }
 
-
-    public CommitBuilder setDate(Date date) {//setter
+    /**
+     * Modifie la date du commit
+     * @param date représente la nouvelle date de type Date
+     * @return le nouveau commit
+     */
+    public CommitBuilder setDate(Date date) {
         this.date = date;
         return this;
     }
 
+    /**
+     * Modifie la date du commit en convertissant une date en chaine de caractère en une date de type Date
+     * @param dateSt représente la nouvelle date de type String
+     * @return le nouveau commit
+     */
     public CommitBuilder setDate(String dateSt) { //convertit un String en Sate, setter
         Date date = null;
         try {
@@ -81,21 +118,37 @@ public class CommitBuilder {
         return this;
     }
 
-
-
+    /**
+     * Getter pour la description de CommitBuider
+     * @return la description du commit
+     */
     public String getDescription() {
         return description;
     }
 
-    public CommitBuilder setDescription(String description) {//setter
+    /**
+     * Modifie la description du commit
+     * @param description représente la nouvelle description
+     * @return le nouveau commit
+     */
+    public CommitBuilder setDescription(String description) {
         this.description = description;
         return this;
     }
 
-    public Commit createCommit() { //Cree un commit avec le build du commit
+    /**
+     * Crée une copie du commit
+     * @return le nouveau commit crée
+     */
+    public Commit createCommit() {
         return new Commit(getId(), getAuthor(), getDate(), getDescription());
     }
 
+    /**
+     * Modifie soit le date soit l'auteur d'un commit (ou ne fait rien)
+     * @param fieldName représente l'attribut à modifier
+     * @param fieldContent représente nouvelle valeur de cet attribut
+     */
     public void CommitConfig(String fieldName, String fieldContent){
         switch (fieldName) {
             case "Author":
