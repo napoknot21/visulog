@@ -49,8 +49,10 @@ public class CountMergeCommitsPerAuthor implements AnalyzerPlugin {
 
     public static class Result implements AnalyzerPlugin.Result {
         protected final Map<String, Integer> commitsPerAuthor = new HashMap<>();
-        public Map<String, Integer> getResultAsMap() {
-            return commitsPerAuthor;
+        @SuppressWarnings("all")
+        public <C> Map<String, C> getResultAsMap() {
+            //return commitsPerAuthor;
+            return null;
         }
 
         @Override

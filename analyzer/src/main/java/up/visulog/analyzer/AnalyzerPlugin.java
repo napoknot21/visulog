@@ -18,6 +18,7 @@ public interface AnalyzerPlugin extends Runnable {
 
         String getResultAsHtmlDiv();
 
+        @SuppressWarnings("all")
         <C> Map<String, C> getResultAsMap();
 
     }

@@ -13,9 +13,7 @@ import up.visulog.ui.views.objects.chart.ChartButtons;
 import up.visulog.ui.views.scenes.VisulogScene;
 
 import java.nio.file.FileSystems;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Controller {
 
@@ -122,5 +120,28 @@ public class Controller {
 
     public void setMainContainer(MainContainer mainContainer) {
         this.mainContainer = mainContainer;
+    }
+
+    public void search(String text) {
+        graphParameter.getGraphicSelector().setVisible(true);
+        var gitPath = FileSystems.getDefault().getPath("."); //cree une variable qui contient le chemin vers ce fichier
+        var plugin = new HashMap<String, PluginConfig>();
+        HashMap <String, List<String>> pluginConfig = new HashMap<>();
+        pluginConfig.put("keyWords",getKeyWord(text));
+        plugin.put("research", new PluginConfig(pluginConfig));
+        var config = new Configuration(gitPath, plugin);
+        model.update(new Analyzer(config).computeResults(), "research");
+        this.scene.update(model.toHtml());
+        this.updateMainContainer();
+    }
+
+    private List<String> getKeyWord(String text) {
+        List<String> keyWords = new ArrayList<>();
+        try(Scanner sc = new Scanner(text)) {
+            while (sc.hasNext()) {
+                keyWords.add(sc.next());
+            }
+        }
+        return keyWords;
     }
 }
