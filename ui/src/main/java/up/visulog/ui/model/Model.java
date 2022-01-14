@@ -39,18 +39,17 @@ public class Model implements MapRelations {
         return (list == null) ? new ArrayList<>(): list;
     }
 
-    private <C> List<Map<String, Integer>> selector(Map<String, C> data) {
-        C obj = getObjectFormMap(data);
-        if (obj instanceof Integer) return integerTreatment(data, obj);
-        if (obj instanceof int[]) return intArrayTreatment(data, obj);
+    private List<Map<String, Integer>> selector(Map<String, Object> data) {
+        Object obj = getObjectFormMap(data);
+        if (obj instanceof Integer) return treatment(data, (int)obj);
+        if (obj instanceof int[]) return treatment(data, (int[])obj);
         return null;
     }
 
-    private <C> List<Map<String, Integer>> intArrayTreatment(Map<String, C> data, C obj) {
-        if (!(obj instanceof int[])) return null;
-        int[] t = (int[]) obj;
+    private List<Map<String, Integer>> treatment(Map<String, Object> data, int[] obj) {
+        if (obj == null) return null;
         List<Map<String, Integer>> list = new LinkedList<>();
-        for (int i = 0; i < t.length; i++) {
+        for (int i = 0; i < obj.length; i++) {
             Map<String, Integer> map = new HashMap<>();
             for (var key : data.keySet()) {
                 int[] val = (int[]) data.get(key);
@@ -62,8 +61,7 @@ public class Model implements MapRelations {
     }
 
 
-    private <C> List<Map<String, Integer>> integerTreatment(Map<String, C> data, C obj) {
-        if (!(obj instanceof Integer)) return null;
+    private List<Map<String, Integer>> treatment(Map<String, Object> data, int obj) {
         List<Map<String, Integer>> list = new LinkedList<>();
         Map<String, Integer> map = new HashMap<>();
         data.forEach((key, value) -> map.put(key, (int) value));
@@ -71,7 +69,7 @@ public class Model implements MapRelations {
         return list;
     }
 
-    private <C> C getObjectFormMap(Map<String, C> data) {
+    private Object getObjectFormMap(Map<String, Object> data) {
         for (var v : data.values()) {
             return v;
         }

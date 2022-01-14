@@ -108,14 +108,13 @@ public class Research implements AnalyzerPlugin
         }
 
         @Override
-        @SuppressWarnings("all")
-        public Map<String, Integer> getResultAsMap() {
+        public Map<String, Object> getResultAsMap() {
             List <Commit> commits = new ArrayList<>();
             for(var c : commitsFound.entrySet()){
                 commits.add(c.getValue());
             }
             var result = CountCommitsPerAuthor.processLog(commits);
-            return result.getResultAsMap();
+            return new HashMap<>(result.getResultAsMap());
         }
     }
 }

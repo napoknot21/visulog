@@ -54,8 +54,8 @@ public class CountLinesPerAuthor implements AnalyzerPlugin {
         }
 
         @Override
-        public Map<String, int[]> getResultAsMap() {
-            return lineChangesPerAuthor;
+        public Map<String, Object> getResultAsMap() {
+            return new HashMap<>(lineChangesPerAuthor);
         }
     }
 }
