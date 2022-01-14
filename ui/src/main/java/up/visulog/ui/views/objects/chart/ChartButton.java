@@ -9,8 +9,10 @@ import up.visulog.ui.views.scenes.VisulogScene;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public abstract class ChartButton extends RadioButton
-        implements ChartButtons, SceneChild {
+/**
+ * Represente les boutons generant les chart
+ */
+public abstract class ChartButton extends RadioButton implements ChartButtons, SceneChild {
 
     private final String chartName;
     private Model model;
@@ -22,14 +24,19 @@ public abstract class ChartButton extends RadioButton
         if (ChartButton.NAME_TO_CHART_FILTER.containsKey(label)) v = ChartButton.NAME_TO_CHART_FILTER.get(label);
         this.chartName = v;
         this.setToggleGroup(ChartButton.GROUP);
-        charts = new LinkedList<Chart>();
+        charts = new LinkedList<>();
     }
 
     public String getChartName() {
         return chartName;
     }
 
-    public abstract void update(String chartTitle); //Met a jour le graphe
+    /**
+     * Met a jour le graphe
+     *
+     * @param chartTitle est le titre du graph
+     */
+    public abstract void update(String chartTitle);
 
     @Override
     public void setup(VisulogScene scene) {
@@ -44,13 +51,20 @@ public abstract class ChartButton extends RadioButton
         return charts;
     }
 
+    /**
+     * Ajoute un chart a la liste
+     *
+     * @param chart ets le chart a ajouter
+     */
     public void addChart(Chart chart) {
-        if(charts != null)
-        this.charts.add(chart);
+        if (charts != null) this.charts.add(chart);
     }
 
-    public void setChartNull(){
-        this.charts = new LinkedList<Chart>();
+    /**
+     * Reinitialise la liste de chart
+     */
+    public void setChartNull() {
+        this.charts = new LinkedList<>();
     }
 
     public boolean isChartSet() {
