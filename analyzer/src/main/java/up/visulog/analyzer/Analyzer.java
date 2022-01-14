@@ -73,7 +73,7 @@ public class Analyzer {
 
     public static Class <?> findClassPlugins(String pluginName) throws ClassNotFoundException {
         String plug=pluginName.substring(0,1).toUpperCase() + pluginName.substring(1);
-        Class<?> c = Class.forName("up.visulog.analyzer.plugin."+plug+"Plugin");// returns the Class object for the plugin
+        Class<?> c = Class.forName("up.visulog.analyzer.plugin."+plug);// returns the Class object for the plugin
         return c;
     }
 
@@ -83,7 +83,7 @@ public class Analyzer {
             File dir = new File("../analyzer/src/main/java/up/visulog/analyzer/plugin");
             File [] files = dir.listFiles();
             for(File classes : files){
-                if(!classes.getName().equals("ResearchPlugin.java"))
+                if(!classes.getName().equals("Research.java"))
                     pluginsList.add(classes.getName().replace("Plugin.java",""));
             }
         }catch (Exception e ){

@@ -5,11 +5,11 @@ import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 import java.util.*;
 
-public class CountCommitsPerWeekPlugin implements AnalyzerPlugin {
+public class CountCommitsPerWeek implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
-    public CountCommitsPerWeekPlugin(Configuration generalConfiguration) {
+    public CountCommitsPerWeek(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
