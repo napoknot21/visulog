@@ -1,14 +1,16 @@
 package up.visulog.ui.views.objects;
 
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import up.visulog.ui.model.Model;
 
+/**
+ * RadioButton contenant un nom de plugin
+ */
 public class MethodRadioButton extends RadioButton
         implements PluginButtons {
-    private String value = "";
     private static final ToggleGroup group = new ToggleGroup();
+    private String value = "";
 
     public MethodRadioButton(String label) {
         super(label);
