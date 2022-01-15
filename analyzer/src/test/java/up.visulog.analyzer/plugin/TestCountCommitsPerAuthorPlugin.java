@@ -1,10 +1,7 @@
-package up.visulog.analyzer;
+package up.visulog.analyzer.plugin;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import up.visulog.analyzer.plugin.CountCommitsPerAuthor;
-
 import up.visulog.gitrawdata.Commit;
 import up.visulog.gitrawdata.CommitBuilder;
 
@@ -38,8 +35,8 @@ public class TestCountCommitsPerAuthorPlugin {
         var res = CountCommitsPerAuthor.processLog(log);
         assertEquals(authors.length, res.getResultAsMap().size());
         var sum = res.getResultAsMap().values()
-                .stream().reduce(0, (a,b) -> Integer.sum((int)a,(int)b));
-        assertEquals(entries, ((Integer)sum).longValue());
+                .stream().reduce(0, (a, b) -> Integer.sum((int) a, (int) b));
+        assertEquals(entries, ((Integer) sum).longValue());
         System.out.print(res.getResultAsHtmlDiv());
     }
 }

@@ -1,6 +1,4 @@
-package up.visulog.analyzer;
-
-import up.visulog.analyzer.plugin.CountMergeCommitsPerAuthor;
+package up.visulog.analyzer.plugin;
 
 import org.junit.Test;
 import up.visulog.gitrawdata.ChangesDescription;
