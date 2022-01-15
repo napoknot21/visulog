@@ -11,31 +11,45 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class CountCommitsPerAuthorPerPeriod implements AnalyzerPlugin {
+
     private final Configuration configuration;
     private Result result;
 
+    /**
+     * Constructeur pour CountCommitsPerAuthorPerPeriod à partir d'une configuration
+     * @param generalConfiguration Une configuration
+     */
     public CountCommitsPerAuthorPerPeriod(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
+    /**
+     * Associe les auteurs dans une HasMap (result) avec leurs nombres de commits (il les rajoute s'ils n'y sont pas)
+     * @param gitLog Liste de Commits
+     * @param beginning Date du début
+     * @param end Date de la fin
+     * @return La HashMap qui associe les authors et leurs nombres de commits
+     */
     static Result processLog(List<Commit> gitLog, Date beginning, Date end) {
         var result = new Result();
         for (var commit : gitLog){
             if (commit.date.after(beginning) && commit.date.before(end)){
                 result.nbCommitsPerPeriod++;
-                /*Cherche dans result si "commit.author" est déjà associé à un nb de commit:
-            si c'est le cas renvoie le nb de commit
-            sinon renvoie 0 */
+                /*Cherche dans result si "commit.author" est déjà associé à un nb de commit
+                si c'est le cas renvoie le nb de commit
+                sinon renvoie 0 */
                 var nb = result.commitsPerPeriodPerAuthor.getOrDefault(commit.author, 0);
-
                 /* met à jour le nb de commit avec put (remplace la valeur précédente associée à la clé)
-                 * si la clé y est déjà  */
+                /* si la clé y est déjà  */
                 result.commitsPerPeriodPerAuthor.put(commit.author, nb + 1);
             }
         }
         return result;
     }
 
+    /**
+     * Initialise l'attribut result si ce dernier est null
+     */
     @Override
     public void run() {
         DateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -56,25 +70,44 @@ public class CountCommitsPerAuthorPerPeriod implements AnalyzerPlugin {
     }
 
 
+    /**
+     * Getter pour Result
+     * @return L'attribut result
+     */
     @Override
     public Result getResult() {
         if (result == null) run();
         return result;
     }
 
+    /**
+     * Classe interne Result
+     */
     static class Result implements AnalyzerPlugin.Result {
         protected final Map<String , Integer> commitsPerPeriodPerAuthor = new HashMap<>();
         protected int nbCommitsPerPeriod = 0;
+
+        /**
+         * Getter pour Result en tant que Map
+         * @return Une HashMap (Result)
+         */
         public Map<String, Object> getResultAsMap() {
             return new HashMap<>(commitsPerPeriodPerAuthor);
         }
 
+        /**
+         * Over ride de toString()
+         * @return La HashMap commitsPerPeriodPerAuthor en String
+         */
         @Override
         public String getResultAsString() {
             return commitsPerPeriodPerAuthor.toString();
         }
 
-
+        /**
+         * Over ride de toHtml()
+         * @return la HashMap commitsPerPeriodPerAuthor en tant que format html
+         */
         public String getResultAsHtmlDiv() {
             StringBuilder html = new StringBuilder("<div>Commits per period : <ul>");
             for (var item : commitsPerPeriodPerAuthor.entrySet()) {

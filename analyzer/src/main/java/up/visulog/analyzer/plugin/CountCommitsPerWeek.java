@@ -3,17 +3,26 @@ package up.visulog.analyzer.plugin;
 import up.visulog.analyzer.AnalyzerPlugin;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
-
 import java.util.*;
 
 public class CountCommitsPerWeek implements AnalyzerPlugin {
+
     private final Configuration configuration;
     private Result result;
 
+    /**
+     * Constructeur pour CountCommistPerWeek à partir d'une configuration
+     * @param generalConfiguration Une configuration
+     */
     public CountCommitsPerWeek(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
+    /**
+     * On ajoute les commits à la HasMap (Result) à une clé (String)
+     * @param gitLog Liste de commits
+     * @return Une HashMap (Result)
+     */
     static Result processLog(List<Commit> gitLog) {
         var result = new Result();
         for (var commit : gitLog) {
@@ -34,15 +43,25 @@ public class CountCommitsPerWeek implements AnalyzerPlugin {
     }
 
 
+    /**
+     * @return Le résultat
+     */
     @Override
     public Result getResult() {
         if (result == null) run();
         return result;
     }
 
+    /**
+     * Classe interne statique Result
+     */
     static class Result implements AnalyzerPlugin.Result {
         protected final HashMap<String, Integer> commitsPerWeek = new HashMap<>();
 
+        /**
+         * Getter pour Result en tant que Map
+         * @return Une HashMap (Result)
+         */
         public Map<String, Object> getResultAsMap() {
             return new HashMap<>(commitsPerWeek);
         }
@@ -53,6 +72,10 @@ public class CountCommitsPerWeek implements AnalyzerPlugin {
         }
 
 
+        /**
+         * @return Result en tant que format html
+         */
+        @Override
         public String getResultAsHtmlDiv() {
             HashMap<String, HashMap<String, Integer>> annees = new HashMap<>();
             for (var item : commitsPerWeek.entrySet()) {

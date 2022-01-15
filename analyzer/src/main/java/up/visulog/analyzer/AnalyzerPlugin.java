@@ -14,6 +14,9 @@ public interface AnalyzerPlugin extends Runnable {
      */
     Result getResult();
 
+    /**
+     * Interface interne Result
+     */
     interface Result {
         String getResultAsString();
 

@@ -12,12 +12,16 @@ import java.util.*;
 /**
  * Cette classe modélise la fonctionnalité de recherche de commits à partir de mots clés
  */
-public class Research implements AnalyzerPlugin
-{
+public class Research implements AnalyzerPlugin {
+    
     private final Configuration configuration;
     private List<String> keywords;
     private Result result;
 
+    /**
+     * Constructeur de Research à partir d'une Configuration
+     * @param generalConfiguration Configuration générale
+     */
     public Research(Configuration generalConfiguration){
         this.configuration = generalConfiguration;
         keywords = configuration.getPluginConfig("research").get("keyWords");
@@ -80,23 +84,43 @@ public class Research implements AnalyzerPlugin
 
     }
 
+    /**
+     * @return Le result
+     */
     @Override
     public Result getResult() {
         if (result == null) run();
         return result;
     }
 
+    /**
+     * Classe interne statique Result
+     */
     static class Result implements AnalyzerPlugin.Result {
+
         protected final Map<BigInteger, Commit> commitsFound = new HashMap<>();
+
+        /**
+         * Getter pour commitsFound de Result
+         * @return la Hap commitFound
+         */
         Map<BigInteger,Commit> getCommitsFound() {
             return  commitsFound;
         }
 
+        /**
+         * Getter pour commitsFound en tant que String
+         * @return la Map commitFound en tant que String
+         */
         @Override
         public String getResultAsString() {
             return commitsFound.toString();
         }
 
+        /**
+         * Getter pour commitFound en tant que format html
+         * @return la Map commitFound en tant que format html
+         */
         @Override
         public String getResultAsHtmlDiv() {
             StringBuilder html = new StringBuilder("<div>Commits related to the keyword : <ul>");
@@ -107,6 +131,10 @@ public class Research implements AnalyzerPlugin
             return html.toString();
         }
 
+        /**
+         * La liste des commits en tant que Map
+         * @return les commits en tant que Map
+         */
         @Override
         public Map<String, Object> getResultAsMap() {
             List <Commit> commits = new ArrayList<>();
