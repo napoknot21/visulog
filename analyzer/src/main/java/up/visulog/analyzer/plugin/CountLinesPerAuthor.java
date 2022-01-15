@@ -7,15 +7,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CountLinesPerAuthor implements AnalyzerPlugin {
+
     private final Configuration configuration;
     private Result result;
 
+    /**
+     * Constructeur pour CountLinesPerAuthor à partir d'une configuration
+     * @param generalConfiguration Une configuration
+     */
     public CountLinesPerAuthor(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
+    /**
+     * Crée une HashMap qui va associer un commit à un nombre de lignes
+     * @param config Une configuration
+     * @return La HashMap (Result)
+     */
     static Result process(Configuration config) {
-        var result = new CountLinesPerAuthor.Result(); /* Crée un HashMap qui va associer commit(key) à nb de lignes changées(value) */
+        var result = new CountLinesPerAuthor.Result();
         result.getLineChangesPerAuthor().putAll(LineChanges.parseDiffFromCommand(config.getGitPath()));
         return result;
     }
@@ -31,9 +41,16 @@ public class CountLinesPerAuthor implements AnalyzerPlugin {
         return result;
     }
 
+    /**
+     * Classe interne Result
+     */
     static class Result implements AnalyzerPlugin.Result {
         protected final Map<String, int[]> lineChangesPerAuthor = new HashMap<>();
 
+        /**
+         * Getter pour lineChangesPerAuthor de la classe interne Result
+         * @return la map lineChangesPerAuthor
+         */
         Map<String, int[]> getLineChangesPerAuthor() {
             return lineChangesPerAuthor;
         }
